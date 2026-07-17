@@ -1,27 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 :root {
-    /* Brand Colors */
+    /* Refined Luxury Palette */
     --navy-blue: #0A192F;
     --navy-light: #172A45;
-    --gold: #D4AF37;
-    --gold-light: #F4E29F;
-    --beige: #F5F5DC;
+    --gold: #C5A059; /* A slightly more muted, expensive-looking gold */
+    --bg-color: #FAF9F6; /* Soft pearl/off-white instead of heavy beige */
+    --text-main: #1A1A1A;
+    --text-light: #666666;
     --white: #FFFFFF;
     
     /* Typography */
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Montserrat', sans-serif;
     
-    /* Spacing & Borders */
-    --radius: 4px;
-    --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* Animations */
+    --transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-
-/* 
-   We completely removed the @media (prefers-color-scheme: dark) block 
-   so devices stop ruining the color palette! 
-*/
 
 * { 
     margin: 0; 
@@ -31,14 +26,16 @@
 
 body { 
     font-family: var(--font-body); 
-    color: var(--navy-blue);          /* Forces all standard text to Navy Blue */
-    background-color: var(--beige);   /* Forces the entire site background to Beige */
+    color: var(--text-main); 
+    background-color: var(--bg-color); 
     overflow-x: hidden; 
+    line-height: 1.6;
 }
 
 h1, h2, h3, h4 { 
     font-family: var(--font-heading); 
-    color: var(--navy-blue);          /* Forces all headings to Navy Blue */
+    color: var(--navy-blue); 
+    font-weight: 500;
 }
 
 a { 
@@ -49,90 +46,265 @@ a {
 ul { 
     list-style: none; 
 }
-/* Navbar */
+
+/* --- Ultra Sleek Navbar --- */
 header {
     background: var(--navy-blue);
     color: var(--white);
-    padding: 1rem 5%;
+    padding: 1.2rem 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(197, 160, 89, 0.3); /* Subtle gold accent line */
 }
-.brand-logo { font-family: var(--font-heading); font-size: 2rem; font-weight: 700; color: var(--gold); letter-spacing: 2px;}
-.nav-links { display: flex; gap: 2rem; }
-.nav-links a { font-weight: 500; font-size: 0.9rem; letter-spacing: 1px; transition: var(--transition); }
-.nav-links a:hover { color: var(--gold); }
-.nav-icons { display: flex; gap: 1.5rem; font-size: 1.2rem; cursor: pointer; }
-.cart-badge { background: var(--gold); color: var(--navy-blue); border-radius: 50%; padding: 2px 6px; font-size: 0.7rem; font-weight: bold; position: relative; top: -10px; left: -10px;}
 
-/* Hero Section */
+.brand-logo { 
+    font-family: var(--font-heading); 
+    font-size: 2.2rem; 
+    font-weight: 600; 
+    color: var(--gold); 
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.nav-links { 
+    display: flex; 
+    gap: 3rem; 
+}
+
+.nav-links a { 
+    font-size: 0.85rem; 
+    text-transform: uppercase;
+    letter-spacing: 1.5px; 
+    color: var(--white);
+    transition: var(--transition); 
+    opacity: 0.8;
+}
+
+.nav-links a:hover { 
+    opacity: 1; 
+    color: var(--gold); 
+}
+
+.nav-icons { 
+    display: flex; 
+    gap: 1.5rem; 
+    font-size: 1.1rem; 
+    color: var(--white); 
+}
+
+.nav-icons i { 
+    cursor: pointer; 
+    transition: var(--transition); 
+    opacity: 0.8; 
+}
+
+.nav-icons i:hover { 
+    opacity: 1; 
+    color: var(--gold); 
+}
+
+.cart-badge { 
+    background: var(--gold); 
+    color: var(--white); 
+    border-radius: 50%; 
+    padding: 2px 6px; 
+    font-size: 0.65rem; 
+    position: relative; 
+    top: -12px; 
+    left: -8px;
+}
+
+/* --- Moody & Expensive Hero Section --- */
 .hero {
-    height: 90vh;
-    background: linear-gradient(rgba(10, 25, 47, 0.6), rgba(10, 25, 47, 0.6)), url('https://images.unsplash.com/photo-1599643478524-fb66f72400de?q=80&w=2000&auto=format&fit=crop') center/cover;
+    height: 85vh;
+    background: linear-gradient(rgba(10, 25, 47, 0.4), rgba(10, 25, 47, 0.7)), url('https://images.unsplash.com/photo-1599643478524-fb66f72400de?q=80&w=2000&auto=format&fit=crop') center/cover;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: var(--white);
 }
-.hero-content h1 { font-size: 4rem; color: var(--white); margin-bottom: 1rem; animation: fadeInUp 1s ease; }
-.hero-content p { font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 2rem; animation: fadeInUp 1.2s ease; }
+
+.hero-content h1 { 
+    font-size: 4.5rem; 
+    color: var(--white); 
+    margin-bottom: 1rem; 
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+.hero-content p { 
+    font-size: 1rem; 
+    letter-spacing: 4px; 
+    color: var(--bg-color);
+    text-transform: uppercase;
+    margin-bottom: 3rem; 
+}
+
+/* Minimalist Ghost Button */
 .btn-gold {
-    background: var(--gold); color: var(--navy-blue); padding: 12px 30px; font-family: var(--font-body); font-weight: 600;
-    letter-spacing: 1px; border: none; cursor: pointer; transition: var(--transition);
+    background: transparent; 
+    color: var(--white); 
+    padding: 14px 40px; 
+    font-family: var(--font-body); 
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px; 
+    border: 1px solid var(--white); 
+    cursor: pointer; 
+    transition: var(--transition);
 }
-.btn-gold:hover { background: var(--white); color: var(--navy-blue); box-shadow: 0 0 15px var(--gold); }
 
-/* Product Grid */
-.section-title { text-align: center; margin: 4rem 0 2rem; font-size: 2.5rem; }
+.btn-gold:hover { 
+    background: var(--white); 
+    color: var(--navy-blue); 
+}
+
+/* --- Product Grid - Clean Gallery Look --- */
+.section-title { 
+    text-align: center; 
+    margin: 5rem 0 3rem; 
+    font-size: 2.5rem; 
+    letter-spacing: 1px;
+}
+
 .product-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; padding: 0 5%;
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 3rem 2rem; 
+    padding: 0 5%;
 }
+
 .product-card {
-    background: var(--beige); padding: 1rem; text-align: center; transition: var(--transition); position: relative;
-    border: 1px solid transparent;
+    background: transparent; 
+    text-align: center; 
+    position: relative;
 }
-.product-card:hover { border-color: var(--gold); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-.product-img { width: 100%; height: 280px; object-fit: cover; margin-bottom: 1rem; }
-.product-title { font-size: 1.1rem; margin-bottom: 0.5rem; }
-.product-price { color: var(--navy-blue); font-weight: 600; font-size: 1.2rem; }
-.discount-badge { position: absolute; top: 1rem; left: 1rem; background: var(--gold); color: var(--navy-blue); padding: 4px 8px; font-size: 0.8rem; font-weight: bold; }
+
+.product-img { 
+    width: 100%; 
+    height: 350px; 
+    object-fit: cover; 
+    margin-bottom: 1.5rem;
+    border-radius: 2px;
+    transition: var(--transition);
+}
+
+/* Subtle image zoom on hover */
+.product-card:hover .product-img {
+    transform: scale(1.03);
+}
+
+.product-title { 
+    font-size: 1.1rem; 
+    margin-bottom: 0.5rem; 
+    font-family: var(--font-heading);
+    font-weight: 500;
+}
+
+.product-price { 
+    color: var(--text-light); 
+    font-size: 0.95rem; 
+    letter-spacing: 1px;
+}
+
+.discount-badge { 
+    position: absolute; 
+    top: 1rem; 
+    left: 1rem; 
+    background: var(--bg-color); 
+    color: var(--navy-blue); 
+    padding: 6px 12px; 
+    font-size: 0.75rem; 
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    z-index: 2;
+}
+
+/* Luxury Fade-in Cart Button */
 .add-to-cart-btn {
-    width: 100%; background: var(--navy-blue); color: var(--white); border: none; padding: 10px; margin-top: 1rem;
-    cursor: pointer; transition: var(--transition);
-}
-.add-to-cart-btn:hover { background: var(--gold); color: var(--navy-blue); }
-
-/* Animations */
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Footer */
-footer { background: var(--navy-blue); color: var(--white); padding: 4rem 5% 1rem; margin-top: 5rem; }
-.footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-bottom: 2rem; }
-.footer-col h3 { color: var(--gold); margin-bottom: 1rem; font-size: 1.2rem; }
-.footer-col li { margin-bottom: 0.5rem; font-size: 0.9rem; color: #ccc; cursor: pointer; }
-.footer-col li:hover { color: var(--gold); }
-.copyright { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; font-size: 0.8rem; color: #888;}
-/* --- FIX CONTRAST ISSUES IN DARK SECTIONS --- */
-
-/* Force Navbar text and icons to be white */
-header .nav-links a, 
-header .nav-icons {
-    color: var(--white) !important;
+    width: 100%; 
+    background: transparent; 
+    color: var(--navy-blue); 
+    border: 1px solid var(--navy-blue); 
+    padding: 12px; 
+    margin-top: 1.5rem;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer; 
+    transition: var(--transition);
+    opacity: 0;
+    transform: translateY(10px);
 }
 
-/* Force the Hero Section text to be white/beige */
-.hero-content h1 {
-    color: var(--white) !important;
+.product-card:hover .add-to-cart-btn {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-.hero-content p {
-    color: var(--beige) !important;
+.add-to-cart-btn:hover { 
+    background: var(--navy-blue); 
+    color: var(--white); 
+}
+
+/* --- About Section --- */
+#about {
+    background: var(--navy-blue) !important;
+    color: var(--bg-color) !important;
+    padding: 6rem 5% !important;
+}
+
+#about h2 { 
+    color: var(--gold) !important; 
+    font-style: italic; 
+}
+
+/* --- Premium Footer --- */
+footer { 
+    background: var(--navy-blue); 
+    color: var(--white); 
+    padding: 5rem 5% 2rem; 
+    margin-top: 5rem; 
+}
+
+.footer-grid { 
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 3rem; 
+    margin-bottom: 3rem; 
+}
+
+.footer-col h3 { 
+    color: var(--gold); 
+    margin-bottom: 1.5rem; 
+    font-size: 1rem; 
+    letter-spacing: 2px; 
+    text-transform: uppercase;
+}
+
+.footer-col li { 
+    margin-bottom: 0.8rem; 
+    font-size: 0.85rem; 
+    color: rgba(255,255,255,0.7); 
+    cursor: pointer; 
+    transition: 0.3s;
+}
+
+.footer-col li:hover { 
+    color: var(--white); 
+    transform: translateX(5px); 
+}
+
+.copyright { 
+    text-align: center; 
+    border-top: 1px solid rgba(255,255,255,0.1); 
+    padding-top: 2rem; 
+    font-size: 0.75rem; 
+    color: rgba(255,255,255,0.5); 
+    letter-spacing: 1px;
 }
