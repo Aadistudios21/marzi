@@ -120,3 +120,19 @@ footer { background: var(--navy-blue); color: var(--white); padding: 4rem 5% 1re
 .footer-col li { margin-bottom: 0.5rem; font-size: 0.9rem; color: #ccc; cursor: pointer; }
 .footer-col li:hover { color: var(--gold); }
 .copyright { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; font-size: 0.8rem; color: #888;}
+/* --- FIX CONTRAST ISSUES IN DARK SECTIONS --- */
+
+/* Force Navbar text and icons to be white */
+header .nav-links a, 
+header .nav-icons {
+    color: var(--white) !important;
+}
+
+/* Force the Hero Section text to be white/beige */
+.hero-content h1 {
+    color: var(--white) !important;
+}
+
+.hero-content p {
+    color: var(--beige) !important;
+}
