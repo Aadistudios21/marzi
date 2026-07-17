@@ -87,6 +87,16 @@
     .about-content p { font-size: 1.2rem; margin-bottom: 1.5rem; text-align: justify; text-align-last: center; }
     .about-quote { font-family: var(--font-heading); font-size: 1.8rem; font-style: italic; color: var(--accent-gold); margin: 3rem 0; padding: 2rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
 
+    /* --- Reviews --- */
+    .review-card { background: #fff; border: 1px solid var(--border-color); padding: 1.5rem; text-align: left; transition: transform 0.3s ease; display: flex; flex-direction: column; }
+    .review-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+    .stars { color: var(--accent-gold); margin-bottom: 0.5rem; letter-spacing: 2px; font-size: 1.2rem; }
+    .reviewer-name { font-weight: 600; margin-bottom: 0.5rem; font-family: var(--font-heading); font-size: 1.3rem; }
+    .review-text { color: #555; font-size: 0.95rem; font-style: italic; flex-grow: 1; }
+    
+    .add-review-container { max-width: 600px; margin: 0 auto 3rem auto; background: #fff; padding: 2rem; border: 1px solid var(--border-color); display: none; animation: fadeIn 0.3s ease; }
+    .add-review-container h3 { margin-bottom: 1rem; font-size: 1.5rem; }
+
     /* --- Cart Drawer --- */
     .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; }
     .drawer { position: fixed; top: 0; right: -400px; width: 400px; max-width: 100%; height: 100vh; background-color: var(--bg-color); box-shadow: -5px 0 15px rgba(0,0,0,0.1); z-index: 1001; transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; }
@@ -102,7 +112,8 @@
     .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 2rem; width: 90%; max-width: 500px; z-index: 1002; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--border-color); max-height: 90vh; overflow-y: auto; }
     .form-group { margin-bottom: 1rem; text-align: left; }
     .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
-    .form-group input, .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); font-family: var(--font-body); }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); font-family: var(--font-body); outline: none; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent-gold); }
     
     .qr-box { text-align: center; padding: 1.5rem 1rem; border: 1px dashed var(--accent-gold); background: var(--bg-color); margin-bottom: 1.5rem; }
     .upi-btn { background-color: #0b9e54; color: white; padding: 1rem; width: 100%; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0; border-radius: 4px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.3s; }
@@ -132,6 +143,7 @@
       <button class="tab-button" onclick="showPanel('shopPanel', event)">Core</button>
       <button class="tab-button" onclick="showPanel('baddiePanel', event)">Baddie</button>
       <button class="tab-button" onclick="showPanel('corpPanel', event)">Corporate</button>
+      <button class="tab-button" onclick="showPanel('reviewsPanel', event)">Reviews</button>
       <button class="tab-button" onclick="showPanel('aboutPanel', event)">About</button>
     </nav>
     <button class="cart-toggle" onclick="toggleCart(true)">
@@ -191,6 +203,47 @@
       </div>
       <div class="shop-grid" id="corpGrid"></div>
     </section>
+    
+    <!-- Reviews Tab -->
+    <section id="reviewsPanel" class="tab-panel">
+      <div class="section-header">
+        <h2>Client Testimonials</h2>
+        <p>Hear from our community of modern heirloom collectors.</p>
+        <button class="btn-solid" style="margin-top: 1.5rem; padding: 0.8rem 1.5rem;" onclick="toggleReviewForm()">Write a Review</button>
+      </div>
+
+      <!-- Add Review Form -->
+      <div class="add-review-container" id="reviewFormContainer">
+        <h3>Share Your Marzi Experience</h3>
+        <form id="addReviewForm" onsubmit="submitReview(event)">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="revName" required placeholder="Jane Doe">
+          </div>
+          <div class="form-group">
+            <label>Rating</label>
+            <select id="revRating">
+              <option value="5">★★★★★ (5 Stars)</option>
+              <option value="4">★★★★☆ (4 Stars)</option>
+              <option value="3">★★★☆☆ (3 Stars)</option>
+              <option value="2">★★☆☆☆ (2 Stars)</option>
+              <option value="1">★☆☆☆☆ (1 Star)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Your Review</label>
+            <textarea id="revText" rows="3" required placeholder="Tell us what you loved about your piece..."></textarea>
+          </div>
+          <div style="display: flex; gap: 1rem;">
+            <button type="submit" class="btn-solid">Submit Review</button>
+            <button type="button" class="btn-solid" style="background: transparent; color: var(--text-main); border: 1px solid var(--border-color);" onclick="toggleReviewForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Reviews Grid (Populated by JS) -->
+      <div class="shop-grid" id="reviewsGrid"></div>
+    </section>
 
     <!-- About / Brand Story -->
     <section id="aboutPanel" class="tab-panel">
@@ -198,7 +251,7 @@
         <h2>The Legend of Marzi</h2>
         <p>It began with a forgotten velvet box in a dusty antique shop in Milan. Inside lay a single, imperfect gold ring—heavy, weathered, and etched with the initials <strong>"M.Z."</strong> It wasn't just a piece of metal; it was a relic of a love story, surviving decades of history and holding secrets only the gold could remember.</p>
         
-        <p>Our founder, Ekta, captivated by the weight and soul of that ring, bought it immediately. She realized that modern jewelry had lost its soul—trading deep, generational heritage for mass production and fleeting trends.</p>
+        <p>Our founder, Aria, captivated by the weight and soul of that ring, bought it immediately. She realized that modern jewelry had lost its soul—trading deep, generational heritage for mass production and fleeting trends.</p>
 
         <div class="about-quote">
           "Jewelry shouldn't just decorate you. It should define you, outlive you, and tell your story when you no longer can."
@@ -314,8 +367,6 @@
   <!-- --- JavaScript Logic --- -->
   <script>
     // --- 1. Dynamic Product Generators ---
-    
-    // Core Collection (100 items)
     function generateCoreItems() {
       const shopGrid = document.getElementById('shopGrid');
       const imageUrls = [
@@ -333,41 +384,37 @@
         const randomImg = imageUrls[Math.floor(Math.random() * imageUrls.length)];
         const randomName = adjectives[Math.floor(Math.random() * adjectives.length)] + ' ' + types[Math.floor(Math.random() * types.length)];
         const price = Math.floor(Math.random() * 800) * 100 + 4500;
-        
         htmlContent += createProductCard(randomImg, randomName, price);
       }
       shopGrid.innerHTML = htmlContent;
     }
 
-    // Baddie Collection (15 items)
     function generateBaddieItems() {
       const grid = document.getElementById('baddieGrid');
       const baddieImages = [
-        "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=500&q=80", // Cuban link
-        "https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?auto=format&fit=crop&w=500&q=80", // Chunky earrings
-        "https://images.unsplash.com/photo-1602715456209-e8eb462fc535?auto=format&fit=crop&w=500&q=80", // Statement piece
-        "https://images.unsplash.com/photo-1620656798579-197fa11c3491?auto=format&fit=crop&w=500&q=80"  // Heavy chain
+        "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1602715456209-e8eb462fc535?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1620656798579-197fa11c3491?auto=format&fit=crop&w=500&q=80"
       ];
-      const names = ['Oversized Boss Hoops', 'Miami Cuban Choker', 'Iced Out Initial Pendant', 'Stacked Eternity Rings', 'Heavy Gold Chain', 'Diamond Grill Ring', 'Bamboo Statement Hoops'];
+      const names = ['Oversized Boss Hoops', 'Miami Cuban Choker', 'Iced Out Initial Pendant', 'Stacked Eternity Rings', 'Heavy Gold Chain', 'Diamond Grill Ring'];
 
       let htmlContent = '';
       for (let i = 1; i <= 15; i++) {
         const randomImg = baddieImages[Math.floor(Math.random() * baddieImages.length)];
         const randomName = names[Math.floor(Math.random() * names.length)];
-        const price = Math.floor(Math.random() * 500) * 100 + 12000; // Pricier
-        
+        const price = Math.floor(Math.random() * 500) * 100 + 12000;
         htmlContent += createProductCard(randomImg, randomName, price);
       }
       grid.innerHTML = htmlContent;
     }
 
-    // Corporate Collection (15 items)
     function generateCorporateItems() {
       const grid = document.getElementById('corpGrid');
       const corpImages = [
-        "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?auto=format&fit=crop&w=500&q=80", // Watch aesthetic
-        "https://images.unsplash.com/photo-1599643477877-530e55b1eb1a?auto=format&fit=crop&w=500&q=80", // Minimal chain
-        "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=500&q=80"  // Sleek bangle
+        "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1599643477877-530e55b1eb1a?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=500&q=80"
       ];
       const names = ['Executive Cufflinks', 'Signature Tie Clip', 'Minimalist Tennis Bracelet', 'CEO Watch Set', 'Platinum Lapel Pin', 'Onyx Signet Ring'];
 
@@ -376,13 +423,11 @@
         const randomImg = corpImages[Math.floor(Math.random() * corpImages.length)];
         const randomName = names[Math.floor(Math.random() * names.length)];
         const price = Math.floor(Math.random() * 300) * 100 + 8000;
-        
         htmlContent += createProductCard(randomImg, randomName, price);
       }
       grid.innerHTML = htmlContent;
     }
 
-    // Helper function to build card HTML
     function createProductCard(imgSrc, title, price) {
       const formattedPrice = '₹' + price.toLocaleString('en-IN');
       return `
@@ -397,13 +442,95 @@
       `;
     }
 
-    // Run generators
+    // Run product generators
     generateCoreItems();
     generateBaddieItems();
     generateCorporateItems();
 
 
-    // --- 2. Navigation ---
+    // --- 2. Reviews Logic & Data (35 Fake Reviews) ---
+    let reviewsData = [
+      { name: "Eleanor T.", rating: 5, text: "The Lumina pearl necklace is absolutely stunning. I get compliments at every dinner party." },
+      { name: "Sarah M.", rating: 5, text: "Unapologetically fierce. The Baddie Cuban Choker has a beautiful weight to it." },
+      { name: "James L.", rating: 4, text: "Bought the Executive Cufflinks for my business partner. Exceptional presentation and quality." },
+      { name: "Chloe V.", rating: 5, text: "My new everyday piece! The gold doesn't tarnish and feels so premium against the skin." },
+      { name: "Priya K.", rating: 5, text: "Literally obsessed. The packaging alone made me feel like royalty." },
+      { name: "Amanda B.", rating: 4, text: "Beautiful rings. I stack the eternity rings and they catch the light perfectly." },
+      { name: "David S.", rating: 5, text: "Ordered the signature tie clip. Sleek, professional, and subtle. 10/10." },
+      { name: "Isabella R.", rating: 5, text: "You can really feel the handcrafted quality. This isn't your average mall jewelry." },
+      { name: "Nadia F.", rating: 5, text: "The drop earrings from the Core collection are my go-to for date nights." },
+      { name: "Jessica W.", rating: 4, text: "Heavy, bold, exactly what I wanted from the Baddie line." },
+      { name: "Michael H.", rating: 5, text: "Got the minimalist tennis bracelet for my wife's anniversary. She hasn't taken it off." },
+      { name: "Sophia G.", rating: 5, text: "Worth every penny. The luster on the pearls is top-tier." },
+      { name: "Rachel P.", rating: 5, text: "I bought a piece for myself after a promotion. Makes me feel powerful!" },
+      { name: "Omar D.", rating: 5, text: "Corporate gifting made easy. Our clients were incredibly impressed." },
+      { name: "Lily T.", rating: 4, text: "Fast shipping and the hoops are the perfect size, not too heavy on the ears." },
+      { name: "Mia C.", rating: 5, text: "I've showered in my gold chain multiple times, still shining like day one." },
+      { name: "Tanya M.", rating: 5, text: "A true heirloom. I plan on passing this pendant down to my daughter." },
+      { name: "Zara Y.", rating: 5, text: "Iced out initial pendant is gorgeous. Sparkles crazy under flash!" },
+      { name: "Vanessa K.", rating: 4, text: "Classy and elegant. Very satisfied with my purchase." },
+      { name: "Olivia N.", rating: 5, text: "The brand story is what sold me, and the jewelry lived up to the hype." },
+      { name: "Emily J.", rating: 5, text: "Best customer service and the jewelry is flawless." },
+      { name: "Aisha R.", rating: 5, text: "So chic! Looks way more expensive than it actually is." },
+      { name: "Hannah L.", rating: 5, text: "I am a repeat customer. Every launch just gets better and better." },
+      { name: "Grace O.", rating: 4, text: "Solid construction. The clasp on the bracelet is very secure." },
+      { name: "Victoria E.", rating: 5, text: "The diamonds catch the light beautifully. Very happy!" },
+      { name: "Nina W.", rating: 5, text: "Boss Hoops make me feel like a CEO. Huge fan of Marzi." },
+      { name: "Daniel C.", rating: 5, text: "Bought gifts for my executive team. Beautiful craftsmanship." },
+      { name: "Samantha H.", rating: 5, text: "Perfect minimalist aesthetic. Matches my entire wardrobe." },
+      { name: "Lauren B.", rating: 4, text: "Slightly longer chain than expected, but the quality is immaculate." },
+      { name: "Rebecca T.", rating: 5, text: "My fiance bought my engagement ring here. It is beyond words." },
+      { name: "Megan F.", rating: 5, text: "Love the sustainable and ethical approach to their gold sourcing." },
+      { name: "Ashley D.", rating: 5, text: "Gorgeous. Just gorgeous. Nothing else to say." },
+      { name: "Kiera P.", rating: 4, text: "Very classy pieces. The packaging was a beautiful touch." },
+      { name: "Jasmine S.", rating: 5, text: "I get asked where I got my necklace every single day." },
+      { name: "Taylor M.", rating: 5, text: "Stunning. The gold tone is that perfect vintage warmth." }
+    ];
+
+    function renderReviews() {
+      const grid = document.getElementById('reviewsGrid');
+      let html = '';
+      reviewsData.forEach(review => {
+        const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+        html += `
+          <div class="review-card">
+            <div class="stars">${stars}</div>
+            <div class="reviewer-name">${review.name}</div>
+            <div class="review-text">"${review.text}"</div>
+          </div>
+        `;
+      });
+      grid.innerHTML = html;
+    }
+
+    function toggleReviewForm() {
+      const form = document.getElementById('reviewFormContainer');
+      form.style.display = form.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function submitReview(e) {
+      e.preventDefault();
+      const name = document.getElementById('revName').value;
+      const rating = parseInt(document.getElementById('revRating').value);
+      const text = document.getElementById('revText').value;
+
+      // Add new review to the beginning of the array
+      reviewsData.unshift({ name, rating, text });
+      
+      // Re-render and reset
+      renderReviews();
+      document.getElementById('addReviewForm').reset();
+      toggleReviewForm(); // Hide form
+      
+      // Scroll slightly down to see the new review
+      window.scrollBy({ top: 200, behavior: 'smooth' });
+    }
+    
+    // Initial render of reviews
+    renderReviews();
+
+
+    // --- 3. Navigation ---
     function showPanel(panelId, event) {
       document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
       document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
@@ -412,11 +539,10 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- 3. Cart Logic ---
+    // --- 4. Cart Logic ---
     let cart = [];
     let cartTotalAmount = 0;
     
-    // We attach the listener to the whole <main> tag to catch clicks from ANY tab's grid!
     document.querySelector('main').addEventListener('click', (e) => {
       if (e.target.classList.contains('add-to-bag')) {
         const card = e.target.closest('.product-card');
@@ -462,7 +588,6 @@
       document.getElementById('cartTotalDisplay').textContent = formattedTotal;
       document.getElementById('checkoutTotal').textContent = formattedTotal;
 
-      // Update UPI link
       const upiBtn = document.getElementById('upiAppBtn');
       const upiID = "ektabhalerao29@ybl";
       const storeName = encodeURIComponent("Marzi Jewelry");
@@ -476,7 +601,7 @@
       updateCart();
     }
 
-    // --- 4. Modals & Overlays ---
+    // --- 5. Modals & Overlays ---
     function toggleCart(show) {
       document.getElementById('cartDrawer').classList.toggle('open', show);
       document.getElementById('mainOverlay').style.display = show ? 'block' : 'none';
@@ -495,7 +620,7 @@
       document.getElementById('checkoutModal').style.display = 'block';
     }
 
-    // --- 5. Payment & Invoice Generation ---
+    // --- 6. Payment & Invoice Generation ---
     function processPayment(e) {
       e.preventDefault(); 
       
