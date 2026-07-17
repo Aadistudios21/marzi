@@ -15,7 +15,6 @@
       --bg-color: #FDFBF7;
       --text-main: #2A2825;
       --accent-gold: #C5A059;
-      --accent-hover: #A88644;
       --border-color: #E6E1D6;
       --font-heading: 'Cormorant Garamond', serif;
       --font-body: 'Jost', sans-serif;
@@ -23,13 +22,7 @@
 
     /* --- Global Styles --- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: var(--font-body);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    body { background-color: var(--bg-color); color: var(--text-main); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
     h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; }
     button { font-family: var(--font-body); cursor: pointer; border: none; background: none; }
 
@@ -67,7 +60,6 @@
     }
     .btn-solid:hover { background-color: var(--accent-gold); }
     .hero .btn-solid { width: auto; }
-    
     .features { display: flex; justify-content: space-around; margin-top: 4rem; border-top: 1px solid var(--border-color); padding-top: 3rem; }
     .feature-item { text-align: center; flex: 1; padding: 0 1rem; }
 
@@ -76,7 +68,19 @@
     .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
     .product-card { background: #fff; border: 1px solid var(--border-color); padding: 1.5rem; text-align: center; transition: transform 0.3s ease; }
     .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-    .product-image { width: 100%; height: 250px; background-color: var(--bg-color); margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; color: #999; font-style: italic; }
+    
+    /* Updated Image CSS to handle real images perfectly */
+    .product-image { 
+      width: 100%; height: 250px; background-color: var(--bg-color); margin-bottom: 1rem; 
+      overflow: hidden; /* Keeps zoom effect inside the box */
+    }
+    .product-image img {
+      width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;
+    }
+    .product-card:hover .product-image img {
+      transform: scale(1.05); /* Slight zoom on hover for a premium feel */
+    }
+
     .product-title { font-size: 1.4rem; margin-bottom: 0.5rem; }
     .product-price { color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 1.5rem; }
     .add-to-bag { border: 1px solid var(--text-main); padding: 0.8rem 1.5rem; width: 100%; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; }
@@ -88,11 +92,7 @@
 
     /* --- Cart Drawer --- */
     .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; }
-    .drawer {
-      position: fixed; top: 0; right: -400px; width: 400px; max-width: 100%; height: 100vh;
-      background-color: var(--bg-color); box-shadow: -5px 0 15px rgba(0,0,0,0.1); z-index: 1001;
-      transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column;
-    }
+    .drawer { position: fixed; top: 0; right: -400px; width: 400px; max-width: 100%; height: 100vh; background-color: var(--bg-color); box-shadow: -5px 0 15px rgba(0,0,0,0.1); z-index: 1001; transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; }
     .drawer.open { right: 0; }
     .drawer-header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border-bottom: 1px solid var(--border-color); }
     .drawer-content { flex: 1; padding: 1.5rem; overflow-y: auto; }
@@ -102,26 +102,18 @@
     .cart-total-row { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem; }
 
     /* --- Modals --- */
-    .modal {
-      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      background: #fff; padding: 2rem; width: 90%; max-width: 500px; z-index: 1002;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--border-color);
-    }
+    .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 2rem; width: 90%; max-width: 500px; z-index: 1002; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--border-color); }
     .form-group { margin-bottom: 1rem; text-align: left; }
     .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
     .form-group input, .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); font-family: var(--font-body); }
     
     .qr-box { text-align: center; padding: 1.5rem 1rem; border: 1px dashed var(--accent-gold); background: var(--bg-color); margin-bottom: 1.5rem; }
-    .upi-btn {
-      background-color: #0b9e54; /* Trustworthy green */
-      color: white; padding: 1rem; width: 100%; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;
-      margin: 1rem 0; border-radius: 4px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.3s;
-    }
+    .upi-btn { background-color: #0b9e54; color: white; padding: 1rem; width: 100%; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0; border-radius: 4px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.3s; }
     .upi-btn:hover { background-color: #098144; }
 
     /* --- Invoice Specifics --- */
     .invoice-header { text-align: center; border-bottom: 2px solid var(--text-main); padding-bottom: 1rem; margin-bottom: 1.5rem; }
-    .invoice-details { margin-bottom: 1.5rem; font-size: 0.9rem; color: #555; }
+    .invoice-details { margin-bottom: 1.5rem; font-size: 0.9rem; color: #555; display: flex; justify-content: space-between; }
     .invoice-table { width: 100%; text-align: left; border-collapse: collapse; margin-bottom: 1.5rem; }
     .invoice-table th, .invoice-table td { padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
     .invoice-table th { text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
@@ -163,26 +155,10 @@
     <!-- Shop -->
     <section id="shopPanel" class="tab-panel">
       <div class="shop-header"><h2>The Core Collection</h2></div>
-      <div class="shop-grid">
-        <div class="product-card">
-          <div class="product-image">[ Image ]</div>
-          <h3 class="product-title">Lumina Pearl Necklace</h3>
-          <p class="product-price">₹12,500</p>
-          <button class="add-to-bag">Add to Bag</button>
-        </div>
-        <div class="product-card">
-          <div class="product-image">[ Image ]</div>
-          <h3 class="product-title">Aura Gold Hoops</h3>
-          <p class="product-price">₹8,900</p>
-          <button class="add-to-bag">Add to Bag</button>
-        </div>
-        <div class="product-card">
-          <div class="product-image">[ Image ]</div>
-          <h3 class="product-title">Solstice Diamond Ring</h3>
-          <p class="product-price">₹34,000</p>
-          <button class="add-to-bag">Add to Bag</button>
-        </div>
-      </div>
+      
+      <!-- Empty Grid - JavaScript will inject 100 items here! -->
+      <div class="shop-grid" id="shopGrid"></div>
+
     </section>
 
     <!-- About -->
@@ -235,19 +211,16 @@
         <p style="font-weight: 600; font-size: 1.1rem; margin-bottom: 0.2rem;">Pay <span id="checkoutTotal" style="color: var(--accent-gold);"></span> via UPI</p>
         <p style="font-size: 0.9rem; color: #555;">UPI ID: <strong>ektabhalerao29@ybl</strong></p>
         
-        <!-- Mobile Deep Link Button -->
         <button type="button" class="upi-btn" id="upiAppBtn">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
           Open UPI App to Pay
         </button>
 
-        <!-- Desktop QR Fallback -->
         <p style="font-size: 0.8rem; color: #999; margin: 1rem 0 0.5rem;">Or scan QR code if on desktop:</p>
         <div style="width: 100px; height: 100px; background: #eee; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #999;">[ QR CODE ]</div>
       </div>
       
       <p style="font-size: 0.8rem; text-align: center; margin-bottom: 1rem; color: #777;">Once payment is successful via your UPI app, click below to generate your invoice.</p>
-      
       <button type="submit" class="btn-solid">Confirm Payment & Get Invoice</button>
     </form>
   </div>
@@ -263,7 +236,7 @@
       <p style="color: var(--accent-gold); letter-spacing: 2px;">TAX INVOICE</p>
     </div>
 
-    <div class="invoice-details" style="display: flex; justify-content: space-between;">
+    <div class="invoice-details">
       <div>
         <strong>Billed To:</strong><br>
         <span id="invName"></span><br>
@@ -284,9 +257,7 @@
           <th style="text-align: right;">Total</th>
         </tr>
       </thead>
-      <tbody id="invItems">
-        <!-- Injected via JS -->
-      </tbody>
+      <tbody id="invItems"></tbody>
     </table>
 
     <div style="text-align: right; font-size: 1.2rem; font-weight: bold;">
@@ -300,7 +271,55 @@
 
   <!-- --- JavaScript Logic --- -->
   <script>
-    // --- Navigation ---
+    // --- 1. Generate 100 Products Dynamically ---
+    function generateStoreItems() {
+      const shopGrid = document.getElementById('shopGrid');
+      
+      // High-quality jewelry images from Unsplash
+      const imageUrls = [
+        "https://images.unsplash.com/photo-1599643478514-4a4e06b524cb?auto=format&fit=crop&w=500&q=80", // Necklace
+        "https://images.unsplash.com/photo-1605100804763-247f67b2548e?auto=format&fit=crop&w=500&q=80", // Ring
+        "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=500&q=80", // Earrings
+        "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=500&q=80", // Bracelet
+        "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=500&q=80", // Pendant
+        "https://images.unsplash.com/photo-1587422316681-36b0cb5ef736?auto=format&fit=crop&w=500&q=80", // Chain
+        "https://images.unsplash.com/photo-1515562141207-7a8efd3dcfa1?auto=format&fit=crop&w=500&q=80", // Diamond
+        "https://images.unsplash.com/photo-1596944924616-7b38e7cfdf4c?auto=format&fit=crop&w=500&q=80", // Gold rings
+        "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=500&q=80"  // Watch/Bangle
+      ];
+
+      const adjectives = ['Lumina', 'Aura', 'Solstice', 'Vesper', 'Celeste', 'Nova', 'Crescent', 'Eclipse', 'Stella', 'Seraph', 'Eterna', 'Radiant'];
+      const types = ['Pearl Necklace', 'Gold Hoops', 'Diamond Ring', 'Chain Bracelet', 'Pendant', 'Drop Earrings', 'Choker', 'Bangle'];
+
+      let htmlContent = '';
+
+      for (let i = 1; i <= 100; i++) {
+        // Randomize details for each product
+        const randomImg = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+        const randomName = adjectives[Math.floor(Math.random() * adjectives.length)] + ' ' + types[Math.floor(Math.random() * types.length)];
+        const randomPriceNum = Math.floor(Math.random() * 800) * 100 + 4500; // Random price between ₹4,500 and ₹84,500
+        const formattedPrice = '₹' + randomPriceNum.toLocaleString('en-IN');
+
+        htmlContent += `
+          <div class="product-card">
+            <div class="product-image">
+              <img src="${randomImg}" alt="${randomName}" loading="lazy">
+            </div>
+            <h3 class="product-title">${randomName}</h3>
+            <p class="product-price">${formattedPrice}</p>
+            <button class="add-to-bag">Add to Bag</button>
+          </div>
+        `;
+      }
+      
+      shopGrid.innerHTML = htmlContent;
+    }
+    
+    // Run the generator immediately
+    generateStoreItems();
+
+
+    // --- 2. Navigation ---
     function showPanel(panelId, event) {
       document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
       document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
@@ -308,12 +327,13 @@
       if (event && event.currentTarget) event.currentTarget.classList.add('active');
     }
 
-    // --- Cart Logic ---
+    // --- 3. Cart Logic (Updated to handle dynamically generated buttons) ---
     let cart = [];
-    let cartTotalAmount = 0; // Stored globally to pass to UPI link
+    let cartTotalAmount = 0;
     
-    document.querySelectorAll('.add-to-bag').forEach(btn => {
-      btn.addEventListener('click', (e) => {
+    // Event delegation: Listen for clicks on the entire grid, trigger if it's an "add to bag" button
+    document.getElementById('shopGrid').addEventListener('click', (e) => {
+      if (e.target.classList.contains('add-to-bag')) {
         const card = e.target.closest('.product-card');
         const title = card.querySelector('.product-title').textContent;
         const priceText = card.querySelector('.product-price').textContent;
@@ -322,7 +342,7 @@
         cart.push({ title, price: priceNum, priceText });
         updateCart();
         toggleCart(true);
-      });
+      }
     });
 
     function updateCart() {
@@ -357,16 +377,13 @@
       document.getElementById('cartTotalDisplay').textContent = formattedTotal;
       document.getElementById('checkoutTotal').textContent = formattedTotal;
 
-      // Update the UPI App Button Intent Link
+      // Update UPI link
       const upiBtn = document.getElementById('upiAppBtn');
       const upiID = "ektabhalerao29@ybl";
       const storeName = encodeURIComponent("Marzi Jewelry");
-      // Format: upi://pay?pa=UPI_ID&pn=NAME&am=AMOUNT&cu=INR
       const upiLink = `upi://pay?pa=${upiID}&pn=${storeName}&am=${cartTotalAmount}.00&cu=INR`;
       
-      upiBtn.onclick = () => {
-        window.location.href = upiLink;
-      };
+      upiBtn.onclick = () => { window.location.href = upiLink; };
     }
 
     function removeItem(index) {
@@ -374,7 +391,7 @@
       updateCart();
     }
 
-    // --- Modals & Overlays ---
+    // --- 4. Modals & Overlays ---
     function toggleCart(show) {
       document.getElementById('cartDrawer').classList.toggle('open', show);
       document.getElementById('mainOverlay').style.display = show ? 'block' : 'none';
@@ -393,7 +410,7 @@
       document.getElementById('checkoutModal').style.display = 'block';
     }
 
-    // --- Payment & Invoice Generation ---
+    // --- 5. Payment & Invoice Generation ---
     function processPayment(e) {
       e.preventDefault(); 
       
@@ -402,31 +419,20 @@
       
       let itemsHtml = '';
       cart.forEach(item => {
-        itemsHtml += `
-          <tr>
-            <td>${item.title}</td>
-            <td style="text-align: right;">${item.priceText}</td>
-          </tr>
-        `;
+        itemsHtml += `<tr><td>${item.title}</td><td style="text-align: right;">${item.priceText}</td></tr>`;
       });
       const formattedTotal = '₹' + cartTotalAmount.toLocaleString('en-IN');
 
-      // Populate Invoice
       document.getElementById('invName').textContent = name;
       document.getElementById('invAddress').textContent = address;
       document.getElementById('invOrderNo').textContent = 'MZ-' + Math.floor(100000 + Math.random() * 900000);
-      
-      const today = new Date();
-      document.getElementById('invDate').textContent = today.toLocaleDateString('en-IN');
-      
+      document.getElementById('invDate').textContent = new Date().toLocaleDateString('en-IN');
       document.getElementById('invItems').innerHTML = itemsHtml;
       document.getElementById('invTotal').textContent = formattedTotal;
 
-      // Swap Modals
       document.getElementById('checkoutModal').style.display = 'none';
       document.getElementById('invoiceModal').style.display = 'block';
 
-      // Clear Cart
       cart = [];
       updateCart();
       document.getElementById('checkoutForm').reset();
