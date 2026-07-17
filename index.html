@@ -1,84 +1,568 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marzi Jewelry | Because Your Hustle Deserves a Sparkle</title>
-    <link rel="stylesheet" href="css/style.css">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marzi Jewelry</title>
+  
+  <!-- Google Fonts: Cormorant Garamond (Headings) & Jost (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- CSS Variables --- */
+    :root {
+      --bg-color: #FDFBF7; /* Warm cream */
+      --text-main: #2A2825; /* Soft charcoal */
+      --accent-gold: #C5A059; /* Muted gold */
+      --accent-hover: #A88644;
+      --border-color: #E6E1D6;
+      --font-heading: 'Cormorant Garamond', serif;
+      --font-body: 'Jost', sans-serif;
+    }
+
+    /* --- Global Styles --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+    }
+
+    button {
+      font-family: var(--font-body);
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* --- Navigation --- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 5%;
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      background-color: rgba(253, 251, 247, 0.95);
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .tab-button {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-main);
+      padding-bottom: 5px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .tab-button:hover, .tab-button.active {
+      color: var(--accent-gold);
+      border-bottom-color: var(--accent-gold);
+    }
+
+    .cart-toggle {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+    }
+
+    .cart-badge {
+      background-color: var(--accent-gold);
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      border-radius: 50%;
+      position: absolute;
+      top: -10px;
+      right: -15px;
+    }
+
+    /* --- Main Content Area --- */
+    main {
+      padding: 2rem 5%;
+      min-height: 80vh;
+    }
+
+    .tab-panel {
+      display: none; /* Hidden by default, JS will toggle */
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- Home Panel --- */
+    .hero {
+      text-align: center;
+      padding: 4rem 0;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      color: #555;
+    }
+
+    .cta-button {
+      background-color: var(--text-main);
+      color: var(--bg-color);
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: background 0.3s;
+    }
+
+    .cta-button:hover {
+      background-color: var(--accent-gold);
+    }
+
+    .features {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 4rem;
+      border-top: 1px solid var(--border-color);
+      padding-top: 3rem;
+    }
+
+    .feature-item {
+      text-align: center;
+      flex: 1;
+      padding: 0 1rem;
+    }
+
+    .feature-item h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+
+    /* --- Shop Panel --- */
+    .shop-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-card {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 250px;
+      background-color: var(--bg-color);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      color: #999;
+      font-style: italic;
+    }
+
+    .product-title {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-price {
+      color: var(--accent-gold);
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .add-to-bag {
+      border: 1px solid var(--text-main);
+      padding: 0.8rem 1.5rem;
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s;
+    }
+
+    .add-to-bag:hover {
+      background-color: var(--text-main);
+      color: #fff;
+    }
+
+    /* --- About Panel --- */
+    .about-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 4rem 0;
+    }
+    
+    .about-content h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-content p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* --- Cart Drawer --- */
+    .cart-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1000;
+    }
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -400px; /* Hidden off-screen */
+      width: 400px;
+      max-width: 100%;
+      height: 100vh;
+      background-color: var(--bg-color);
+      box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+      z-index: 1001;
+      transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-drawer.open {
+      right: 0;
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .cart-header h2 {
+      font-size: 1.8rem;
+    }
+
+    .close-cart {
+      font-size: 2rem;
+      font-family: var(--font-body);
+      line-height: 1;
+    }
+
+    .cart-items {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
+      text-align: center;
+      color: #777;
+    }
+
+    .cart-footer {
+      padding: 1.5rem;
+      border-top: 1px solid var(--border-color);
+      background: #fff;
+    }
+
+    .checkout-upi {
+      text-align: center;
+      padding: 1rem;
+      border: 1px dashed var(--accent-gold);
+      background-color: var(--bg-color);
+    }
+    
+    .checkout-upi p {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .qr-placeholder {
+      width: 120px;
+      height: 120px;
+      background-color: #eee;
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: #999;
+    }
+
+    /* --- Mobile Responsiveness --- */
+    @media (max-width: 768px) {
+      .nav-tabs {
+        display: none; /* In a full build, add a hamburger menu here */
+      }
+      .features {
+        flex-direction: column;
+        gap: 2rem;
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <div class="brand-logo">MARZI</div>
-        <nav class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="shop.html">Shop</a>
-            <a href="#collections">Collections</a>
-            <a href="#about">About</a>
-        </nav>
-        <div class="nav-icons">
-            <i class="fas fa-search"></i>
-            <i class="far fa-heart"></i>
-            <a href="checkout.html" style="color:inherit">
-                <i class="fas fa-shopping-bag"></i>
-                <span class="cart-badge" id="cart-count">0</span>
-            </a>
-        </div>
-    </header>
+  <!-- Header & Navigation -->
+  <header>
+    <div class="logo">Marzi</div>
+    
+    <!-- Tab Navigation -->
+    <nav class="nav-tabs">
+      <button class="tab-button active" onclick="showPanel('homePanel', event)">Home</button>
+      <button class="tab-button" onclick="showPanel('shopPanel', event)">Shop</button>
+      <button class="tab-button" onclick="showPanel('aboutPanel', event)">About</button>
+    </nav>
+    
+    <!-- Cart Icon -->
+    <button class="cart-toggle" onclick="openCart()">
+      Bag <span class="cart-badge" id="cartCount">0</span>
+    </button>
+  </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Because Your Hustle<br>Deserves a Sparkle.</h1>
-            <p>ELEGANT. MINIMAL. MODERN.</p>
-            <button class="btn-gold" onclick="window.location.href='shop.html'">SHOP THE COLLECTION</button>
+  <!-- Main Views container -->
+  <main>
+    
+    <!-- 1. HOME PANEL -->
+    <section id="homePanel" class="tab-panel" style="display: block;">
+      <div class="hero">
+        <h1>Elegance in Every Detail</h1>
+        <p>Discover our new handcrafted collection, blending traditional artistry with modern minimalism.</p>
+        <button class="cta-button" onclick="showPanel('shopPanel', {currentTarget: document.querySelectorAll('.tab-button')[1]})">
+          Explore Collection
+        </button>
+      </div>
+      
+      <div class="features">
+        <div class="feature-item">
+          <h3>Ethically Sourced</h3>
+          <p>Conflict-free diamonds and recycled gold.</p>
         </div>
+        <div class="feature-item">
+          <h3>Handcrafted</h3>
+          <p>Forged by master artisans in our studio.</p>
+        </div>
+        <div class="feature-item">
+          <h3>Lifetime Care</h3>
+          <p>Complimentary cleaning and maintenance.</p>
+        </div>
+      </div>
     </section>
 
-    <section id="trending">
-        <h2 class="section-title">Trending Now</h2>
-        <div class="product-grid" id="product-container">
-            <!-- Products will be injected here via JavaScript -->
+    <!-- 2. SHOP PANEL -->
+    <section id="shopPanel" class="tab-panel">
+      <div class="shop-header">
+        <h2>The Core Collection</h2>
+      </div>
+      
+      <div class="shop-grid">
+        <!-- Product 1 -->
+        <div class="product-card">
+          <div class="product-image">[ Product Image ]</div>
+          <h3 class="product-title">Lumina Pearl Necklace</h3>
+          <p class="product-price">₹12,500</p>
+          <button class="add-to-bag">Add to Bag</button>
         </div>
+        
+        <!-- Product 2 -->
+        <div class="product-card">
+          <div class="product-image">[ Product Image ]</div>
+          <h3 class="product-title">Aura Gold Hoops</h3>
+          <p class="product-price">₹8,900</p>
+          <button class="add-to-bag">Add to Bag</button>
+        </div>
+        
+        <!-- Product 3 -->
+        <div class="product-card">
+          <div class="product-image">[ Product Image ]</div>
+          <h3 class="product-title">Solstice Diamond Ring</h3>
+          <p class="product-price">₹34,000</p>
+          <button class="add-to-bag">Add to Bag</button>
+        </div>
+        
+        <!-- Product 4 -->
+        <div class="product-card">
+          <div class="product-image">[ Product Image ]</div>
+          <h3 class="product-title">Vesper Chain Bracelet</h3>
+          <p class="product-price">₹15,200</p>
+          <button class="add-to-bag">Add to Bag</button>
+        </div>
+      </div>
     </section>
 
-    <section id="about" style="background: var(--navy-blue); color: var(--white); padding: 4rem 5%; text-align: center; margin-top: 4rem;">
-        <h2 style="color: var(--gold); margin-bottom: 1rem; font-size: 2.5rem;">For Women, By Women.</h2>
-        <p style="max-width: 800px; margin: 0 auto; line-height: 1.8; font-size: 1.1rem;">
-            Marzi is crafted for the women who turn ambition into action. From the boardroom to the breakthrough, our jewelry is designed to match your momentum. Premium craftsmanship without the traditional markup. 
-        </p>
+    <!-- 3. ABOUT PANEL -->
+    <section id="aboutPanel" class="tab-panel">
+      <div class="about-content">
+        <h2>Our Story</h2>
+        <p>Founded on the belief that everyday jewelry should be nothing short of extraordinary, Marzi was created for the modern connoisseur.</p>
+        <p>We work exclusively with 18k solid gold and ethically sourced gemstones to create pieces that aren't just worn for a season, but cherished for a lifetime. Every piece tells a story of meticulous craftsmanship and timeless design.</p>
+      </div>
     </section>
 
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <div class="brand-logo">MARZI</div>
-                <p style="color:#ccc; margin-top:1rem; font-size:0.9rem;">Premium, affordable luxury for the modern professional.</p>
-            </div>
-            <div class="footer-col">
-                <h3>Shop</h3>
-                <ul><li>New Arrivals</li><li>Office Collection</li><li>Best Sellers</li><li>Corporate Gifting</li></ul>
-            </div>
-            <div class="footer-col">
-                <h3>Support</h3>
-                <ul><li>FAQ</li><li>Shipping Policy</li><li>Returns Policy</li><li>Track Order</li></ul>
-            </div>
-            <div class="footer-col">
-                <h3>Contact</h3>
-                <ul><li>support@marzijewelry.com</li><li>+91 98765 43210</li></ul>
-                <div style="margin-top: 1rem; display: flex; gap: 1rem; font-size: 1.5rem;">
-                    <i class="fab fa-instagram"></i>
-                    <i class="fab fa-linkedin"></i>
-                </div>
-            </div>
-        </div>
-        <div class="copyright">
-            &copy; 2026 Marzi Jewelry India. All rights reserved. Built for Production.
-        </div>
-    </footer>
+  </main>
 
-    <script src="js/products.js"></script>
-    <script src="js/main.js"></script>
+  <!-- Cart Overlay & Drawer -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h2>Your Bag</h2>
+      <button class="close-cart" onclick="closeCart()">&times;</button>
+    </div>
+    
+    <div class="cart-items" id="cartItems">
+      <p style="margin-top: 2rem;">Your bag is currently empty.</p>
+      <!-- JavaScript would inject actual items here -->
+    </div>
+    
+    <div class="cart-footer">
+      <div class="checkout-upi">
+        <p><strong>Fast Checkout with UPI</strong></p>
+        <div class="qr-placeholder">QR Code</div>
+        <p>Scan to pay seamlessly via any UPI app</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- --- JavaScript Logic --- -->
+  <script>
+    // 1. Tabbed Navigation Logic
+    function showPanel(panelId, event) {
+      // Hide all panels
+      const panels = document.querySelectorAll('.tab-panel');
+      panels.forEach(panel => {
+        panel.style.display = 'none';
+      });
+
+      // Remove active class from buttons
+      const buttons = document.querySelectorAll('.tab-button');
+      buttons.forEach(button => {
+        button.classList.remove('active');
+      });
+
+      // Show target panel
+      const targetPanel = document.getElementById(panelId);
+      if (targetPanel) {
+        targetPanel.style.display = 'block';
+      }
+      
+      // Add active state to clicked tab
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      }
+    }
+
+    // 2. Cart Drawer Toggle
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartOverlay = document.getElementById('cartOverlay');
+
+    function openCart() {
+      if (cartDrawer) cartDrawer.classList.add('open');
+      if (cartOverlay) cartOverlay.style.display = 'block';
+    }
+
+    function closeCart() {
+      if (cartDrawer) cartDrawer.classList.remove('open');
+      if (cartOverlay) cartOverlay.style.display = 'none';
+    }
+
+    // 3. Add to Bag & Cart Count
+    let cartItemCount = 0;
+    const cartCountDisplay = document.getElementById('cartCount');
+    const cartItemsContainer = document.getElementById('cartItems');
+    const addToBagButtons = document.querySelectorAll('.add-to-bag');
+
+    addToBagButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        cartItemCount++;
+        
+        // Update badge
+        if (cartCountDisplay) {
+          cartCountDisplay.textContent = cartItemCount;
+        }
+
+        // Basic UI update in the drawer
+        if (cartItemCount === 1) {
+          cartItemsContainer.innerHTML = ''; // Clear "empty" message on first add
+        }
+        
+        // Get product details (traversing DOM to find the title)
+        const productCard = e.target.closest('.product-card');
+        const productTitle = productCard.querySelector('.product-title').textContent;
+        const productPrice = productCard.querySelector('.product-price').textContent;
+
+        // Add item to drawer visually
+        const itemHtml = `
+          <div style="display: flex; justify-content: space-between; text-align: left; margin-bottom: 1rem; border-bottom: 1px solid #E6E1D6; padding-bottom: 1rem;">
+            <div>
+              <h4 style="color: #2A2825;">${productTitle}</h4>
+              <p style="font-size: 0.9rem;">Qty: 1</p>
+            </div>
+            <div style="color: #C5A059; font-weight: 500;">
+              ${productPrice}
+            </div>
+          </div>
+        `;
+        cartItemsContainer.insertAdjacentHTML('beforeend', itemHtml);
+        
+        // Open the drawer to confirm addition
+        openCart();
+      });
+    });
+  </script>
+
 </body>
 </html>
