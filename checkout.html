@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout | Marzi Jewelry</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .checkout-container { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; padding: 4rem 5%; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500;}
+        .form-control { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: var(--radius); }
+        .order-summary { background: var(--beige); padding: 2rem; border-radius: var(--radius); height: fit-content;}
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 1rem; }
+        .total-row { font-size: 1.2rem; font-weight: 700; border-top: 2px solid var(--gold); padding-top: 1rem; margin-top: 1rem;}
+        #qr-container { text-align: center; margin-top: 2rem; display: none; background: #fff; padding: 2rem; border-radius: 8px;}
+        #qr-code { width: 200px; height: 200px; margin-bottom: 1rem; }
+        .warning-note { background: #ffebee; color: #c62828; padding: 1rem; font-size: 0.9rem; margin-top: 1rem; border-radius: 4px;}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand-logo">MARZI</div>
+        <a href="index.html" class="nav-links" style="color:white; margin-right:2rem;">Return to Shop</a>
+    </header>
+
+    <div class="checkout-container">
+        <!-- Customer Details -->
+        <div class="customer-details">
+            <h2 style="margin-bottom: 2rem;">Shipping Details</h2>
+            <form id="checkout-form">
+                <div class="form-group"><label>Full Name</label><input type="text" id="c_name" class="form-control" required></div>
+                <div class="form-group"><label>Email</label><input type="email" id="c_email" class="form-control" required></div>
+                <div class="form-group"><label>Phone</label><input type="tel" id="c_phone" class="form-control" required></div>
+                <div class="form-group"><label>Address</label><textarea id="c_address" class="form-control" rows="3" required></textarea></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group"><label>PIN Code</label><input type="text" id="c_pin" class="form-control" required></div>
+                    <div class="form-group"><label>State</label><input type="text" id="c_state" class="form-control" required></div>
+                </div>
+                <button type="submit" class="btn-gold" style="width: 100%; margin-top: 1rem;" id="pay-btn">Proceed to Pay via UPI</button>
+            </form>
+
+            <div id="qr-container">
+                <h3>Scan to Pay</h3>
+                <p style="margin-bottom: 1rem; color: var(--text-light);">UPI ID: ektabhalerao29@ybl</p>
+                <img id="qr-code" src="" alt="UPI QR Code">
+                <div class="warning-note">
+                    <strong>Note for GitHub Pages deployment:</strong> Because this site is statically hosted, payments cannot be verified server-side automatically. 
+                    After completing payment on your app, click the button below to record your order.
+                </div>
+                <button class="btn-gold" style="width: 100%; background: var(--navy-blue); color: white;" onclick="confirmOrder()">I Have Paid</button>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <h2 style="margin-bottom: 2rem;">Order Summary</h2>
+            <div id="checkout-items"></div>
+            <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #ddd;">
+            <div class="summary-row"><span>Subtotal</span><span id="sum-subtotal">₹0</span></div>
+            <div class="summary-row"><span>Shipping</span><span id="sum-shipping">Free</span></div>
+            <div class="summary-row"><span>GST (3%)</span><span id="sum-gst">₹0</span></div>
+            <div class="summary-row total-row"><span>Total Payable</span><span id="sum-total" style="color: var(--navy-blue);">₹0</span></div>
+        </div>
+    </div>
+
+    <script src="js/checkout.js"></script>
+</body>
+</html>

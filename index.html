@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marzi Jewelry | Because Your Hustle Deserves a Sparkle</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="brand-logo">MARZI</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="#collections">Collections</a>
+            <a href="#about">About</a>
+        </nav>
+        <div class="nav-icons">
+            <i class="fas fa-search"></i>
+            <i class="far fa-heart"></i>
+            <a href="checkout.html" style="color:inherit">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-badge" id="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Because Your Hustle<br>Deserves a Sparkle.</h1>
+            <p>ELEGANT. MINIMAL. MODERN.</p>
+            <button class="btn-gold" onclick="window.location.href='shop.html'">SHOP THE COLLECTION</button>
+        </div>
+    </section>
+
+    <section id="trending">
+        <h2 class="section-title">Trending Now</h2>
+        <div class="product-grid" id="product-container">
+            <!-- Products will be injected here via JavaScript -->
+        </div>
+    </section>
+
+    <section id="about" style="background: var(--navy-blue); color: var(--white); padding: 4rem 5%; text-align: center; margin-top: 4rem;">
+        <h2 style="color: var(--gold); margin-bottom: 1rem; font-size: 2.5rem;">For Women, By Women.</h2>
+        <p style="max-width: 800px; margin: 0 auto; line-height: 1.8; font-size: 1.1rem;">
+            Marzi is crafted for the women who turn ambition into action. From the boardroom to the breakthrough, our jewelry is designed to match your momentum. Premium craftsmanship without the traditional markup. 
+        </p>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="brand-logo">MARZI</div>
+                <p style="color:#ccc; margin-top:1rem; font-size:0.9rem;">Premium, affordable luxury for the modern professional.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Shop</h3>
+                <ul><li>New Arrivals</li><li>Office Collection</li><li>Best Sellers</li><li>Corporate Gifting</li></ul>
+            </div>
+            <div class="footer-col">
+                <h3>Support</h3>
+                <ul><li>FAQ</li><li>Shipping Policy</li><li>Returns Policy</li><li>Track Order</li></ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <ul><li>support@marzijewelry.com</li><li>+91 98765 43210</li></ul>
+                <div style="margin-top: 1rem; display: flex; gap: 1rem; font-size: 1.5rem;">
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-linkedin"></i>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Marzi Jewelry India. All rights reserved. Built for Production.
+        </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
