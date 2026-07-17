@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Collection | Marzi Jewelry</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="brand-logo">MARZI</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="shop.html" style="color: var(--gold);">Shop</a>
+            <a href="index.html#collections">Collections</a>
+            <a href="index.html#about">About</a>
+        </nav>
+        <div class="nav-icons">
+            <i class="fas fa-search"></i>
+            <i class="far fa-heart"></i>
+            <a href="checkout.html" style="color:inherit">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-badge" id="cart-count">0</span>
+            </a>
+        </div>
+    </header>
+
+    <section style="padding: 4rem 5%; text-align: center; background: var(--beige);">
+        <h1 style="font-size: 3rem; margin-bottom: 1rem;">The Complete Collection</h1>
+        <p style="color: var(--text-light);">Everything you need to match your momentum.</p>
+    </section>
+
+    <section style="padding: 4rem 0;">
+        <!-- Notice the ID is 'shop-container' here -->
+        <div class="product-grid" id="shop-container">
+            <!-- All products will be injected here via JavaScript -->
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="brand-logo">MARZI</div>
+                <p style="color:#ccc; margin-top:1rem; font-size:0.9rem;">Premium, affordable luxury for the modern professional.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Shop</h3>
+                <ul><li>New Arrivals</li><li>Office Collection</li><li>Best Sellers</li><li>Corporate Gifting</li></ul>
+            </div>
+            <div class="footer-col">
+                <h3>Support</h3>
+                <ul><li>FAQ</li><li>Shipping Policy</li><li>Returns Policy</li><li>Track Order</li></ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <ul><li>support@marzijewelry.com</li><li>+91 98765 43210</li></ul>
+                <div style="margin-top: 1rem; display: flex; gap: 1rem; font-size: 1.5rem;">
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-linkedin"></i>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Marzi Jewelry India. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
