@@ -28,12 +28,12 @@
 
     /* --- Navigation --- */
     header {
-      display: flex; justify-content: space-between; align-items: center;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
       padding: 1.5rem 5%; border-bottom: 1px solid var(--border-color);
-      position: sticky; top: 0; background-color: rgba(253, 251, 247, 0.95); z-index: 100;
+      position: sticky; top: 0; background-color: rgba(253, 251, 247, 0.95); z-index: 100; gap: 1rem;
     }
-    .logo { font-family: var(--font-heading); font-size: 2rem; letter-spacing: 2px; text-transform: uppercase; }
-    .nav-tabs { display: flex; gap: 2rem; }
+    .logo { font-family: var(--font-heading); font-size: 2.2rem; letter-spacing: 2px; text-transform: uppercase; }
+    .nav-tabs { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
     .tab-button {
       font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;
       color: var(--text-main); padding-bottom: 5px; border-bottom: 2px solid transparent; transition: all 0.3s ease;
@@ -60,35 +60,32 @@
     }
     .btn-solid:hover { background-color: var(--accent-gold); }
     .hero .btn-solid { width: auto; }
-    .features { display: flex; justify-content: space-around; margin-top: 4rem; border-top: 1px solid var(--border-color); padding-top: 3rem; }
-    .feature-item { text-align: center; flex: 1; padding: 0 1rem; }
+    .features { display: flex; justify-content: space-around; margin-top: 4rem; border-top: 1px solid var(--border-color); padding-top: 3rem; flex-wrap: wrap; gap: 2rem;}
+    .feature-item { text-align: center; flex: 1; min-width: 250px; padding: 0 1rem; }
 
-    /* --- Shop --- */
-    .shop-header { text-align: center; margin-bottom: 3rem; }
+    /* --- Grids & Products --- */
+    .section-header { text-align: center; margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+    .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+    .section-header p { font-size: 1.1rem; color: #555; }
+    
     .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
     .product-card { background: #fff; border: 1px solid var(--border-color); padding: 1.5rem; text-align: center; transition: transform 0.3s ease; }
     .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
     
-    /* Updated Image CSS to handle real images perfectly */
-    .product-image { 
-      width: 100%; height: 250px; background-color: var(--bg-color); margin-bottom: 1rem; 
-      overflow: hidden; /* Keeps zoom effect inside the box */
-    }
-    .product-image img {
-      width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;
-    }
-    .product-card:hover .product-image img {
-      transform: scale(1.05); /* Slight zoom on hover for a premium feel */
-    }
+    .product-image { width: 100%; height: 250px; background-color: var(--bg-color); margin-bottom: 1rem; overflow: hidden; }
+    .product-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .product-card:hover .product-image img { transform: scale(1.05); }
 
-    .product-title { font-size: 1.4rem; margin-bottom: 0.5rem; }
-    .product-price { color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 1.5rem; }
+    .product-title { font-size: 1.3rem; margin-bottom: 0.5rem; }
+    .product-price { color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 1.5rem; font-weight: 500; }
     .add-to-bag { border: 1px solid var(--text-main); padding: 0.8rem 1.5rem; width: 100%; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; }
     .add-to-bag:hover { background-color: var(--text-main); color: #fff; }
 
     /* --- About --- */
-    .about-content { max-width: 800px; margin: 0 auto; text-align: center; padding: 4rem 0; }
-    .about-content h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+    .about-content { max-width: 800px; margin: 0 auto; text-align: center; padding: 3rem 0; }
+    .about-content h2 { font-size: 3rem; margin-bottom: 2rem; }
+    .about-content p { font-size: 1.2rem; margin-bottom: 1.5rem; text-align: justify; text-align-last: center; }
+    .about-quote { font-family: var(--font-heading); font-size: 1.8rem; font-style: italic; color: var(--accent-gold); margin: 3rem 0; padding: 2rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
 
     /* --- Cart Drawer --- */
     .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; }
@@ -101,8 +98,8 @@
     .cart-item { display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
     .cart-total-row { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem; }
 
-    /* --- Modals --- */
-    .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 2rem; width: 90%; max-width: 500px; z-index: 1002; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--border-color); }
+    /* --- Modals & Invoices --- */
+    .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 2rem; width: 90%; max-width: 500px; z-index: 1002; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--border-color); max-height: 90vh; overflow-y: auto; }
     .form-group { margin-bottom: 1rem; text-align: left; }
     .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
     .form-group input, .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); font-family: var(--font-body); }
@@ -111,7 +108,6 @@
     .upi-btn { background-color: #0b9e54; color: white; padding: 1rem; width: 100%; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0; border-radius: 4px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.3s; }
     .upi-btn:hover { background-color: #098144; }
 
-    /* --- Invoice Specifics --- */
     .invoice-header { text-align: center; border-bottom: 2px solid var(--text-main); padding-bottom: 1rem; margin-bottom: 1.5rem; }
     .invoice-details { margin-bottom: 1.5rem; font-size: 0.9rem; color: #555; display: flex; justify-content: space-between; }
     .invoice-table { width: 100%; text-align: left; border-collapse: collapse; margin-bottom: 1.5rem; }
@@ -133,7 +129,9 @@
     <div class="logo">Marzi</div>
     <nav class="nav-tabs">
       <button class="tab-button active" onclick="showPanel('homePanel', event)">Home</button>
-      <button class="tab-button" onclick="showPanel('shopPanel', event)">Shop</button>
+      <button class="tab-button" onclick="showPanel('shopPanel', event)">Core</button>
+      <button class="tab-button" onclick="showPanel('baddiePanel', event)">Baddie</button>
+      <button class="tab-button" onclick="showPanel('corpPanel', event)">Corporate</button>
       <button class="tab-button" onclick="showPanel('aboutPanel', event)">About</button>
     </nav>
     <button class="cart-toggle" onclick="toggleCart(true)">
@@ -143,29 +141,73 @@
 
   <!-- Main Content -->
   <main class="no-print">
+    
     <!-- Home -->
     <section id="homePanel" class="tab-panel" style="display: block;">
       <div class="hero">
         <h1>Elegance in Every Detail</h1>
-        <p>Discover our new handcrafted collection, blending traditional artistry with modern minimalism.</p>
-        <button class="btn-solid" onclick="showPanel('shopPanel', {currentTarget: document.querySelectorAll('.tab-button')[1]})">Explore Collection</button>
+        <p>Discover our handcrafted collections, blending traditional artistry with modern silhouettes.</p>
+        <button class="btn-solid" onclick="showPanel('shopPanel', {currentTarget: document.querySelectorAll('.tab-button')[1]})">Explore The Core</button>
+      </div>
+      <div class="features">
+        <div class="feature-item">
+          <h3>Ethically Sourced</h3>
+          <p>Conflict-free diamonds and recycled 18k gold.</p>
+        </div>
+        <div class="feature-item">
+          <h3>Handcrafted</h3>
+          <p>Forged by master artisans in our dedicated studio.</p>
+        </div>
+        <div class="feature-item">
+          <h3>Modern Heirlooms</h3>
+          <p>Pieces designed to be inherited, not just worn.</p>
+        </div>
       </div>
     </section>
 
-    <!-- Shop -->
+    <!-- Core Shop -->
     <section id="shopPanel" class="tab-panel">
-      <div class="shop-header"><h2>The Core Collection</h2></div>
-      
-      <!-- Empty Grid - JavaScript will inject 100 items here! -->
+      <div class="section-header">
+        <h2>The Core Collection</h2>
+        <p>Timeless, minimalist pieces designed for everyday elegance. This is the foundation of the Marzi aesthetic.</p>
+      </div>
       <div class="shop-grid" id="shopGrid"></div>
-
     </section>
 
-    <!-- About -->
+    <!-- Baddie Shop -->
+    <section id="baddiePanel" class="tab-panel">
+      <div class="section-header">
+        <h2>Baddie Collection</h2>
+        <p>Unapologetic. Bold. Iconic. Chunky gold, iced-out links, and statement pieces made to steal the room.</p>
+      </div>
+      <div class="shop-grid" id="baddieGrid"></div>
+    </section>
+
+    <!-- Corporate Shop -->
+    <section id="corpPanel" class="tab-panel">
+      <div class="section-header">
+        <h2>Corporate Gifting</h2>
+        <p>Elevate your professional relationships. Bespoke, sophisticated pieces perfect for milestones, executive gifts, and client appreciation.</p>
+      </div>
+      <div class="shop-grid" id="corpGrid"></div>
+    </section>
+
+    <!-- About / Brand Story -->
     <section id="aboutPanel" class="tab-panel">
       <div class="about-content">
-        <h2>Our Story</h2>
-        <p>We work exclusively with 18k solid gold and ethically sourced gemstones to create pieces cherished for a lifetime.</p>
+        <h2>The Legend of Marzi</h2>
+        <p>It began with a forgotten velvet box in a dusty antique shop in Milan. Inside lay a single, imperfect gold ring—heavy, weathered, and etched with the initials <strong>"M.Z."</strong> It wasn't just a piece of metal; it was a relic of a love story, surviving decades of history and holding secrets only the gold could remember.</p>
+        
+        <p>Our founder, Aria, captivated by the weight and soul of that ring, bought it immediately. She realized that modern jewelry had lost its soul—trading deep, generational heritage for mass production and fleeting trends.</p>
+
+        <div class="about-quote">
+          "Jewelry shouldn't just decorate you. It should define you, outlive you, and tell your story when you no longer can."
+        </div>
+
+        <p>She created <em>Marzi</em> to bring back the era of the modern heirloom. Every piece we forge in our studio is designed to be an artifact. We blend traditional hand-hammered techniques from the 1920s with bold, contemporary silhouettes for today's wearer.</p>
+        
+        <p>Whether it is the quiet luxury of our Core Collection, the fierce, unapologetic energy of our 'Baddie' aesthetic, or our bespoke Corporate gifts honoring great achievements, Marzi is never just worn.</p>
+        <p><strong>It is inherited.</strong></p>
       </div>
     </section>
   </main>
@@ -271,52 +313,94 @@
 
   <!-- --- JavaScript Logic --- -->
   <script>
-    // --- 1. Generate 100 Products Dynamically ---
-    function generateStoreItems() {
+    // --- 1. Dynamic Product Generators ---
+    
+    // Core Collection (100 items)
+    function generateCoreItems() {
       const shopGrid = document.getElementById('shopGrid');
-      
-      // High-quality jewelry images from Unsplash
       const imageUrls = [
-        "https://images.unsplash.com/photo-1599643478514-4a4e06b524cb?auto=format&fit=crop&w=500&q=80", // Necklace
-        "https://images.unsplash.com/photo-1605100804763-247f67b2548e?auto=format&fit=crop&w=500&q=80", // Ring
-        "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=500&q=80", // Earrings
-        "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=500&q=80", // Bracelet
-        "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=500&q=80", // Pendant
-        "https://images.unsplash.com/photo-1587422316681-36b0cb5ef736?auto=format&fit=crop&w=500&q=80", // Chain
-        "https://images.unsplash.com/photo-1515562141207-7a8efd3dcfa1?auto=format&fit=crop&w=500&q=80", // Diamond
-        "https://images.unsplash.com/photo-1596944924616-7b38e7cfdf4c?auto=format&fit=crop&w=500&q=80", // Gold rings
-        "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=500&q=80"  // Watch/Bangle
+        "https://images.unsplash.com/photo-1599643478514-4a4e06b524cb?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1605100804763-247f67b2548e?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1587422316681-36b0cb5ef736?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1515562141207-7a8efd3dcfa1?auto=format&fit=crop&w=500&q=80"
       ];
-
-      const adjectives = ['Lumina', 'Aura', 'Solstice', 'Vesper', 'Celeste', 'Nova', 'Crescent', 'Eclipse', 'Stella', 'Seraph', 'Eterna', 'Radiant'];
-      const types = ['Pearl Necklace', 'Gold Hoops', 'Diamond Ring', 'Chain Bracelet', 'Pendant', 'Drop Earrings', 'Choker', 'Bangle'];
+      const adjectives = ['Lumina', 'Aura', 'Solstice', 'Vesper', 'Celeste', 'Nova', 'Crescent', 'Eterna', 'Radiant'];
+      const types = ['Pearl Necklace', 'Gold Hoops', 'Diamond Ring', 'Chain Bracelet', 'Pendant', 'Drop Earrings'];
 
       let htmlContent = '';
-
       for (let i = 1; i <= 100; i++) {
-        // Randomize details for each product
         const randomImg = imageUrls[Math.floor(Math.random() * imageUrls.length)];
         const randomName = adjectives[Math.floor(Math.random() * adjectives.length)] + ' ' + types[Math.floor(Math.random() * types.length)];
-        const randomPriceNum = Math.floor(Math.random() * 800) * 100 + 4500; // Random price between ₹4,500 and ₹84,500
-        const formattedPrice = '₹' + randomPriceNum.toLocaleString('en-IN');
-
-        htmlContent += `
-          <div class="product-card">
-            <div class="product-image">
-              <img src="${randomImg}" alt="${randomName}" loading="lazy">
-            </div>
-            <h3 class="product-title">${randomName}</h3>
-            <p class="product-price">${formattedPrice}</p>
-            <button class="add-to-bag">Add to Bag</button>
-          </div>
-        `;
+        const price = Math.floor(Math.random() * 800) * 100 + 4500;
+        
+        htmlContent += createProductCard(randomImg, randomName, price);
       }
-      
       shopGrid.innerHTML = htmlContent;
     }
-    
-    // Run the generator immediately
-    generateStoreItems();
+
+    // Baddie Collection (15 items)
+    function generateBaddieItems() {
+      const grid = document.getElementById('baddieGrid');
+      const baddieImages = [
+        "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=500&q=80", // Cuban link
+        "https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?auto=format&fit=crop&w=500&q=80", // Chunky earrings
+        "https://images.unsplash.com/photo-1602715456209-e8eb462fc535?auto=format&fit=crop&w=500&q=80", // Statement piece
+        "https://images.unsplash.com/photo-1620656798579-197fa11c3491?auto=format&fit=crop&w=500&q=80"  // Heavy chain
+      ];
+      const names = ['Oversized Boss Hoops', 'Miami Cuban Choker', 'Iced Out Initial Pendant', 'Stacked Eternity Rings', 'Heavy Gold Chain', 'Diamond Grill Ring', 'Bamboo Statement Hoops'];
+
+      let htmlContent = '';
+      for (let i = 1; i <= 15; i++) {
+        const randomImg = baddieImages[Math.floor(Math.random() * baddieImages.length)];
+        const randomName = names[Math.floor(Math.random() * names.length)];
+        const price = Math.floor(Math.random() * 500) * 100 + 12000; // Pricier
+        
+        htmlContent += createProductCard(randomImg, randomName, price);
+      }
+      grid.innerHTML = htmlContent;
+    }
+
+    // Corporate Collection (15 items)
+    function generateCorporateItems() {
+      const grid = document.getElementById('corpGrid');
+      const corpImages = [
+        "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?auto=format&fit=crop&w=500&q=80", // Watch aesthetic
+        "https://images.unsplash.com/photo-1599643477877-530e55b1eb1a?auto=format&fit=crop&w=500&q=80", // Minimal chain
+        "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=500&q=80"  // Sleek bangle
+      ];
+      const names = ['Executive Cufflinks', 'Signature Tie Clip', 'Minimalist Tennis Bracelet', 'CEO Watch Set', 'Platinum Lapel Pin', 'Onyx Signet Ring'];
+
+      let htmlContent = '';
+      for (let i = 1; i <= 15; i++) {
+        const randomImg = corpImages[Math.floor(Math.random() * corpImages.length)];
+        const randomName = names[Math.floor(Math.random() * names.length)];
+        const price = Math.floor(Math.random() * 300) * 100 + 8000;
+        
+        htmlContent += createProductCard(randomImg, randomName, price);
+      }
+      grid.innerHTML = htmlContent;
+    }
+
+    // Helper function to build card HTML
+    function createProductCard(imgSrc, title, price) {
+      const formattedPrice = '₹' + price.toLocaleString('en-IN');
+      return `
+        <div class="product-card">
+          <div class="product-image">
+            <img src="${imgSrc}" alt="${title}" loading="lazy">
+          </div>
+          <h3 class="product-title">${title}</h3>
+          <p class="product-price">${formattedPrice}</p>
+          <button class="add-to-bag">Add to Bag</button>
+        </div>
+      `;
+    }
+
+    // Run generators
+    generateCoreItems();
+    generateBaddieItems();
+    generateCorporateItems();
 
 
     // --- 2. Navigation ---
@@ -325,14 +409,15 @@
       document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
       document.getElementById(panelId).style.display = 'block';
       if (event && event.currentTarget) event.currentTarget.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- 3. Cart Logic (Updated to handle dynamically generated buttons) ---
+    // --- 3. Cart Logic ---
     let cart = [];
     let cartTotalAmount = 0;
     
-    // Event delegation: Listen for clicks on the entire grid, trigger if it's an "add to bag" button
-    document.getElementById('shopGrid').addEventListener('click', (e) => {
+    // We attach the listener to the whole <main> tag to catch clicks from ANY tab's grid!
+    document.querySelector('main').addEventListener('click', (e) => {
       if (e.target.classList.contains('add-to-bag')) {
         const card = e.target.closest('.product-card');
         const title = card.querySelector('.product-title').textContent;
