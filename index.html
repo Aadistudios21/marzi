@@ -98,12 +98,10 @@
     .drawer-content { flex: 1; padding: 1.5rem; overflow-y: auto; }
     .drawer-footer { padding: 1.5rem; border-top: 1px solid var(--border-color); background: #fff; }
     .close-btn { font-size: 2rem; line-height: 1; }
-
-    /* Cart Specifics */
     .cart-item { display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
     .cart-total-row { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem; }
 
-    /* --- Modals (Checkout & Invoice) --- */
+    /* --- Modals --- */
     .modal {
       display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
       background: #fff; padding: 2rem; width: 90%; max-width: 500px; z-index: 1002;
@@ -111,12 +109,17 @@
     }
     .form-group { margin-bottom: 1rem; text-align: left; }
     .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
-    .form-group input, .form-group textarea {
-      width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); font-family: var(--font-body);
-    }
-    .qr-box { text-align: center; padding: 1rem; border: 1px dashed var(--accent-gold); background: var(--bg-color); margin-bottom: 1.5rem; }
+    .form-group input, .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); font-family: var(--font-body); }
     
-    /* Invoice Specifics */
+    .qr-box { text-align: center; padding: 1.5rem 1rem; border: 1px dashed var(--accent-gold); background: var(--bg-color); margin-bottom: 1.5rem; }
+    .upi-btn {
+      background-color: #0b9e54; /* Trustworthy green */
+      color: white; padding: 1rem; width: 100%; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;
+      margin: 1rem 0; border-radius: 4px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.3s;
+    }
+    .upi-btn:hover { background-color: #098144; }
+
+    /* --- Invoice Specifics --- */
     .invoice-header { text-align: center; border-bottom: 2px solid var(--text-main); padding-bottom: 1rem; margin-bottom: 1.5rem; }
     .invoice-details { margin-bottom: 1.5rem; font-size: 0.9rem; color: #555; }
     .invoice-table { width: 100%; text-align: left; border-collapse: collapse; margin-bottom: 1.5rem; }
@@ -194,7 +197,6 @@
   <!-- Overlays & Drawers -->
   <div class="overlay" id="mainOverlay" onclick="closeAll()"></div>
   
-  <!-- Cart Drawer -->
   <aside class="drawer" id="cartDrawer">
     <div class="drawer-header">
       <h2>Your Bag</h2>
@@ -228,13 +230,25 @@
         <textarea id="custAddress" rows="2" required placeholder="123 Jewelry Lane, City"></textarea>
       </div>
       
+      <!-- UPI Payment Section -->
       <div class="qr-box">
-        <p style="font-weight: 500; margin-bottom: 0.5rem;">Pay <span id="checkoutTotal" style="color: var(--accent-gold);"></span> via UPI</p>
+        <p style="font-weight: 600; font-size: 1.1rem; margin-bottom: 0.2rem;">Pay <span id="checkoutTotal" style="color: var(--accent-gold);"></span> via UPI</p>
+        <p style="font-size: 0.9rem; color: #555;">UPI ID: <strong>ektabhalerao29@ybl</strong></p>
+        
+        <!-- Mobile Deep Link Button -->
+        <button type="button" class="upi-btn" id="upiAppBtn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          Open UPI App to Pay
+        </button>
+
+        <!-- Desktop QR Fallback -->
+        <p style="font-size: 0.8rem; color: #999; margin: 1rem 0 0.5rem;">Or scan QR code if on desktop:</p>
         <div style="width: 100px; height: 100px; background: #eee; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #999;">[ QR CODE ]</div>
-        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Scan with GPay, PhonePe, or Paytm</p>
       </div>
       
-      <button type="submit" class="btn-solid">Complete Payment</button>
+      <p style="font-size: 0.8rem; text-align: center; margin-bottom: 1rem; color: #777;">Once payment is successful via your UPI app, click below to generate your invoice.</p>
+      
+      <button type="submit" class="btn-solid">Confirm Payment & Get Invoice</button>
     </form>
   </div>
 
@@ -258,7 +272,8 @@
       <div style="text-align: right;">
         <strong>Order ID:</strong> <span id="invOrderNo"></span><br>
         <strong>Date:</strong> <span id="invDate"></span><br>
-        <strong>Status:</strong> <span style="color: green;">PAID (UPI)</span>
+        <strong>Status:</strong> <span style="color: green;">PAID (UPI)</span><br>
+        <span style="font-size: 0.8rem; color: #777;">To: ektabhalerao29@ybl</span>
       </div>
     </div>
 
@@ -283,10 +298,9 @@
     </div>
   </div>
 
-
   <!-- --- JavaScript Logic --- -->
   <script>
-    // --- 1. Navigation ---
+    // --- Navigation ---
     function showPanel(panelId, event) {
       document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
       document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
@@ -294,15 +308,15 @@
       if (event && event.currentTarget) event.currentTarget.classList.add('active');
     }
 
-    // --- 2. Cart Logic ---
+    // --- Cart Logic ---
     let cart = [];
+    let cartTotalAmount = 0; // Stored globally to pass to UPI link
     
     document.querySelectorAll('.add-to-bag').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const card = e.target.closest('.product-card');
         const title = card.querySelector('.product-title').textContent;
         const priceText = card.querySelector('.product-price').textContent;
-        // Convert "₹12,500" to number 12500
         const priceNum = parseInt(priceText.replace(/[^\d]/g, ''));
         
         cart.push({ title, price: priceNum, priceText });
@@ -324,10 +338,10 @@
 
       footer.style.display = 'block';
       container.innerHTML = '';
-      let total = 0;
+      cartTotalAmount = 0;
 
       cart.forEach((item, index) => {
-        total += item.price;
+        cartTotalAmount += item.price;
         container.innerHTML += `
           <div class="cart-item">
             <div>
@@ -339,9 +353,20 @@
         `;
       });
 
-      const formattedTotal = '₹' + total.toLocaleString('en-IN');
+      const formattedTotal = '₹' + cartTotalAmount.toLocaleString('en-IN');
       document.getElementById('cartTotalDisplay').textContent = formattedTotal;
       document.getElementById('checkoutTotal').textContent = formattedTotal;
+
+      // Update the UPI App Button Intent Link
+      const upiBtn = document.getElementById('upiAppBtn');
+      const upiID = "ektabhalerao29@ybl";
+      const storeName = encodeURIComponent("Marzi Jewelry");
+      // Format: upi://pay?pa=UPI_ID&pn=NAME&am=AMOUNT&cu=INR
+      const upiLink = `upi://pay?pa=${upiID}&pn=${storeName}&am=${cartTotalAmount}.00&cu=INR`;
+      
+      upiBtn.onclick = () => {
+        window.location.href = upiLink;
+      };
     }
 
     function removeItem(index) {
@@ -349,7 +374,7 @@
       updateCart();
     }
 
-    // --- 3. Modals & Overlays ---
+    // --- Modals & Overlays ---
     function toggleCart(show) {
       document.getElementById('cartDrawer').classList.toggle('open', show);
       document.getElementById('mainOverlay').style.display = show ? 'block' : 'none';
@@ -368,19 +393,15 @@
       document.getElementById('checkoutModal').style.display = 'block';
     }
 
-    // --- 4. Payment & Invoice Generation ---
+    // --- Payment & Invoice Generation ---
     function processPayment(e) {
-      e.preventDefault(); // Prevent page reload
+      e.preventDefault(); 
       
-      // Get form details
       const name = document.getElementById('custName').value;
       const address = document.getElementById('custAddress').value;
       
-      // Calculate total
-      let total = 0;
       let itemsHtml = '';
       cart.forEach(item => {
-        total += item.price;
         itemsHtml += `
           <tr>
             <td>${item.title}</td>
@@ -388,7 +409,7 @@
           </tr>
         `;
       });
-      const formattedTotal = '₹' + total.toLocaleString('en-IN');
+      const formattedTotal = '₹' + cartTotalAmount.toLocaleString('en-IN');
 
       // Populate Invoice
       document.getElementById('invName').textContent = name;
@@ -405,7 +426,7 @@
       document.getElementById('checkoutModal').style.display = 'none';
       document.getElementById('invoiceModal').style.display = 'block';
 
-      // Clear Cart after successful order
+      // Clear Cart
       cart = [];
       updateCart();
       document.getElementById('checkoutForm').reset();
