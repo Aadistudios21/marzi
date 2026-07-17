@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Marzi Jewelry</title>
   
-  <!-- Google Fonts: Cormorant Garamond (Headings) & Jost (Body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
@@ -13,9 +12,9 @@
   <style>
     /* --- CSS Variables --- */
     :root {
-      --bg-color: #FDFBF7; /* Warm cream */
-      --text-main: #2A2825; /* Soft charcoal */
-      --accent-gold: #C5A059; /* Muted gold */
+      --bg-color: #FDFBF7;
+      --text-main: #2A2825;
+      --accent-gold: #C5A059;
       --accent-hover: #A88644;
       --border-color: #E6E1D6;
       --font-heading: 'Cormorant Garamond', serif;
@@ -23,12 +22,7 @@
     }
 
     /* --- Global Styles --- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       background-color: var(--bg-color);
       color: var(--text-main);
@@ -36,533 +30,386 @@
       line-height: 1.6;
       overflow-x: hidden;
     }
-
-    h1, h2, h3, h4 {
-      font-family: var(--font-heading);
-      font-weight: 600;
-    }
-
-    button {
-      font-family: var(--font-body);
-      cursor: pointer;
-      border: none;
-      background: none;
-    }
+    h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; }
+    button { font-family: var(--font-body); cursor: pointer; border: none; background: none; }
 
     /* --- Navigation --- */
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 5%;
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      background-color: rgba(253, 251, 247, 0.95);
-      z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.5rem 5%; border-bottom: 1px solid var(--border-color);
+      position: sticky; top: 0; background-color: rgba(253, 251, 247, 0.95); z-index: 100;
     }
-
-    .logo {
-      font-family: var(--font-heading);
-      font-size: 2rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .nav-tabs {
-      display: flex;
-      gap: 2rem;
-    }
-
+    .logo { font-family: var(--font-heading); font-size: 2rem; letter-spacing: 2px; text-transform: uppercase; }
+    .nav-tabs { display: flex; gap: 2rem; }
     .tab-button {
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-main);
-      padding-bottom: 5px;
-      border-bottom: 2px solid transparent;
-      transition: all 0.3s ease;
+      font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--text-main); padding-bottom: 5px; border-bottom: 2px solid transparent; transition: all 0.3s ease;
     }
-
-    .tab-button:hover, .tab-button.active {
-      color: var(--accent-gold);
-      border-bottom-color: var(--accent-gold);
-    }
-
-    .cart-toggle {
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      position: relative;
-    }
-
+    .tab-button:hover, .tab-button.active { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+    .cart-toggle { font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; position: relative; }
     .cart-badge {
-      background-color: var(--accent-gold);
-      color: #fff;
-      font-size: 0.75rem;
-      padding: 2px 6px;
-      border-radius: 50%;
-      position: absolute;
-      top: -10px;
-      right: -15px;
+      background-color: var(--accent-gold); color: #fff; font-size: 0.75rem;
+      padding: 2px 6px; border-radius: 50%; position: absolute; top: -10px; right: -15px;
     }
 
-    /* --- Main Content Area --- */
-    main {
-      padding: 2rem 5%;
-      min-height: 80vh;
-    }
+    /* --- Main Content --- */
+    main { padding: 2rem 5%; min-height: 80vh; }
+    .tab-panel { display: none; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    .tab-panel {
-      display: none; /* Hidden by default, JS will toggle */
-      animation: fadeIn 0.5s ease;
+    /* --- Home --- */
+    .hero { text-align: center; padding: 4rem 0; }
+    .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+    .hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem; color: #555; }
+    .btn-solid {
+      background-color: var(--text-main); color: var(--bg-color); padding: 1rem 2rem;
+      font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; transition: background 0.3s; width: 100%;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* --- Home Panel --- */
-    .hero {
-      text-align: center;
-      padding: 4rem 0;
-    }
-
-    .hero h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-      color: #555;
-    }
-
-    .cta-button {
-      background-color: var(--text-main);
-      color: var(--bg-color);
-      padding: 1rem 2rem;
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      transition: background 0.3s;
-    }
-
-    .cta-button:hover {
-      background-color: var(--accent-gold);
-    }
-
-    .features {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 4rem;
-      border-top: 1px solid var(--border-color);
-      padding-top: 3rem;
-    }
-
-    .feature-item {
-      text-align: center;
-      flex: 1;
-      padding: 0 1rem;
-    }
-
-    .feature-item h3 {
-      margin-bottom: 0.5rem;
-      font-size: 1.5rem;
-    }
-
-    /* --- Shop Panel --- */
-    .shop-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .shop-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-
-    .product-card {
-      background: #fff;
-      border: 1px solid var(--border-color);
-      padding: 1.5rem;
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    }
-
-    .product-image {
-      width: 100%;
-      height: 250px;
-      background-color: var(--bg-color);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-heading);
-      color: #999;
-      font-style: italic;
-    }
-
-    .product-title {
-      font-size: 1.4rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .product-price {
-      color: var(--accent-gold);
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .add-to-bag {
-      border: 1px solid var(--text-main);
-      padding: 0.8rem 1.5rem;
-      width: 100%;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.3s;
-    }
-
-    .add-to-bag:hover {
-      background-color: var(--text-main);
-      color: #fff;
-    }
-
-    /* --- About Panel --- */
-    .about-content {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-      padding: 4rem 0;
-    }
+    .btn-solid:hover { background-color: var(--accent-gold); }
+    .hero .btn-solid { width: auto; }
     
-    .about-content h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-    }
+    .features { display: flex; justify-content: space-around; margin-top: 4rem; border-top: 1px solid var(--border-color); padding-top: 3rem; }
+    .feature-item { text-align: center; flex: 1; padding: 0 1rem; }
 
-    .about-content p {
-      font-size: 1.1rem;
-      margin-bottom: 1.5rem;
-    }
+    /* --- Shop --- */
+    .shop-header { text-align: center; margin-bottom: 3rem; }
+    .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
+    .product-card { background: #fff; border: 1px solid var(--border-color); padding: 1.5rem; text-align: center; transition: transform 0.3s ease; }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+    .product-image { width: 100%; height: 250px; background-color: var(--bg-color); margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; color: #999; font-style: italic; }
+    .product-title { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .product-price { color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 1.5rem; }
+    .add-to-bag { border: 1px solid var(--text-main); padding: 0.8rem 1.5rem; width: 100%; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; }
+    .add-to-bag:hover { background-color: var(--text-main); color: #fff; }
+
+    /* --- About --- */
+    .about-content { max-width: 800px; margin: 0 auto; text-align: center; padding: 4rem 0; }
+    .about-content h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
 
     /* --- Cart Drawer --- */
-    .cart-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.4);
-      z-index: 1000;
+    .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; }
+    .drawer {
+      position: fixed; top: 0; right: -400px; width: 400px; max-width: 100%; height: 100vh;
+      background-color: var(--bg-color); box-shadow: -5px 0 15px rgba(0,0,0,0.1); z-index: 1001;
+      transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column;
     }
+    .drawer.open { right: 0; }
+    .drawer-header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border-bottom: 1px solid var(--border-color); }
+    .drawer-content { flex: 1; padding: 1.5rem; overflow-y: auto; }
+    .drawer-footer { padding: 1.5rem; border-top: 1px solid var(--border-color); background: #fff; }
+    .close-btn { font-size: 2rem; line-height: 1; }
 
-    .cart-drawer {
-      position: fixed;
-      top: 0;
-      right: -400px; /* Hidden off-screen */
-      width: 400px;
-      max-width: 100%;
-      height: 100vh;
-      background-color: var(--bg-color);
-      box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-      z-index: 1001;
-      transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-      display: flex;
-      flex-direction: column;
-    }
+    /* Cart Specifics */
+    .cart-item { display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
+    .cart-total-row { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem; }
 
-    .cart-drawer.open {
-      right: 0;
+    /* --- Modals (Checkout & Invoice) --- */
+    .modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #fff; padding: 2rem; width: 90%; max-width: 500px; z-index: 1002;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--border-color);
     }
-
-    .cart-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem;
-      border-bottom: 1px solid var(--border-color);
+    .form-group { margin-bottom: 1rem; text-align: left; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); font-family: var(--font-body);
     }
-
-    .cart-header h2 {
-      font-size: 1.8rem;
-    }
-
-    .close-cart {
-      font-size: 2rem;
-      font-family: var(--font-body);
-      line-height: 1;
-    }
-
-    .cart-items {
-      flex: 1;
-      padding: 1.5rem;
-      overflow-y: auto;
-      text-align: center;
-      color: #777;
-    }
-
-    .cart-footer {
-      padding: 1.5rem;
-      border-top: 1px solid var(--border-color);
-      background: #fff;
-    }
-
-    .checkout-upi {
-      text-align: center;
-      padding: 1rem;
-      border: 1px dashed var(--accent-gold);
-      background-color: var(--bg-color);
-    }
+    .qr-box { text-align: center; padding: 1rem; border: 1px dashed var(--accent-gold); background: var(--bg-color); margin-bottom: 1.5rem; }
     
-    .checkout-upi p {
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
+    /* Invoice Specifics */
+    .invoice-header { text-align: center; border-bottom: 2px solid var(--text-main); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+    .invoice-details { margin-bottom: 1.5rem; font-size: 0.9rem; color: #555; }
+    .invoice-table { width: 100%; text-align: left; border-collapse: collapse; margin-bottom: 1.5rem; }
+    .invoice-table th, .invoice-table td { padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
+    .invoice-table th { text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
 
-    .qr-placeholder {
-      width: 120px;
-      height: 120px;
-      background-color: #eee;
-      margin: 0 auto 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      color: #999;
-    }
-
-    /* --- Mobile Responsiveness --- */
-    @media (max-width: 768px) {
-      .nav-tabs {
-        display: none; /* In a full build, add a hamburger menu here */
-      }
-      .features {
-        flex-direction: column;
-        gap: 2rem;
-      }
-      .hero h1 {
-        font-size: 2.5rem;
-      }
+    @media print {
+      body * { visibility: hidden; }
+      #invoiceModal, #invoiceModal * { visibility: visible; }
+      #invoiceModal { position: absolute; left: 0; top: 0; transform: none; width: 100%; box-shadow: none; border: none; padding: 0; }
+      .no-print { display: none !important; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header & Navigation -->
-  <header>
+  <!-- Header -->
+  <header class="no-print">
     <div class="logo">Marzi</div>
-    
-    <!-- Tab Navigation -->
     <nav class="nav-tabs">
       <button class="tab-button active" onclick="showPanel('homePanel', event)">Home</button>
       <button class="tab-button" onclick="showPanel('shopPanel', event)">Shop</button>
       <button class="tab-button" onclick="showPanel('aboutPanel', event)">About</button>
     </nav>
-    
-    <!-- Cart Icon -->
-    <button class="cart-toggle" onclick="openCart()">
+    <button class="cart-toggle" onclick="toggleCart(true)">
       Bag <span class="cart-badge" id="cartCount">0</span>
     </button>
   </header>
 
-  <!-- Main Views container -->
-  <main>
-    
-    <!-- 1. HOME PANEL -->
+  <!-- Main Content -->
+  <main class="no-print">
+    <!-- Home -->
     <section id="homePanel" class="tab-panel" style="display: block;">
       <div class="hero">
         <h1>Elegance in Every Detail</h1>
         <p>Discover our new handcrafted collection, blending traditional artistry with modern minimalism.</p>
-        <button class="cta-button" onclick="showPanel('shopPanel', {currentTarget: document.querySelectorAll('.tab-button')[1]})">
-          Explore Collection
-        </button>
-      </div>
-      
-      <div class="features">
-        <div class="feature-item">
-          <h3>Ethically Sourced</h3>
-          <p>Conflict-free diamonds and recycled gold.</p>
-        </div>
-        <div class="feature-item">
-          <h3>Handcrafted</h3>
-          <p>Forged by master artisans in our studio.</p>
-        </div>
-        <div class="feature-item">
-          <h3>Lifetime Care</h3>
-          <p>Complimentary cleaning and maintenance.</p>
-        </div>
+        <button class="btn-solid" onclick="showPanel('shopPanel', {currentTarget: document.querySelectorAll('.tab-button')[1]})">Explore Collection</button>
       </div>
     </section>
 
-    <!-- 2. SHOP PANEL -->
+    <!-- Shop -->
     <section id="shopPanel" class="tab-panel">
-      <div class="shop-header">
-        <h2>The Core Collection</h2>
-      </div>
-      
+      <div class="shop-header"><h2>The Core Collection</h2></div>
       <div class="shop-grid">
-        <!-- Product 1 -->
         <div class="product-card">
-          <div class="product-image">[ Product Image ]</div>
+          <div class="product-image">[ Image ]</div>
           <h3 class="product-title">Lumina Pearl Necklace</h3>
           <p class="product-price">₹12,500</p>
           <button class="add-to-bag">Add to Bag</button>
         </div>
-        
-        <!-- Product 2 -->
         <div class="product-card">
-          <div class="product-image">[ Product Image ]</div>
+          <div class="product-image">[ Image ]</div>
           <h3 class="product-title">Aura Gold Hoops</h3>
           <p class="product-price">₹8,900</p>
           <button class="add-to-bag">Add to Bag</button>
         </div>
-        
-        <!-- Product 3 -->
         <div class="product-card">
-          <div class="product-image">[ Product Image ]</div>
+          <div class="product-image">[ Image ]</div>
           <h3 class="product-title">Solstice Diamond Ring</h3>
           <p class="product-price">₹34,000</p>
           <button class="add-to-bag">Add to Bag</button>
         </div>
-        
-        <!-- Product 4 -->
-        <div class="product-card">
-          <div class="product-image">[ Product Image ]</div>
-          <h3 class="product-title">Vesper Chain Bracelet</h3>
-          <p class="product-price">₹15,200</p>
-          <button class="add-to-bag">Add to Bag</button>
-        </div>
       </div>
     </section>
 
-    <!-- 3. ABOUT PANEL -->
+    <!-- About -->
     <section id="aboutPanel" class="tab-panel">
       <div class="about-content">
         <h2>Our Story</h2>
-        <p>Founded on the belief that everyday jewelry should be nothing short of extraordinary, Marzi was created for the modern connoisseur.</p>
-        <p>We work exclusively with 18k solid gold and ethically sourced gemstones to create pieces that aren't just worn for a season, but cherished for a lifetime. Every piece tells a story of meticulous craftsmanship and timeless design.</p>
+        <p>We work exclusively with 18k solid gold and ethically sourced gemstones to create pieces cherished for a lifetime.</p>
       </div>
     </section>
-
   </main>
 
-  <!-- Cart Overlay & Drawer -->
-  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <!-- Overlays & Drawers -->
+  <div class="overlay" id="mainOverlay" onclick="closeAll()"></div>
   
-  <aside class="cart-drawer" id="cartDrawer">
-    <div class="cart-header">
+  <!-- Cart Drawer -->
+  <aside class="drawer" id="cartDrawer">
+    <div class="drawer-header">
       <h2>Your Bag</h2>
-      <button class="close-cart" onclick="closeCart()">&times;</button>
+      <button class="close-btn" onclick="toggleCart(false)">&times;</button>
     </div>
-    
-    <div class="cart-items" id="cartItems">
-      <p style="margin-top: 2rem;">Your bag is currently empty.</p>
-      <!-- JavaScript would inject actual items here -->
+    <div class="drawer-content" id="cartItems">
+      <p style="margin-top: 2rem; text-align: center; color: #777;">Your bag is empty.</p>
     </div>
-    
-    <div class="cart-footer">
-      <div class="checkout-upi">
-        <p><strong>Fast Checkout with UPI</strong></p>
-        <div class="qr-placeholder">QR Code</div>
-        <p>Scan to pay seamlessly via any UPI app</p>
+    <div class="drawer-footer" id="cartFooter" style="display: none;">
+      <div class="cart-total-row">
+        <span>Subtotal</span>
+        <span id="cartTotalDisplay">₹0</span>
       </div>
+      <button class="btn-solid" onclick="openCheckout()">Proceed to Checkout</button>
     </div>
   </aside>
 
+  <!-- Checkout Modal -->
+  <div class="modal" id="checkoutModal">
+    <div class="drawer-header" style="padding: 0 0 1rem 0; margin-bottom: 1rem;">
+      <h2>Checkout</h2>
+      <button class="close-btn" onclick="closeAll()">&times;</button>
+    </div>
+    <form id="checkoutForm" onsubmit="processPayment(event)">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="custName" required placeholder="Jane Doe">
+      </div>
+      <div class="form-group">
+        <label>Shipping Address</label>
+        <textarea id="custAddress" rows="2" required placeholder="123 Jewelry Lane, City"></textarea>
+      </div>
+      
+      <div class="qr-box">
+        <p style="font-weight: 500; margin-bottom: 0.5rem;">Pay <span id="checkoutTotal" style="color: var(--accent-gold);"></span> via UPI</p>
+        <div style="width: 100px; height: 100px; background: #eee; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #999;">[ QR CODE ]</div>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Scan with GPay, PhonePe, or Paytm</p>
+      </div>
+      
+      <button type="submit" class="btn-solid">Complete Payment</button>
+    </form>
+  </div>
+
+  <!-- Invoice Modal -->
+  <div class="modal" id="invoiceModal" style="max-width: 600px;">
+    <div class="no-print" style="text-align: right; margin-bottom: 1rem;">
+      <button class="close-btn" onclick="closeAll()">&times;</button>
+    </div>
+    
+    <div class="invoice-header">
+      <h1 style="font-size: 2rem; margin-bottom: 0.5rem; text-transform: uppercase;">Marzi</h1>
+      <p style="color: var(--accent-gold); letter-spacing: 2px;">TAX INVOICE</p>
+    </div>
+
+    <div class="invoice-details" style="display: flex; justify-content: space-between;">
+      <div>
+        <strong>Billed To:</strong><br>
+        <span id="invName"></span><br>
+        <span id="invAddress"></span>
+      </div>
+      <div style="text-align: right;">
+        <strong>Order ID:</strong> <span id="invOrderNo"></span><br>
+        <strong>Date:</strong> <span id="invDate"></span><br>
+        <strong>Status:</strong> <span style="color: green;">PAID (UPI)</span>
+      </div>
+    </div>
+
+    <table class="invoice-table">
+      <thead>
+        <tr>
+          <th>Item Description</th>
+          <th style="text-align: right;">Total</th>
+        </tr>
+      </thead>
+      <tbody id="invItems">
+        <!-- Injected via JS -->
+      </tbody>
+    </table>
+
+    <div style="text-align: right; font-size: 1.2rem; font-weight: bold;">
+      Total Paid: <span id="invTotal" style="color: var(--accent-gold);"></span>
+    </div>
+
+    <div class="no-print" style="margin-top: 2rem; text-align: center;">
+      <button class="btn-solid" onclick="window.print()">Print / Save PDF</button>
+    </div>
+  </div>
+
+
   <!-- --- JavaScript Logic --- -->
   <script>
-    // 1. Tabbed Navigation Logic
+    // --- 1. Navigation ---
     function showPanel(panelId, event) {
-      // Hide all panels
-      const panels = document.querySelectorAll('.tab-panel');
-      panels.forEach(panel => {
-        panel.style.display = 'none';
-      });
-
-      // Remove active class from buttons
-      const buttons = document.querySelectorAll('.tab-button');
-      buttons.forEach(button => {
-        button.classList.remove('active');
-      });
-
-      // Show target panel
-      const targetPanel = document.getElementById(panelId);
-      if (targetPanel) {
-        targetPanel.style.display = 'block';
-      }
-      
-      // Add active state to clicked tab
-      if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
-      }
+      document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+      document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+      document.getElementById(panelId).style.display = 'block';
+      if (event && event.currentTarget) event.currentTarget.classList.add('active');
     }
 
-    // 2. Cart Drawer Toggle
-    const cartDrawer = document.getElementById('cartDrawer');
-    const cartOverlay = document.getElementById('cartOverlay');
-
-    function openCart() {
-      if (cartDrawer) cartDrawer.classList.add('open');
-      if (cartOverlay) cartOverlay.style.display = 'block';
-    }
-
-    function closeCart() {
-      if (cartDrawer) cartDrawer.classList.remove('open');
-      if (cartOverlay) cartOverlay.style.display = 'none';
-    }
-
-    // 3. Add to Bag & Cart Count
-    let cartItemCount = 0;
-    const cartCountDisplay = document.getElementById('cartCount');
-    const cartItemsContainer = document.getElementById('cartItems');
-    const addToBagButtons = document.querySelectorAll('.add-to-bag');
-
-    addToBagButtons.forEach(button => {
-      button.addEventListener('click', (e) => {
-        cartItemCount++;
+    // --- 2. Cart Logic ---
+    let cart = [];
+    
+    document.querySelectorAll('.add-to-bag').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const card = e.target.closest('.product-card');
+        const title = card.querySelector('.product-title').textContent;
+        const priceText = card.querySelector('.product-price').textContent;
+        // Convert "₹12,500" to number 12500
+        const priceNum = parseInt(priceText.replace(/[^\d]/g, ''));
         
-        // Update badge
-        if (cartCountDisplay) {
-          cartCountDisplay.textContent = cartItemCount;
-        }
-
-        // Basic UI update in the drawer
-        if (cartItemCount === 1) {
-          cartItemsContainer.innerHTML = ''; // Clear "empty" message on first add
-        }
-        
-        // Get product details (traversing DOM to find the title)
-        const productCard = e.target.closest('.product-card');
-        const productTitle = productCard.querySelector('.product-title').textContent;
-        const productPrice = productCard.querySelector('.product-price').textContent;
-
-        // Add item to drawer visually
-        const itemHtml = `
-          <div style="display: flex; justify-content: space-between; text-align: left; margin-bottom: 1rem; border-bottom: 1px solid #E6E1D6; padding-bottom: 1rem;">
-            <div>
-              <h4 style="color: #2A2825;">${productTitle}</h4>
-              <p style="font-size: 0.9rem;">Qty: 1</p>
-            </div>
-            <div style="color: #C5A059; font-weight: 500;">
-              ${productPrice}
-            </div>
-          </div>
-        `;
-        cartItemsContainer.insertAdjacentHTML('beforeend', itemHtml);
-        
-        // Open the drawer to confirm addition
-        openCart();
+        cart.push({ title, price: priceNum, priceText });
+        updateCart();
+        toggleCart(true);
       });
     });
-  </script>
 
+    function updateCart() {
+      const container = document.getElementById('cartItems');
+      const footer = document.getElementById('cartFooter');
+      document.getElementById('cartCount').textContent = cart.length;
+
+      if (cart.length === 0) {
+        container.innerHTML = '<p style="margin-top: 2rem; text-align: center; color: #777;">Your bag is empty.</p>';
+        footer.style.display = 'none';
+        return;
+      }
+
+      footer.style.display = 'block';
+      container.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price;
+        container.innerHTML += `
+          <div class="cart-item">
+            <div>
+              <h4 style="color: var(--text-main);">${item.title}</h4>
+              <button onclick="removeItem(${index})" style="font-size: 0.8rem; color: red; margin-top: 5px;">Remove</button>
+            </div>
+            <div style="color: var(--accent-gold); font-weight: 500;">${item.priceText}</div>
+          </div>
+        `;
+      });
+
+      const formattedTotal = '₹' + total.toLocaleString('en-IN');
+      document.getElementById('cartTotalDisplay').textContent = formattedTotal;
+      document.getElementById('checkoutTotal').textContent = formattedTotal;
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    // --- 3. Modals & Overlays ---
+    function toggleCart(show) {
+      document.getElementById('cartDrawer').classList.toggle('open', show);
+      document.getElementById('mainOverlay').style.display = show ? 'block' : 'none';
+    }
+
+    function closeAll() {
+      toggleCart(false);
+      document.getElementById('checkoutModal').style.display = 'none';
+      document.getElementById('invoiceModal').style.display = 'none';
+      document.getElementById('mainOverlay').style.display = 'none';
+    }
+
+    function openCheckout() {
+      toggleCart(false);
+      document.getElementById('mainOverlay').style.display = 'block';
+      document.getElementById('checkoutModal').style.display = 'block';
+    }
+
+    // --- 4. Payment & Invoice Generation ---
+    function processPayment(e) {
+      e.preventDefault(); // Prevent page reload
+      
+      // Get form details
+      const name = document.getElementById('custName').value;
+      const address = document.getElementById('custAddress').value;
+      
+      // Calculate total
+      let total = 0;
+      let itemsHtml = '';
+      cart.forEach(item => {
+        total += item.price;
+        itemsHtml += `
+          <tr>
+            <td>${item.title}</td>
+            <td style="text-align: right;">${item.priceText}</td>
+          </tr>
+        `;
+      });
+      const formattedTotal = '₹' + total.toLocaleString('en-IN');
+
+      // Populate Invoice
+      document.getElementById('invName').textContent = name;
+      document.getElementById('invAddress').textContent = address;
+      document.getElementById('invOrderNo').textContent = 'MZ-' + Math.floor(100000 + Math.random() * 900000);
+      
+      const today = new Date();
+      document.getElementById('invDate').textContent = today.toLocaleDateString('en-IN');
+      
+      document.getElementById('invItems').innerHTML = itemsHtml;
+      document.getElementById('invTotal').textContent = formattedTotal;
+
+      // Swap Modals
+      document.getElementById('checkoutModal').style.display = 'none';
+      document.getElementById('invoiceModal').style.display = 'block';
+
+      // Clear Cart after successful order
+      cart = [];
+      updateCart();
+      document.getElementById('checkoutForm').reset();
+    }
+  </script>
 </body>
 </html>
