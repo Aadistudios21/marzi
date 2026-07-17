@@ -63,15 +63,24 @@
     .features { display: flex; justify-content: space-around; margin-top: 4rem; border-top: 1px solid var(--border-color); padding-top: 3rem; flex-wrap: wrap; gap: 2rem;}
     .feature-item { text-align: center; flex: 1; min-width: 250px; padding: 0 1rem; }
 
-    /* --- Grids & Products --- */
+    /* --- Grids, Filters & Products --- */
     .section-header { text-align: center; margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto; }
     .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
-    .section-header p { font-size: 1.1rem; color: #555; }
+    .section-header p { font-size: 1.1rem; color: #555; margin-bottom: 2rem; }
     
+    .toolbar { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
+    .toolbar input, .toolbar select { padding: 0.8rem 1rem; border: 1px solid var(--border-color); font-family: var(--font-body); width: 250px; outline: none; background: #fff; }
+    .toolbar input:focus, .toolbar select:focus { border-color: var(--accent-gold); }
+
     .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
-    .product-card { background: #fff; border: 1px solid var(--border-color); padding: 1.5rem; text-align: center; transition: transform 0.3s ease; }
+    .product-card { background: #fff; border: 1px solid var(--border-color); padding: 1.5rem; text-align: center; transition: transform 0.3s ease; position: relative; }
     .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
     
+    /* Wishlist Heart */
+    .wishlist-btn { position: absolute; top: 25px; right: 25px; font-size: 1.5rem; color: #ccc; cursor: pointer; z-index: 2; transition: transform 0.2s, color 0.3s; }
+    .wishlist-btn:hover { transform: scale(1.1); }
+    .wishlist-btn.liked { color: #e74c3c; }
+
     .product-image { width: 100%; height: 250px; background-color: var(--bg-color); margin-bottom: 1rem; overflow: hidden; }
     .product-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
     .product-card:hover .product-image img { transform: scale(1.05); }
@@ -80,22 +89,6 @@
     .product-price { color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 1.5rem; font-weight: 500; }
     .add-to-bag { border: 1px solid var(--text-main); padding: 0.8rem 1.5rem; width: 100%; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; }
     .add-to-bag:hover { background-color: var(--text-main); color: #fff; }
-
-    /* --- About --- */
-    .about-content { max-width: 800px; margin: 0 auto; text-align: center; padding: 3rem 0; }
-    .about-content h2 { font-size: 3rem; margin-bottom: 2rem; }
-    .about-content p { font-size: 1.2rem; margin-bottom: 1.5rem; text-align: justify; text-align-last: center; }
-    .about-quote { font-family: var(--font-heading); font-size: 1.8rem; font-style: italic; color: var(--accent-gold); margin: 3rem 0; padding: 2rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
-
-    /* --- Reviews --- */
-    .review-card { background: #fff; border: 1px solid var(--border-color); padding: 1.5rem; text-align: left; transition: transform 0.3s ease; display: flex; flex-direction: column; }
-    .review-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-    .stars { color: var(--accent-gold); margin-bottom: 0.5rem; letter-spacing: 2px; font-size: 1.2rem; }
-    .reviewer-name { font-weight: 600; margin-bottom: 0.5rem; font-family: var(--font-heading); font-size: 1.3rem; }
-    .review-text { color: #555; font-size: 0.95rem; font-style: italic; flex-grow: 1; }
-    
-    .add-review-container { max-width: 600px; margin: 0 auto 3rem auto; background: #fff; padding: 2rem; border: 1px solid var(--border-color); display: none; animation: fadeIn 0.3s ease; }
-    .add-review-container h3 { margin-bottom: 1rem; font-size: 1.5rem; }
 
     /* --- Cart Drawer --- */
     .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; }
@@ -107,23 +100,63 @@
     .close-btn { font-size: 2rem; line-height: 1; }
     .cart-item { display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
     .cart-total-row { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem; }
+    
+    /* Promo Code */
+    .promo-box { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .promo-box input { flex: 1; padding: 0.8rem; border: 1px solid var(--border-color); outline: none; font-family: var(--font-body); }
+    .promo-box button { background: var(--text-main); color: #fff; padding: 0 1rem; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; }
+    .discount-applied { color: #0b9e54; font-size: 0.9rem; margin-top: -1rem; margin-bottom: 1rem; display: none; }
 
     /* --- Modals & Invoices --- */
     .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 2rem; width: 90%; max-width: 500px; z-index: 1002; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--border-color); max-height: 90vh; overflow-y: auto; }
+    
+    /* Quick View Modal Specifics */
+    #quickViewModal { max-width: 700px; }
+    .qv-content { display: flex; gap: 2rem; align-items: center;}
+    .qv-image { flex: 1; background: var(--bg-color); height: 300px; display: flex; align-items: center; justify-content: center; }
+    .qv-image img { max-width: 100%; max-height: 100%; object-fit: cover; }
+    .qv-details { flex: 1; text-align: left; }
+    .qv-details h3 { font-size: 2rem; margin-bottom: 0.5rem; }
+    .qv-details p { color: var(--accent-gold); font-size: 1.2rem; font-weight: 500; margin-bottom: 1.5rem; }
+    @media(max-width: 768px) { .qv-content { flex-direction: column; } .qv-image { height: 200px; width: 100%;} }
+
     .form-group { margin-bottom: 1rem; text-align: left; }
     .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
     .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); font-family: var(--font-body); outline: none; }
-    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent-gold); }
     
     .qr-box { text-align: center; padding: 1.5rem 1rem; border: 1px dashed var(--accent-gold); background: var(--bg-color); margin-bottom: 1.5rem; }
     .upi-btn { background-color: #0b9e54; color: white; padding: 1rem; width: 100%; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0; border-radius: 4px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.3s; }
-    .upi-btn:hover { background-color: #098144; }
-
+    
     .invoice-header { text-align: center; border-bottom: 2px solid var(--text-main); padding-bottom: 1rem; margin-bottom: 1.5rem; }
     .invoice-details { margin-bottom: 1.5rem; font-size: 0.9rem; color: #555; display: flex; justify-content: space-between; }
     .invoice-table { width: 100%; text-align: left; border-collapse: collapse; margin-bottom: 1.5rem; }
     .invoice-table th, .invoice-table td { padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
-    .invoice-table th { text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
+    
+    /* --- Premium Toast Notification --- */
+    .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--text-main); color: #fff; padding: 1rem 2rem; border-radius: 4px; z-index: 3000; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* --- Live Sales Social Proof --- */
+    .social-proof { position: fixed; bottom: 30px; left: -350px; background: #fff; padding: 1rem; box-shadow: 0 5px 20px rgba(0,0,0,0.15); border-left: 3px solid var(--accent-gold); z-index: 999; transition: left 0.5s ease; font-size: 0.9rem; width: 300px; display: flex; align-items: center; gap: 15px; border-radius: 0 4px 4px 0; }
+    .social-proof.show { left: 0; }
+    .social-proof img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+
+    /* --- WhatsApp Floating Button --- */
+    .whatsapp-btn { position: fixed; bottom: 30px; right: 30px; background: #25D366; color: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 998; transition: transform 0.3s; }
+    .whatsapp-btn:hover { transform: scale(1.1); }
+    .whatsapp-btn svg { width: 35px; height: 35px; fill: currentColor; }
+
+    /* --- Premium Footer --- */
+    footer { background: var(--text-main); color: #FDFBF7; padding: 5rem 5% 2rem; border-top: 1px solid var(--accent-gold); }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
+    .footer-col h4 { font-family: var(--font-heading); font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 1.5rem; letter-spacing: 1px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.8rem; font-size: 0.95rem; color: #ccc; cursor: pointer; transition: color 0.3s; }
+    .footer-col ul li:hover { color: var(--accent-gold); }
+    .footer-newsletter input { width: 100%; padding: 1rem; border: 1px solid #555; background: transparent; color: #fff; margin-bottom: 1rem; font-family: var(--font-body); outline: none; }
+    .footer-newsletter button { width: 100%; background: var(--accent-gold); color: #fff; padding: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+    .footer-newsletter button:hover { background: var(--accent-hover); }
+    .footer-bottom { text-align: center; border-top: 1px solid #444; padding-top: 2rem; font-size: 0.9rem; color: #888; letter-spacing: 1px; }
 
     @media print {
       body * { visibility: hidden; }
@@ -135,6 +168,23 @@
 </head>
 <body>
 
+  <!-- Toast Notification -->
+  <div class="toast" id="toastBox">Item added to bag!</div>
+
+  <!-- Social Proof Popup -->
+  <div class="social-proof" id="socialProof">
+    <img src="https://images.unsplash.com/photo-1599643478514-4a4e06b524cb?auto=format&fit=crop&w=100&q=80" id="spImg" alt="Jewelry">
+    <div>
+      <p style="margin: 0; font-size: 0.8rem; color: #777;" id="spLocation">Someone in Mumbai</p>
+      <p style="margin: 0; font-weight: 500;" id="spItem">Purchased a Pearl Necklace</p>
+    </div>
+  </div>
+
+  <!-- WhatsApp Button -->
+  <a href="https://wa.me/919876543210?text=Hello!%20I%20would%20like%20to%20speak%20with%20a%20Marzi%20stylist." target="_blank" class="whatsapp-btn" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.571-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+  </a>
+
   <!-- Header -->
   <header class="no-print">
     <div class="logo">Marzi</div>
@@ -143,7 +193,6 @@
       <button class="tab-button" onclick="showPanel('shopPanel', event)">Core</button>
       <button class="tab-button" onclick="showPanel('baddiePanel', event)">Baddie</button>
       <button class="tab-button" onclick="showPanel('corpPanel', event)">Corporate</button>
-      <button class="tab-button" onclick="showPanel('reviewsPanel', event)">Reviews</button>
       <button class="tab-button" onclick="showPanel('aboutPanel', event)">About</button>
     </nav>
     <button class="cart-toggle" onclick="toggleCart(true)">
@@ -153,7 +202,6 @@
 
   <!-- Main Content -->
   <main class="no-print">
-    
     <!-- Home -->
     <section id="homePanel" class="tab-panel" style="display: block;">
       <div class="hero">
@@ -181,7 +229,17 @@
     <section id="shopPanel" class="tab-panel">
       <div class="section-header">
         <h2>The Core Collection</h2>
-        <p>Timeless, minimalist pieces designed for everyday elegance. This is the foundation of the Marzi aesthetic.</p>
+        <p>Timeless, minimalist pieces designed for everyday elegance.</p>
+        
+        <!-- Search & Filter Toolbar -->
+        <div class="toolbar">
+          <input type="text" id="searchInput" placeholder="Search jewelry (e.g., Pearl)..." onkeyup="filterProducts()">
+          <select id="sortSelect" onchange="filterProducts()">
+            <option value="default">Sort by: Default</option>
+            <option value="lowHigh">Price: Low to High</option>
+            <option value="highLow">Price: High to Low</option>
+          </select>
+        </div>
       </div>
       <div class="shop-grid" id="shopGrid"></div>
     </section>
@@ -190,7 +248,7 @@
     <section id="baddiePanel" class="tab-panel">
       <div class="section-header">
         <h2>Baddie Collection</h2>
-        <p>Unapologetic. Bold. Iconic. Chunky gold, iced-out links, and statement pieces made to steal the room.</p>
+        <p>Unapologetic. Bold. Iconic. Chunky gold, iced-out links, and statement pieces.</p>
       </div>
       <div class="shop-grid" id="baddieGrid"></div>
     </section>
@@ -199,71 +257,60 @@
     <section id="corpPanel" class="tab-panel">
       <div class="section-header">
         <h2>Corporate Gifting</h2>
-        <p>Elevate your professional relationships. Bespoke, sophisticated pieces perfect for milestones, executive gifts, and client appreciation.</p>
+        <p>Bespoke, sophisticated pieces perfect for milestones and executive gifts.</p>
       </div>
       <div class="shop-grid" id="corpGrid"></div>
-    </section>
-    
-    <!-- Reviews Tab -->
-    <section id="reviewsPanel" class="tab-panel">
-      <div class="section-header">
-        <h2>Client Testimonials</h2>
-        <p>Hear from our community of modern heirloom collectors.</p>
-        <button class="btn-solid" style="margin-top: 1.5rem; padding: 0.8rem 1.5rem;" onclick="toggleReviewForm()">Write a Review</button>
-      </div>
-
-      <!-- Add Review Form -->
-      <div class="add-review-container" id="reviewFormContainer">
-        <h3>Share Your Marzi Experience</h3>
-        <form id="addReviewForm" onsubmit="submitReview(event)">
-          <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" id="revName" required placeholder="Jane Doe">
-          </div>
-          <div class="form-group">
-            <label>Rating</label>
-            <select id="revRating">
-              <option value="5">★★★★★ (5 Stars)</option>
-              <option value="4">★★★★☆ (4 Stars)</option>
-              <option value="3">★★★☆☆ (3 Stars)</option>
-              <option value="2">★★☆☆☆ (2 Stars)</option>
-              <option value="1">★☆☆☆☆ (1 Star)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Your Review</label>
-            <textarea id="revText" rows="3" required placeholder="Tell us what you loved about your piece..."></textarea>
-          </div>
-          <div style="display: flex; gap: 1rem;">
-            <button type="submit" class="btn-solid">Submit Review</button>
-            <button type="button" class="btn-solid" style="background: transparent; color: var(--text-main); border: 1px solid var(--border-color);" onclick="toggleReviewForm()">Cancel</button>
-          </div>
-        </form>
-      </div>
-
-      <!-- Reviews Grid (Populated by JS) -->
-      <div class="shop-grid" id="reviewsGrid"></div>
     </section>
 
     <!-- About / Brand Story -->
     <section id="aboutPanel" class="tab-panel">
-      <div class="about-content">
-        <h2>The Legend of Marzi</h2>
-        <p>It began with a forgotten velvet box in a dusty antique shop in Milan. Inside lay a single, imperfect gold ring—heavy, weathered, and etched with the initials <strong>"M.Z."</strong> It wasn't just a piece of metal; it was a relic of a love story, surviving decades of history and holding secrets only the gold could remember.</p>
-        
-        <p>Our founder, Aria, captivated by the weight and soul of that ring, bought it immediately. She realized that modern jewelry had lost its soul—trading deep, generational heritage for mass production and fleeting trends.</p>
-
-        <div class="about-quote">
+      <div class="about-content" style="max-width: 800px; margin: 0 auto; text-align: center; padding: 3rem 0;">
+        <h2 style="font-size: 3rem; margin-bottom: 2rem;">The Legend of Marzi</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 1.5rem; text-align: justify; text-align-last: center;">It began with a forgotten velvet box in a dusty antique shop in Milan. Inside lay a single, imperfect gold ring—heavy, weathered, and etched with the initials <strong>"M.Z."</strong> It wasn't just a piece of metal; it was a relic of a love story.</p>
+        <div style="font-family: var(--font-heading); font-size: 1.8rem; font-style: italic; color: var(--accent-gold); margin: 3rem 0; padding: 2rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
           "Jewelry shouldn't just decorate you. It should define you, outlive you, and tell your story when you no longer can."
         </div>
-
-        <p>She created <em>Marzi</em> to bring back the era of the modern heirloom. Every piece we forge in our studio is designed to be an artifact. We blend traditional hand-hammered techniques from the 1920s with bold, contemporary silhouettes for today's wearer.</p>
-        
-        <p>Whether it is the quiet luxury of our Core Collection, the fierce, unapologetic energy of our 'Baddie' aesthetic, or our bespoke Corporate gifts honoring great achievements, Marzi is never just worn.</p>
-        <p><strong>It is inherited.</strong></p>
+        <p style="font-size: 1.2rem; text-align: justify; text-align-last: center;">She created <em>Marzi</em> to bring back the era of the modern heirloom. Every piece we forge in our studio is designed to be an artifact.</p>
       </div>
     </section>
   </main>
+
+  <!-- Premium Footer -->
+  <footer class="no-print">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Marzi</h4>
+        <p style="font-size: 0.95rem; color: #ccc; line-height: 1.8;">Forging modern heirlooms.<br>Ethically sourced, masterfully crafted.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Customer Care</h4>
+        <ul>
+          <li>Shipping & Returns</li>
+          <li>Jewelry Care Guide</li>
+          <li>Ring Size Chart</li>
+          <li>Lifetime Warranty</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About Us</h4>
+        <ul>
+          <li>Our Story</li>
+          <li>Sustainability</li>
+          <li>Corporate Gifting</li>
+          <li>Contact Us</li>
+        </ul>
+      </div>
+      <div class="footer-col footer-newsletter">
+        <h4>Join the Collector's Club</h4>
+        <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 1rem;">Unlock 10% off your first order (Code: MARZI10).</p>
+        <input type="email" placeholder="Enter your email address">
+        <button type="button" onclick="alert('Subscribed to Marzi newsletter!')">Subscribe</button>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2024 Marzi Jewelry. All rights reserved. Built for elegance.
+    </div>
+  </footer>
 
   <!-- Overlays & Drawers -->
   <div class="overlay" id="mainOverlay" onclick="closeAll()"></div>
@@ -277,6 +324,14 @@
       <p style="margin-top: 2rem; text-align: center; color: #777;">Your bag is empty.</p>
     </div>
     <div class="drawer-footer" id="cartFooter" style="display: none;">
+      
+      <!-- Promo Code Section -->
+      <div class="promo-box">
+        <input type="text" id="promoCodeInput" placeholder="Promo Code (Try MARZI10)">
+        <button onclick="applyPromo()">Apply</button>
+      </div>
+      <div class="discount-applied" id="discountMsg">10% Discount Applied!</div>
+
       <div class="cart-total-row">
         <span>Subtotal</span>
         <span id="cartTotalDisplay">₹0</span>
@@ -284,6 +339,34 @@
       <button class="btn-solid" onclick="openCheckout()">Proceed to Checkout</button>
     </div>
   </aside>
+
+  <!-- Quick View Modal -->
+  <div class="modal" id="quickViewModal">
+    <div class="drawer-header" style="padding: 0 0 1rem 0; margin-bottom: 1rem; border-bottom: none;">
+      <h2 style="visibility: hidden;">Details</h2>
+      <button class="close-btn" onclick="closeAll()">&times;</button>
+    </div>
+    <div class="qv-content">
+      <div class="qv-image"><img id="qvImg" src="" alt="Product"></div>
+      <div class="qv-details">
+        <h3 id="qvTitle">Product Name</h3>
+        <p id="qvPrice">₹0</p>
+        <div class="form-group">
+          <label>Select Variant / Size</label>
+          <select id="qvSize">
+            <option>Standard Size</option>
+            <option>Size 6</option>
+            <option>Size 7</option>
+            <option>Size 8</option>
+            <option>Custom Fitting</option>
+          </select>
+        </div>
+        <!-- Hidden inputs to store raw data -->
+        <input type="hidden" id="qvRawPrice">
+        <button class="btn-solid" onclick="confirmAddToBag()">Confirm Add To Bag</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Checkout Modal -->
   <div class="modal" id="checkoutModal">
@@ -305,17 +388,10 @@
       <div class="qr-box">
         <p style="font-weight: 600; font-size: 1.1rem; margin-bottom: 0.2rem;">Pay <span id="checkoutTotal" style="color: var(--accent-gold);"></span> via UPI</p>
         <p style="font-size: 0.9rem; color: #555;">UPI ID: <strong>ektabhalerao29@ybl</strong></p>
-        
-        <button type="button" class="upi-btn" id="upiAppBtn">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-          Open UPI App to Pay
-        </button>
-
+        <button type="button" class="upi-btn" id="upiAppBtn">Open UPI App to Pay</button>
         <p style="font-size: 0.8rem; color: #999; margin: 1rem 0 0.5rem;">Or scan QR code if on desktop:</p>
-        <div style="width: 100px; height: 100px; background: #eee; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #999;">[ QR CODE ]</div>
+        <div style="width: 100px; height: 100px; background: #eee; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #999;">[ QR ]</div>
       </div>
-      
-      <p style="font-size: 0.8rem; text-align: center; margin-bottom: 1rem; color: #777;">Once payment is successful via your UPI app, click below to generate your invoice.</p>
       <button type="submit" class="btn-solid">Confirm Payment & Get Invoice</button>
     </form>
   </div>
@@ -325,40 +401,27 @@
     <div class="no-print" style="text-align: right; margin-bottom: 1rem;">
       <button class="close-btn" onclick="closeAll()">&times;</button>
     </div>
-    
     <div class="invoice-header">
       <h1 style="font-size: 2rem; margin-bottom: 0.5rem; text-transform: uppercase;">Marzi</h1>
       <p style="color: var(--accent-gold); letter-spacing: 2px;">TAX INVOICE</p>
     </div>
-
     <div class="invoice-details">
       <div>
-        <strong>Billed To:</strong><br>
-        <span id="invName"></span><br>
-        <span id="invAddress"></span>
+        <strong>Billed To:</strong><br><span id="invName"></span><br><span id="invAddress"></span>
       </div>
       <div style="text-align: right;">
         <strong>Order ID:</strong> <span id="invOrderNo"></span><br>
         <strong>Date:</strong> <span id="invDate"></span><br>
-        <strong>Status:</strong> <span style="color: green;">PAID (UPI)</span><br>
-        <span style="font-size: 0.8rem; color: #777;">To: ektabhalerao29@ybl</span>
+        <strong>Status:</strong> <span style="color: green;">PAID</span>
       </div>
     </div>
-
     <table class="invoice-table">
-      <thead>
-        <tr>
-          <th>Item Description</th>
-          <th style="text-align: right;">Total</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Item Description</th><th style="text-align: right;">Total</th></tr></thead>
       <tbody id="invItems"></tbody>
     </table>
-
     <div style="text-align: right; font-size: 1.2rem; font-weight: bold;">
       Total Paid: <span id="invTotal" style="color: var(--accent-gold);"></span>
     </div>
-
     <div class="no-print" style="margin-top: 2rem; text-align: center;">
       <button class="btn-solid" onclick="window.print()">Print / Save PDF</button>
     </div>
@@ -366,7 +429,7 @@
 
   <!-- --- JavaScript Logic --- -->
   <script>
-    // --- 1. Dynamic Product Generators ---
+    // --- 1. Dynamic Product Generators with Wishlist integration ---
     function generateCoreItems() {
       const shopGrid = document.getElementById('shopGrid');
       const imageUrls = [
@@ -431,130 +494,117 @@
     function createProductCard(imgSrc, title, price) {
       const formattedPrice = '₹' + price.toLocaleString('en-IN');
       return `
-        <div class="product-card">
+        <div class="product-card" data-price="${price}" data-title="${title.toLowerCase()}">
+          <div class="wishlist-btn" title="Add to Wishlist">♥</div>
           <div class="product-image">
             <img src="${imgSrc}" alt="${title}" loading="lazy">
           </div>
           <h3 class="product-title">${title}</h3>
           <p class="product-price">${formattedPrice}</p>
-          <button class="add-to-bag">Add to Bag</button>
+          <button class="add-to-bag">Quick Add</button>
         </div>
       `;
     }
 
-    // Run product generators
     generateCoreItems();
     generateBaddieItems();
     generateCorporateItems();
 
 
-    // --- 2. Reviews Logic & Data (35 Fake Reviews) ---
-    let reviewsData = [
-      { name: "Eleanor T.", rating: 5, text: "The Lumina pearl necklace is absolutely stunning. I get compliments at every dinner party." },
-      { name: "Sarah M.", rating: 5, text: "Unapologetically fierce. The Baddie Cuban Choker has a beautiful weight to it." },
-      { name: "James L.", rating: 4, text: "Bought the Executive Cufflinks for my business partner. Exceptional presentation and quality." },
-      { name: "Chloe V.", rating: 5, text: "My new everyday piece! The gold doesn't tarnish and feels so premium against the skin." },
-      { name: "Priya K.", rating: 5, text: "Literally obsessed. The packaging alone made me feel like royalty." },
-      { name: "Amanda B.", rating: 4, text: "Beautiful rings. I stack the eternity rings and they catch the light perfectly." },
-      { name: "David S.", rating: 5, text: "Ordered the signature tie clip. Sleek, professional, and subtle. 10/10." },
-      { name: "Isabella R.", rating: 5, text: "You can really feel the handcrafted quality. This isn't your average mall jewelry." },
-      { name: "Nadia F.", rating: 5, text: "The drop earrings from the Core collection are my go-to for date nights." },
-      { name: "Jessica W.", rating: 4, text: "Heavy, bold, exactly what I wanted from the Baddie line." },
-      { name: "Michael H.", rating: 5, text: "Got the minimalist tennis bracelet for my wife's anniversary. She hasn't taken it off." },
-      { name: "Sophia G.", rating: 5, text: "Worth every penny. The luster on the pearls is top-tier." },
-      { name: "Rachel P.", rating: 5, text: "I bought a piece for myself after a promotion. Makes me feel powerful!" },
-      { name: "Omar D.", rating: 5, text: "Corporate gifting made easy. Our clients were incredibly impressed." },
-      { name: "Lily T.", rating: 4, text: "Fast shipping and the hoops are the perfect size, not too heavy on the ears." },
-      { name: "Mia C.", rating: 5, text: "I've showered in my gold chain multiple times, still shining like day one." },
-      { name: "Tanya M.", rating: 5, text: "A true heirloom. I plan on passing this pendant down to my daughter." },
-      { name: "Zara Y.", rating: 5, text: "Iced out initial pendant is gorgeous. Sparkles crazy under flash!" },
-      { name: "Vanessa K.", rating: 4, text: "Classy and elegant. Very satisfied with my purchase." },
-      { name: "Olivia N.", rating: 5, text: "The brand story is what sold me, and the jewelry lived up to the hype." },
-      { name: "Emily J.", rating: 5, text: "Best customer service and the jewelry is flawless." },
-      { name: "Aisha R.", rating: 5, text: "So chic! Looks way more expensive than it actually is." },
-      { name: "Hannah L.", rating: 5, text: "I am a repeat customer. Every launch just gets better and better." },
-      { name: "Grace O.", rating: 4, text: "Solid construction. The clasp on the bracelet is very secure." },
-      { name: "Victoria E.", rating: 5, text: "The diamonds catch the light beautifully. Very happy!" },
-      { name: "Nina W.", rating: 5, text: "Boss Hoops make me feel like a CEO. Huge fan of Marzi." },
-      { name: "Daniel C.", rating: 5, text: "Bought gifts for my executive team. Beautiful craftsmanship." },
-      { name: "Samantha H.", rating: 5, text: "Perfect minimalist aesthetic. Matches my entire wardrobe." },
-      { name: "Lauren B.", rating: 4, text: "Slightly longer chain than expected, but the quality is immaculate." },
-      { name: "Rebecca T.", rating: 5, text: "My fiance bought my engagement ring here. It is beyond words." },
-      { name: "Megan F.", rating: 5, text: "Love the sustainable and ethical approach to their gold sourcing." },
-      { name: "Ashley D.", rating: 5, text: "Gorgeous. Just gorgeous. Nothing else to say." },
-      { name: "Kiera P.", rating: 4, text: "Very classy pieces. The packaging was a beautiful touch." },
-      { name: "Jasmine S.", rating: 5, text: "I get asked where I got my necklace every single day." },
-      { name: "Taylor M.", rating: 5, text: "Stunning. The gold tone is that perfect vintage warmth." }
-    ];
+    // --- 2. Search & Sort Logic ---
+    function filterProducts() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const sortVal = document.getElementById('sortSelect').value;
+      const grid = document.getElementById('shopGrid');
+      const cards = Array.from(grid.getElementsByClassName('product-card'));
 
-    function renderReviews() {
-      const grid = document.getElementById('reviewsGrid');
-      let html = '';
-      reviewsData.forEach(review => {
-        const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
-        html += `
-          <div class="review-card">
-            <div class="stars">${stars}</div>
-            <div class="reviewer-name">${review.name}</div>
-            <div class="review-text">"${review.text}"</div>
-          </div>
-        `;
+      cards.forEach(card => {
+        // Search Filter
+        const title = card.getAttribute('data-title');
+        if (title.includes(query)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
       });
-      grid.innerHTML = html;
+
+      // Sort Filter (rearranges DOM order based on flex/grid order)
+      if (sortVal !== 'default') {
+        cards.sort((a, b) => {
+          const priceA = parseInt(a.getAttribute('data-price'));
+          const priceB = parseInt(b.getAttribute('data-price'));
+          return sortVal === 'lowHigh' ? priceA - priceB : priceB - priceA;
+        });
+        cards.forEach((card, index) => {
+          card.style.order = index;
+        });
+      }
     }
 
-    function toggleReviewForm() {
-      const form = document.getElementById('reviewFormContainer');
-      form.style.display = form.style.display === 'block' ? 'none' : 'block';
-    }
 
-    function submitReview(e) {
-      e.preventDefault();
-      const name = document.getElementById('revName').value;
-      const rating = parseInt(document.getElementById('revRating').value);
-      const text = document.getElementById('revText').value;
-
-      // Add new review to the beginning of the array
-      reviewsData.unshift({ name, rating, text });
-      
-      // Re-render and reset
-      renderReviews();
-      document.getElementById('addReviewForm').reset();
-      toggleReviewForm(); // Hide form
-      
-      // Scroll slightly down to see the new review
-      window.scrollBy({ top: 200, behavior: 'smooth' });
-    }
-    
-    // Initial render of reviews
-    renderReviews();
-
-
-    // --- 3. Navigation ---
-    function showPanel(panelId, event) {
-      document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
-      document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-      document.getElementById(panelId).style.display = 'block';
-      if (event && event.currentTarget) event.currentTarget.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // --- 4. Cart Logic ---
-    let cart = [];
-    let cartTotalAmount = 0;
-    
+    // --- 3. Event Delegation for Wishlist & Quick View ---
     document.querySelector('main').addEventListener('click', (e) => {
+      // Handle Wishlist Toggle
+      if (e.target.classList.contains('wishlist-btn')) {
+        e.target.classList.toggle('liked');
+        if (e.target.classList.contains('liked')) {
+          showToast("Added to Wishlist ♥");
+        } else {
+          showToast("Removed from Wishlist");
+        }
+        return; // Stop here
+      }
+
+      // Handle Quick View Modal
       if (e.target.classList.contains('add-to-bag')) {
         const card = e.target.closest('.product-card');
         const title = card.querySelector('.product-title').textContent;
         const priceText = card.querySelector('.product-price').textContent;
-        const priceNum = parseInt(priceText.replace(/[^\d]/g, ''));
+        const priceNum = card.getAttribute('data-price');
+        const imgSrc = card.querySelector('img').src;
+
+        // Populate Modal
+        document.getElementById('qvTitle').textContent = title;
+        document.getElementById('qvPrice').textContent = priceText;
+        document.getElementById('qvRawPrice').value = priceNum;
+        document.getElementById('qvImg').src = imgSrc;
         
-        cart.push({ title, price: priceNum, priceText });
-        updateCart();
-        toggleCart(true);
+        // Open Modal
+        document.getElementById('mainOverlay').style.display = 'block';
+        document.getElementById('quickViewModal').style.display = 'block';
       }
     });
+
+    // --- 4. Cart & Promo Logic ---
+    let cart = [];
+    let cartTotalAmount = 0;
+    let discountApplied = false;
+
+    function confirmAddToBag() {
+      const title = document.getElementById('qvTitle').textContent;
+      const priceText = document.getElementById('qvPrice').textContent;
+      const priceNum = parseInt(document.getElementById('qvRawPrice').value);
+      const variant = document.getElementById('qvSize').value;
+      
+      const fullTitle = `${title} (${variant})`;
+      cart.push({ title: fullTitle, price: priceNum, priceText });
+      
+      updateCart();
+      closeAll();
+      showToast("Item added to your bag");
+    }
+
+    function applyPromo() {
+      const code = document.getElementById('promoCodeInput').value.trim().toUpperCase();
+      if (code === 'MARZI10') {
+        discountApplied = true;
+        document.getElementById('discountMsg').style.display = 'block';
+        updateCart(); // Recalculate
+        showToast("Promo Code Applied!");
+      } else {
+        alert("Invalid Promo Code");
+      }
+    }
 
     function updateCart() {
       const container = document.getElementById('cartItems');
@@ -564,25 +614,35 @@
       if (cart.length === 0) {
         container.innerHTML = '<p style="margin-top: 2rem; text-align: center; color: #777;">Your bag is empty.</p>';
         footer.style.display = 'none';
+        discountApplied = false; // Reset discount if cart is empty
+        document.getElementById('discountMsg').style.display = 'none';
+        document.getElementById('promoCodeInput').value = '';
         return;
       }
 
       footer.style.display = 'block';
       container.innerHTML = '';
-      cartTotalAmount = 0;
+      let rawTotal = 0;
 
       cart.forEach((item, index) => {
-        cartTotalAmount += item.price;
+        rawTotal += item.price;
         container.innerHTML += `
           <div class="cart-item">
             <div>
-              <h4 style="color: var(--text-main);">${item.title}</h4>
+              <h4 style="color: var(--text-main); font-size: 1.1rem;">${item.title}</h4>
               <button onclick="removeItem(${index})" style="font-size: 0.8rem; color: red; margin-top: 5px;">Remove</button>
             </div>
             <div style="color: var(--accent-gold); font-weight: 500;">${item.priceText}</div>
           </div>
         `;
       });
+
+      // Apply 10% discount if active
+      if (discountApplied) {
+        cartTotalAmount = Math.floor(rawTotal * 0.9);
+      } else {
+        cartTotalAmount = rawTotal;
+      }
 
       const formattedTotal = '₹' + cartTotalAmount.toLocaleString('en-IN');
       document.getElementById('cartTotalDisplay').textContent = formattedTotal;
@@ -601,7 +661,23 @@
       updateCart();
     }
 
-    // --- 5. Modals & Overlays ---
+
+    // --- 5. UI Helpers (Toast, Nav, Modals, Social Proof) ---
+    function showToast(msg) {
+      const toast = document.getElementById('toastBox');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); }, 3000);
+    }
+
+    function showPanel(panelId, event) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
+      document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+      document.getElementById(panelId).style.display = 'block';
+      if (event && event.currentTarget) event.currentTarget.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     function toggleCart(show) {
       document.getElementById('cartDrawer').classList.toggle('open', show);
       document.getElementById('mainOverlay').style.display = show ? 'block' : 'none';
@@ -611,6 +687,7 @@
       toggleCart(false);
       document.getElementById('checkoutModal').style.display = 'none';
       document.getElementById('invoiceModal').style.display = 'none';
+      document.getElementById('quickViewModal').style.display = 'none';
       document.getElementById('mainOverlay').style.display = 'none';
     }
 
@@ -620,10 +697,32 @@
       document.getElementById('checkoutModal').style.display = 'block';
     }
 
-    // --- 6. Payment & Invoice Generation ---
+    // Live Sales Popup Simulation
+    function triggerSocialProof() {
+      const cities = ['Mumbai', 'Delhi', 'Bangalore', 'Dubai', 'London', 'Pune'];
+      const items = ['a Lumina Pearl Necklace', 'Executive Cufflinks', 'Diamond Hoops', 'a Corporate Gift Set', 'a Custom Ring'];
+      const images = [
+        "https://images.unsplash.com/photo-1599643478514-4a4e06b524cb?auto=format&fit=crop&w=100&q=80",
+        "https://images.unsplash.com/photo-1605100804763-247f67b2548e?auto=format&fit=crop&w=100&q=80",
+        "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=100&q=80"
+      ];
+      
+      document.getElementById('spLocation').textContent = `Someone in ${cities[Math.floor(Math.random() * cities.length)]}`;
+      document.getElementById('spItem').textContent = `Purchased ${items[Math.floor(Math.random() * items.length)]}`;
+      document.getElementById('spImg').src = images[Math.floor(Math.random() * images.length)];
+      
+      const sp = document.getElementById('socialProof');
+      sp.classList.add('show');
+      setTimeout(() => { sp.classList.remove('show'); }, 5000);
+    }
+    
+    // Trigger every 25 seconds
+    setInterval(triggerSocialProof, 25000);
+
+
+    // --- 6. Payment & Invoice ---
     function processPayment(e) {
       e.preventDefault(); 
-      
       const name = document.getElementById('custName').value;
       const address = document.getElementById('custAddress').value;
       
@@ -631,6 +730,10 @@
       cart.forEach(item => {
         itemsHtml += `<tr><td>${item.title}</td><td style="text-align: right;">${item.priceText}</td></tr>`;
       });
+      if(discountApplied) {
+        itemsHtml += `<tr><td style="color: green;">MARZI10 Discount</td><td style="text-align: right; color: green;">-10%</td></tr>`;
+      }
+      
       const formattedTotal = '₹' + cartTotalAmount.toLocaleString('en-IN');
 
       document.getElementById('invName').textContent = name;
@@ -644,7 +747,7 @@
       document.getElementById('invoiceModal').style.display = 'block';
 
       cart = [];
-      updateCart();
+      updateCart(); // Clears cart and promo
       document.getElementById('checkoutForm').reset();
     }
   </script>
