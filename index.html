@@ -1,755 +1,1198 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marzi Jewelry</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marzi Jewelry — Because Your Hustle Deserves a Sparkle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --bg:#FDFBF7;
+  --bg-alt:#F5F0E4;
+  --ink:#2A2825;
+  --ink-muted:#726c62;
+  --gold:#C5A059;
+  --gold-deep:#A3803F;
+  --line:#E6E1D6;
+  --card:#FFFFFF;
+  --glow:none;
+  --radius:3px;
+  --footer-bg:#2A2825;
+  --footer-text:#FDFBF7;
+}
+body.dark-mode{
+  --bg:#15130F;
+  --bg-alt:#1E1B15;
+  --ink:#F3ECDD;
+  --ink-muted:#B7AC98;
+  --gold:#E6C27E;
+  --gold-deep:#CBA463;
+  --line:#3A3226;
+  --card:#211C15;
+  --glow:0 0 16px rgba(230,194,126,0.4);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:'Jost',sans-serif;line-height:1.6;transition:background .3s ease, color .3s ease;}
+h1,h2,h3,h4,.display{font-family:'Cormorant Garamond',serif;font-weight:600;}
+button{font-family:'Jost',sans-serif;cursor:pointer;border:none;background:none;color:inherit;}
+input,textarea,select{font-family:'Jost',sans-serif;}
+a{color:inherit;}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+.eyebrow{font-size:12.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
 
-  <style>
-    /* --- CSS Variables --- */
-    :root {
-      --bg-color: #FDFBF7;
-      --text-main: #2A2825;
-      --accent-gold: #C5A059;
-      --border-color: #E6E1D6;
-      --font-heading: 'Cormorant Garamond', serif;
-      --font-body: 'Jost', sans-serif;
-    }
+header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;padding:1.2rem 5%;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:500;gap:1rem;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.9rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink);text-shadow:var(--glow);}
+.nav-tabs{display:flex;gap:1.3rem;flex-wrap:wrap;justify-content:center;}
+.tab-button{font-size:.85rem;text-transform:uppercase;letter-spacing:1px;color:var(--ink-muted);padding-bottom:4px;border-bottom:2px solid transparent;transition:all .3s ease;}
+.tab-button:hover,.tab-button.active{color:var(--gold);border-bottom-color:var(--gold);}
+.nav-extra{display:flex;align-items:center;gap:10px;}
+.currency-select{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 10px;border-radius:2px;font-size:12px;}
+.mode-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink);flex-shrink:0;}
+.mode-btn:hover{background:var(--bg-alt);}
+.mode-btn svg{width:17px;height:17px;}
+.cart-toggle{font-size:.85rem;text-transform:uppercase;letter-spacing:1px;position:relative;padding:8px 4px;}
+.cart-badge{background:var(--gold);color:var(--bg);font-size:.7rem;padding:2px 6px;border-radius:50%;position:absolute;top:-6px;right:-14px;}
 
-    /* --- Global Styles --- */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background-color: var(--bg-color); color: var(--text-main); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; }
-    h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 600; }
-    button { font-family: var(--font-body); cursor: pointer; border: none; background: none; }
+main{min-height:60vh;}
+.panel{display:none;animation:fadeIn .5s ease;}
+.panel.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}.panel{animation:none;}}
 
-    /* --- Navigation --- */
-    header {
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
-      padding: 1.5rem 5%; border-bottom: 1px solid var(--border-color);
-      position: sticky; top: 0; background-color: rgba(253, 251, 247, 0.95); z-index: 100; gap: 1rem;
-    }
-    .logo { font-family: var(--font-heading); font-size: 2.2rem; letter-spacing: 2px; text-transform: uppercase; }
-    .nav-tabs { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
-    .tab-button {
-      font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;
-      color: var(--text-main); padding-bottom: 5px; border-bottom: 2px solid transparent; transition: all 0.3s ease;
-    }
-    .tab-button:hover, .tab-button.active { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
-    .cart-toggle { font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; position: relative; }
-    .cart-badge {
-      background-color: var(--accent-gold); color: #fff; font-size: 0.75rem;
-      padding: 2px 6px; border-radius: 50%; position: absolute; top: -10px; right: -15px;
-    }
+/* HERO */
+.hero{position:relative;min-height:520px;display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center;padding:40px 24px;}
+.hero-media{position:absolute;inset:0;z-index:0;}
+.hero-media img{width:100%;height:100%;object-fit:cover;animation:kenburns 20s ease-in-out infinite alternate;}
+@keyframes kenburns{from{transform:scale(1) translate(0,0);}to{transform:scale(1.14) translate(-2%,-2%);}}
+.hero-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,16,10,0.4) 0%,rgba(20,16,10,0.6) 100%);z-index:1;}
+.light-sweep{position:absolute;top:0;left:-60%;width:35%;height:100%;background:linear-gradient(75deg,transparent,rgba(255,255,255,0.28),transparent);animation:sweep 7s ease-in-out infinite;z-index:1;}
+@keyframes sweep{0%{left:-60%;}50%{left:120%;}100%{left:120%;}}
+@media (prefers-reduced-motion:reduce){.hero-media img{animation:none;}.light-sweep{display:none;}}
+.hero-copy{position:relative;z-index:2;max-width:640px;color:#FDFBF7;}
+.hero-copy h1{font-size:3rem;line-height:1.15;color:#FDFBF7;margin-bottom:16px;}
+.hero-copy p.lede{font-size:1.05rem;color:rgba(253,251,247,0.88);max-width:46ch;margin:0 auto 28px;line-height:1.7;}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:var(--gold);color:#221A0E;padding:14px 28px;font-size:.85rem;text-transform:uppercase;letter-spacing:2px;border-radius:2px;transition:background .3s,box-shadow .3s;}
+.btn-primary:hover{background:var(--gold-deep);box-shadow:var(--glow);}
+.hero-cta .btn-ghost{border:1px solid rgba(253,251,247,0.65);color:#FDFBF7;padding:14px 26px;font-size:.85rem;text-transform:uppercase;letter-spacing:2px;border-radius:2px;}
+.hero-cta .btn-ghost:hover{background:rgba(253,251,247,0.12);}
 
-    /* --- Main Content --- */
-    main { padding: 2rem 5%; min-height: 80vh; }
-    .tab-panel { display: none; animation: fadeIn 0.5s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.trust-strip{background:var(--bg-alt);border-bottom:1px solid var(--line);}
+.trust-wrap{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;justify-content:center;gap:36px;flex-wrap:wrap;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);}
 
-    /* --- Home --- */
-    .hero { text-align: center; padding: 4rem 0; }
-    .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
-    .hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem; color: #555; }
-    .btn-solid {
-      background-color: var(--text-main); color: var(--bg-color); padding: 1rem 2rem;
-      font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; transition: background 0.3s; width: 100%;
-    }
-    .btn-solid:hover { background-color: var(--accent-gold); }
-    .hero .btn-solid { width: auto; }
-    .features { display: flex; justify-content: space-around; margin-top: 4rem; border-top: 1px solid var(--border-color); padding-top: 3rem; flex-wrap: wrap; gap: 2rem;}
-    .feature-item { text-align: center; flex: 1; min-width: 250px; padding: 0 1rem; }
+.features{display:flex;justify-content:space-around;padding:3.5rem 5%;flex-wrap:wrap;gap:2rem;max-width:1120px;margin:0 auto;}
+.feature-item{text-align:center;flex:1;min-width:220px;padding:0 1rem;}
+.feature-item h3{font-size:1.15rem;margin-bottom:8px;color:var(--ink);}
+.feature-item p{font-size:.92rem;color:var(--ink-muted);}
 
-    /* --- Grids, Filters & Products --- */
-    .section-header { text-align: center; margin-bottom: 3rem; max-width: 800px; margin-left: auto; margin-right: auto; }
-    .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
-    .section-header p { font-size: 1.1rem; color: #555; margin-bottom: 2rem; }
-    
-    .toolbar { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
-    .toolbar input, .toolbar select { padding: 0.8rem 1rem; border: 1px solid var(--border-color); font-family: var(--font-body); width: 250px; outline: none; background: #fff; }
-    .toolbar input:focus, .toolbar select:focus { border-color: var(--accent-gold); }
+.home-shop-teaser{max-width:800px;margin:0 auto;padding:3rem 24px 5rem;text-align:center;}
+.home-shop-teaser .display{font-size:2rem;margin-bottom:14px;color:var(--ink);}
+.home-shop-teaser p{color:var(--ink-muted);margin-bottom:26px;line-height:1.7;}
 
-    .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
-    .product-card { background: #fff; border: 1px solid var(--border-color); padding: 1.5rem; text-align: center; transition: transform 0.3s ease; position: relative; }
-    .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-    
-    /* Wishlist Heart */
-    .wishlist-btn { position: absolute; top: 25px; right: 25px; font-size: 1.5rem; color: #ccc; cursor: pointer; z-index: 2; transition: transform 0.2s, color 0.3s; }
-    .wishlist-btn:hover { transform: scale(1.1); }
-    .wishlist-btn.liked { color: #e74c3c; }
+/* ABOUT */
+.about-content{max-width:780px;margin:0 auto;text-align:center;padding:4rem 5%;}
+.about-content h2{font-size:2.6rem;margin-bottom:2rem;color:var(--ink);}
+.about-content p{font-size:1.08rem;margin-bottom:1.4rem;text-align:justify;text-align-last:center;color:var(--ink);}
+.pull-quote{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;color:var(--gold);margin:2.5rem 0;padding:1.8rem;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:2.6rem 0;text-align:left;}
+.about-card{background:var(--bg-alt);padding:20px;border-radius:var(--radius);}
+.about-card .num{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:var(--gold-deep);margin-bottom:4px;}
+.about-card h4{font-size:.85rem;letter-spacing:.03em;margin-bottom:4px;color:var(--ink);}
+.about-card p{font-size:.8rem;margin:0;color:var(--ink-muted);text-align:left;}
+.signed{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--gold);margin-top:1.5rem;}
 
-    .product-image { width: 100%; height: 250px; background-color: var(--bg-color); margin-bottom: 1rem; overflow: hidden; }
-    .product-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-    .product-card:hover .product-image img { transform: scale(1.05); }
+/* SHOP */
+.shop-wrap{max-width:1120px;margin:0 auto;padding:3rem 5% 6rem;}
+.shop-banner{position:relative;border-radius:var(--radius);overflow:hidden;margin-bottom:2rem;height:200px;}
+.shop-banner img{width:100%;height:100%;object-fit:cover;display:block;}
+.shop-banner-copy{position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,16,10,0.78) 0%,rgba(20,16,10,0.15) 65%,transparent 100%);display:flex;flex-direction:column;justify-content:center;padding:0 32px;max-width:60%;color:#FDFBF7;}
+.shop-banner-copy h3{color:#FDFBF7;font-size:1.5rem;margin-top:6px;}
+.section-header{text-align:center;margin-bottom:2rem;max-width:700px;margin-left:auto;margin-right:auto;}
+.section-header h2{font-size:2.1rem;margin-bottom:.6rem;color:var(--ink);}
+.section-header p{color:var(--ink-muted);font-size:1rem;}
+.toolbar{display:flex;justify-content:center;gap:1rem;margin:1.6rem 0;flex-wrap:wrap;}
+.toolbar input,.toolbar select{padding:.7rem 1rem;border:1px solid var(--line);font-family:'Jost';width:230px;outline:none;background:var(--card);color:var(--ink);border-radius:2px;}
+.toolbar input:focus,.toolbar select:focus{border-color:var(--gold);}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:1.6rem;}
+.chip{padding:8px 16px;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;color:var(--ink-muted);}
+.chip.active{background:var(--ink);color:var(--bg);border-color:var(--ink);}
+.results-count{text-align:center;font-size:12px;color:var(--ink-muted);margin-bottom:1.2rem;letter-spacing:.03em;}
 
-    .product-title { font-size: 1.3rem; margin-bottom: 0.5rem; }
-    .product-price { color: var(--accent-gold); font-size: 1.1rem; margin-bottom: 1.5rem; font-weight: 500; }
-    .add-to-bag { border: 1px solid var(--text-main); padding: 0.8rem 1.5rem; width: 100%; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; }
-    .add-to-bag:hover { background-color: var(--text-main); color: #fff; }
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.8rem;}
+.card{background:var(--card);border:1px solid var(--line);padding:22px;text-align:center;transition:transform .3s ease,box-shadow .3s ease;position:relative;border-radius:var(--radius);}
+.card:hover{transform:translateY(-5px);box-shadow:0 10px 24px rgba(0,0,0,.08),var(--glow);}
+.wishlist-btn{position:absolute;top:16px;right:16px;font-size:1.25rem;color:var(--line);cursor:pointer;z-index:2;transition:transform .2s,color .3s;}
+.wishlist-btn:hover{transform:scale(1.12);}
+.wishlist-btn.liked{color:#d9536b;}
+.card-art{width:100%;height:190px;background:var(--bg-alt);margin-bottom:14px;overflow:hidden;border-radius:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.card-art img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.card:hover .card-art img{transform:scale(1.06);}
+.card-art svg{width:48%;height:48%;color:var(--ink);}
+.card-cat{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:4px;}
+.card-name{font-size:1.12rem;margin-bottom:6px;color:var(--ink);}
+.card-price{color:var(--gold);font-size:1.02rem;margin-bottom:1.1rem;font-weight:500;}
+.card-add{border:1px solid var(--ink);padding:.7rem 1rem;width:100%;text-transform:uppercase;letter-spacing:1px;font-size:.72rem;transition:all .3s;border-radius:2px;color:var(--ink);}
+.card-add:hover{background:var(--ink);color:var(--bg);}
+.empty-state{text-align:center;padding:50px 20px;color:var(--ink-muted);grid-column:1/-1;}
 
-    /* --- Cart Drawer --- */
-    .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; }
-    .drawer { position: fixed; top: 0; right: -400px; width: 400px; max-width: 100%; height: 100vh; background-color: var(--bg-color); box-shadow: -5px 0 15px rgba(0,0,0,0.1); z-index: 1001; transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; }
-    .drawer.open { right: 0; }
-    .drawer-header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; border-bottom: 1px solid var(--border-color); }
-    .drawer-content { flex: 1; padding: 1.5rem; overflow-y: auto; }
-    .drawer-footer { padding: 1.5rem; border-top: 1px solid var(--border-color); background: #fff; }
-    .close-btn { font-size: 2rem; line-height: 1; }
-    .cart-item { display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
-    .cart-total-row { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem; }
-    
-    /* Promo Code */
-    .promo-box { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
-    .promo-box input { flex: 1; padding: 0.8rem; border: 1px solid var(--border-color); outline: none; font-family: var(--font-body); }
-    .promo-box button { background: var(--text-main); color: #fff; padding: 0 1rem; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; }
-    .discount-applied { color: #0b9e54; font-size: 0.9rem; margin-top: -1rem; margin-bottom: 1rem; display: none; }
+/* RECENTLY VIEWED */
+.recently-viewed{background:var(--bg-alt);padding:2.4rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.rv-wrap{max-width:1120px;margin:0 auto;padding:0 5%;}
+.rv-strip{display:flex;gap:14px;overflow-x:auto;padding-bottom:6px;margin-top:12px;}
+.rv-card{flex:0 0 130px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:10px;cursor:pointer;transition:transform .2s;}
+.rv-card:hover{transform:translateY(-3px);}
+.rv-art{width:100%;height:90px;background:var(--bg);display:flex;align-items:center;justify-content:center;margin-bottom:6px;border-radius:2px;overflow:hidden;}
+.rv-art img{width:100%;height:100%;object-fit:cover;}
+.rv-art svg{width:48%;height:48%;color:var(--ink);}
+.rv-name{font-size:11.5px;color:var(--ink);line-height:1.3;margin-bottom:2px;}
+.rv-price{font-size:11px;color:var(--gold);}
 
-    /* --- Modals & Invoices --- */
-    .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 2rem; width: 90%; max-width: 500px; z-index: 1002; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--border-color); max-height: 90vh; overflow-y: auto; }
-    
-    /* Quick View Modal Specifics */
-    #quickViewModal { max-width: 700px; }
-    .qv-content { display: flex; gap: 2rem; align-items: center;}
-    .qv-image { flex: 1; background: var(--bg-color); height: 300px; display: flex; align-items: center; justify-content: center; }
-    .qv-image img { max-width: 100%; max-height: 100%; object-fit: cover; }
-    .qv-details { flex: 1; text-align: left; }
-    .qv-details h3 { font-size: 2rem; margin-bottom: 0.5rem; }
-    .qv-details p { color: var(--accent-gold); font-size: 1.2rem; font-weight: 500; margin-bottom: 1.5rem; }
-    @media(max-width: 768px) { .qv-content { flex-direction: column; } .qv-image { height: 200px; width: 100%;} }
+/* ORDERS ADMIN */
+.orders-wrap{max-width:1120px;margin:0 auto;padding:3rem 5% 6rem;}
+.orders-sub{color:var(--ink-muted);font-size:.95rem;margin-bottom:1.8rem;max-width:64ch;}
+.gate{background:var(--bg-alt);max-width:380px;padding:30px;border-radius:var(--radius);}
+.gate p{color:var(--ink-muted);font-size:.85rem;margin-bottom:14px;line-height:1.5;}
+.gate input{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:2px;font-size:14px;margin-bottom:10px;background:var(--card);color:var(--ink);}
+.gate-error{color:#b23b3b;font-size:12px;margin-bottom:8px;display:none;}
+.orders-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+.orders-toolbar .count{color:var(--ink-muted);font-size:13px;}
+.orders-actions{display:flex;gap:10px;}
+.btn-small{padding:9px 16px;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;border-radius:2px;}
+.btn-small.export{background:var(--gold);color:#221A0E;}
+.btn-small.export:hover{background:var(--gold-deep);}
+.btn-small.refresh{border:1px solid var(--line);color:var(--ink);}
+.btn-small.refresh:hover{background:var(--bg-alt);}
+.orders-table-wrap{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow-x:auto;}
+table.orders-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:820px;}
+table.orders-table th{text-align:left;padding:12px 14px;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);border-bottom:1px solid var(--line);}
+table.orders-table td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--ink);vertical-align:top;}
+table.orders-table tr:last-child td{border-bottom:none;}
+table.orders-table select{padding:5px 7px;border-radius:2px;border:1px solid var(--line);font-size:11.5px;background:var(--bg-alt);color:var(--ink);}
+.orders-empty{padding:40px 20px;text-align:center;color:var(--ink-muted);}
 
-    .form-group { margin-bottom: 1rem; text-align: left; }
-    .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
-    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); font-family: var(--font-body); outline: none; }
-    
-    .qr-box { text-align: center; padding: 1.5rem 1rem; border: 1px dashed var(--accent-gold); background: var(--bg-color); margin-bottom: 1.5rem; }
-    .upi-btn { background-color: #0b9e54; color: white; padding: 1rem; width: 100%; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin: 1rem 0; border-radius: 4px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: background 0.3s; }
-    
-    .invoice-header { text-align: center; border-bottom: 2px solid var(--text-main); padding-bottom: 1rem; margin-bottom: 1.5rem; }
-    .invoice-details { margin-bottom: 1.5rem; font-size: 0.9rem; color: #555; display: flex; justify-content: space-between; }
-    .invoice-table { width: 100%; text-align: left; border-collapse: collapse; margin-bottom: 1.5rem; }
-    .invoice-table th, .invoice-table td { padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
-    
-    /* --- Premium Toast Notification --- */
-    .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--text-main); color: #fff; padding: 1rem 2rem; border-radius: 4px; z-index: 3000; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-    .toast.show { transform: translateX(-50%) translateY(0); }
+/* CART DRAWER */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:1000;}
+.overlay.open{display:block;}
+.drawer{position:fixed;top:0;right:-440px;width:420px;max-width:100%;height:100vh;background:var(--bg);box-shadow:-6px 0 20px rgba(0,0,0,.12);z-index:1001;transition:right .4s cubic-bezier(.77,0,.175,1);display:flex;flex-direction:column;}
+.drawer.open{right:0;}
+.drawer-header{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 1.4rem;border-bottom:1px solid var(--line);}
+.drawer-header h2{font-size:1.25rem;color:var(--ink);}
+.drawer-step-label{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-deep);}
+.close-btn{font-size:1.7rem;line-height:1;color:var(--ink);}
+.drawer-content{flex:1;padding:1.3rem 1.4rem;overflow-y:auto;}
+.drawer-footer{padding:1.3rem 1.4rem 1.6rem;border-top:1px solid var(--line);background:var(--bg-alt);}
+.cart-item{display:flex;gap:12px;align-items:flex-start;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid var(--line);}
+.cart-item svg{width:34px;height:34px;color:var(--ink);flex-shrink:0;}
+.cart-item img{width:42px;height:42px;object-fit:cover;border-radius:2px;flex-shrink:0;}
+.di-name{font-size:.95rem;color:var(--ink);}
+.di-meta{font-size:11px;color:var(--ink-muted);margin-top:2px;}
+.di-price{font-size:.85rem;color:var(--ink-muted);margin-top:3px;}
+.qty-ctrl{display:flex;align-items:center;gap:8px;margin-top:6px;}
+.qty-ctrl button{width:20px;height:20px;border:1px solid var(--ink-muted);border-radius:50%;font-size:12px;display:flex;align-items:center;justify-content:center;color:var(--ink);}
+.di-remove{margin-left:auto;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold-deep);flex-shrink:0;}
+.drawer-empty{margin-top:2rem;text-align:center;color:var(--ink-muted);}
+.upi-hint{font-size:11px;color:var(--ink-muted);margin-bottom:14px;}
 
-    /* --- Live Sales Social Proof --- */
-    .social-proof { position: fixed; bottom: 30px; left: -350px; background: #fff; padding: 1rem; box-shadow: 0 5px 20px rgba(0,0,0,0.15); border-left: 3px solid var(--accent-gold); z-index: 999; transition: left 0.5s ease; font-size: 0.9rem; width: 300px; display: flex; align-items: center; gap: 15px; border-radius: 0 4px 4px 0; }
-    .social-proof.show { left: 0; }
-    .social-proof img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.switch{position:relative;display:inline-block;width:40px;height:23px;flex-shrink:0;}
+.switch input{opacity:0;width:0;height:0;}
+.slider-toggle{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--line);transition:.3s;border-radius:24px;}
+.slider-toggle:before{position:absolute;content:"";height:17px;width:17px;left:3px;bottom:3px;background:var(--card);transition:.3s;border-radius:50%;}
+input:checked+.slider-toggle{background:var(--gold);}
+input:checked+.slider-toggle:before{transform:translateX(17px);}
+.giftwrap-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:12.5px;color:var(--ink);}
+.promo-row{display:flex;gap:8px;margin-bottom:8px;}
+.promo-row input{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:2px;font-size:12.5px;background:var(--card);color:var(--ink);}
+.promo-row button{background:var(--ink);color:var(--bg);padding:0 14px;text-transform:uppercase;letter-spacing:.05em;font-size:10.5px;border-radius:2px;}
+.promo-applied{color:#0b8a4a;font-size:11.5px;margin-bottom:12px;}
+.cart-total-row{display:flex;justify-content:space-between;font-size:1.15rem;font-weight:600;margin-bottom:1rem;color:var(--ink);}
+.cart-total-row .amt{font-family:'Cormorant Garamond',serif;}
+.step-btn{display:block;width:100%;text-align:center;background:var(--ink);color:var(--bg);padding:14px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;border-radius:2px;margin-bottom:10px;transition:background .3s,box-shadow .3s;}
+.step-btn:hover{background:var(--gold-deep);box-shadow:var(--glow);}
+.step-btn.secondary{background:transparent;border:1px solid var(--ink-muted);color:var(--ink);}
+.step-btn.secondary:hover{background:var(--bg-alt);box-shadow:none;}
+.step-btn:disabled{opacity:.5;pointer-events:none;}
+.qr-box{text-align:center;padding:1.3rem 1rem;border:1px dashed var(--gold);background:var(--bg-alt);margin-bottom:1.2rem;border-radius:2px;}
+#qrcode{background:#fff;padding:8px;border-radius:4px;display:inline-block;margin:10px 0;}
+.upi-note{font-size:11px;color:var(--ink-muted);text-align:center;line-height:1.5;}
+.form-field{margin-bottom:14px;text-align:left;}
+.form-field label{display:block;margin-bottom:.4rem;font-size:.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--ink-muted);}
+.form-field input,.form-field textarea{width:100%;padding:.75rem;border:1px solid var(--line);font-family:'Jost';outline:none;border-radius:2px;background:var(--card);color:var(--ink);}
+.form-field textarea{resize:vertical;min-height:70px;}
+.field-error{font-size:11px;color:#b23b3b;margin-top:4px;display:none;}
+.summary-block{background:var(--bg-alt);border-radius:2px;padding:14px;margin-bottom:14px;}
+.summary-block h4{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:8px;}
+.summary-block p{font-size:13px;color:var(--ink);line-height:1.6;}
+.summary-line{display:flex;justify-content:space-between;font-size:13px;color:var(--ink);padding:4px 0;}
+.order-confirm{text-align:center;padding:4px 0 8px;}
+.order-confirm .oc-id{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--ink);}
+.order-confirm p{color:var(--ink-muted);font-size:12px;}
 
-    /* --- WhatsApp Floating Button --- */
-    .whatsapp-btn { position: fixed; bottom: 30px; right: 30px; background: #25D366; color: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 998; transition: transform 0.3s; }
-    .whatsapp-btn:hover { transform: scale(1.1); }
-    .whatsapp-btn svg { width: 35px; height: 35px; fill: currentColor; }
+/* MODALS */
+.modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.96);background:var(--card);padding:2rem;width:90%;max-width:520px;z-index:1002;box-shadow:0 20px 50px rgba(0,0,0,.25);border:1px solid var(--line);border-radius:var(--radius);max-height:88vh;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;}
+.modal.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1);}
+.modal-head{display:flex;justify-content:flex-end;margin-bottom:6px;}
+#quickViewModal{max-width:680px;}
+.qv-content{display:flex;gap:26px;align-items:flex-start;}
+.qv-media{flex:1;background:var(--bg-alt);height:250px;display:flex;align-items:center;justify-content:center;border-radius:2px;overflow:hidden;}
+.qv-media img{width:100%;height:100%;object-fit:cover;}
+.qv-media svg{width:46%;height:46%;color:var(--ink);}
+.qv-details{flex:1;text-align:left;}
+.qv-details h3{font-size:1.55rem;margin-bottom:4px;color:var(--ink);}
+.qv-cat{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:10px;}
+.qv-price{color:var(--gold);font-size:1.2rem;font-weight:500;margin-bottom:3px;}
+.qv-bnpl{font-size:11.5px;color:var(--ink-muted);margin-bottom:16px;}
+.qv-field{margin-bottom:13px;}
+.qv-field label{display:block;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:5px;}
+.qv-field select,.qv-field input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:2px;font-size:13px;background:var(--bg-alt);color:var(--ink);}
+.qv-charcount{font-size:10.5px;color:var(--ink-muted);text-align:right;margin-top:3px;}
+@media(max-width:640px){.qv-content{flex-direction:column;}.qv-media{width:100%;}}
 
-    /* --- Premium Footer --- */
-    footer { background: var(--text-main); color: #FDFBF7; padding: 5rem 5% 2rem; border-top: 1px solid var(--accent-gold); }
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
-    .footer-col h4 { font-family: var(--font-heading); font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 1.5rem; letter-spacing: 1px; }
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 0.8rem; font-size: 0.95rem; color: #ccc; cursor: pointer; transition: color 0.3s; }
-    .footer-col ul li:hover { color: var(--accent-gold); }
-    .footer-newsletter input { width: 100%; padding: 1rem; border: 1px solid #555; background: transparent; color: #fff; margin-bottom: 1rem; font-family: var(--font-body); outline: none; }
-    .footer-newsletter button { width: 100%; background: var(--accent-gold); color: #fff; padding: 1rem; text-transform: uppercase; letter-spacing: 1px; }
-    .footer-newsletter button:hover { background: var(--accent-hover); }
-    .footer-bottom { text-align: center; border-top: 1px solid #444; padding-top: 2rem; font-size: 0.9rem; color: #888; letter-spacing: 1px; }
+#invoiceModal{max-width:560px;}
+.invoice-brand{text-align:center;border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:18px;}
+.invoice-brand h1{font-size:1.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);}
+.invoice-brand p{color:var(--gold);letter-spacing:.15em;font-size:11px;margin-top:4px;}
+.invoice-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-muted);margin-bottom:18px;gap:14px;}
+.invoice-meta strong{color:var(--ink);}
+table.invoice-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:13px;}
+table.invoice-table th,table.invoice-table td{text-align:left;padding:7px 0;border-bottom:1px solid var(--line);color:var(--ink);}
+.invoice-total{text-align:right;font-size:1.1rem;font-weight:600;color:var(--ink);}
+.invoice-total span{color:var(--gold);}
 
-    @media print {
-      body * { visibility: hidden; }
-      #invoiceModal, #invoiceModal * { visibility: visible; }
-      #invoiceModal { position: absolute; left: 0; top: 0; transform: none; width: 100%; box-shadow: none; border: none; padding: 0; }
-      .no-print { display: none !important; }
-    }
-  </style>
+/* TOAST */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-120px);background:var(--ink);color:var(--bg);padding:14px 26px;border-radius:3px;z-index:3000;transition:transform .4s cubic-bezier(.175,.885,.32,1.275);text-transform:uppercase;letter-spacing:1px;font-size:.8rem;box-shadow:0 8px 20px rgba(0,0,0,.2);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+.whatsapp-btn{position:fixed;bottom:26px;right:26px;background:#25D366;color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 6px 16px rgba(37,211,102,.4);z-index:900;transition:transform .3s;}
+.whatsapp-btn:hover{transform:scale(1.08);}
+.whatsapp-btn svg{width:28px;height:28px;fill:currentColor;}
+
+footer{background:var(--footer-bg);color:var(--footer-text);padding:4rem 5% 2rem;border-top:1px solid var(--gold);}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2.4rem;margin-bottom:2.4rem;}
+.footer-col h4{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold);margin-bottom:1.1rem;letter-spacing:1px;}
+.footer-col ul{list-style:none;}
+.footer-col ul li{margin-bottom:.6rem;font-size:.88rem;color:#ccc;}
+.footer-col p{font-size:.88rem;color:#ccc;line-height:1.8;}
+.footer-newsletter input{width:100%;padding:.8rem;border:1px solid #555;background:transparent;color:#fff;margin-bottom:.8rem;border-radius:2px;}
+.footer-newsletter button{width:100%;background:var(--gold);color:#221A0E;padding:.8rem;text-transform:uppercase;letter-spacing:1px;border-radius:2px;}
+.footer-bottom{text-align:center;border-top:1px solid #444;padding-top:1.6rem;font-size:.82rem;color:#888;letter-spacing:1px;}
+
+@media print{
+  body *{visibility:hidden;}
+  #invoiceModal,#invoiceModal *{visibility:visible;}
+  #invoiceModal{position:absolute;left:0;top:0;transform:none;width:100%;max-width:100%;box-shadow:none;border:none;padding:16px;max-height:none;overflow:visible;}
+  .no-print{display:none!important;}
+}
+@media(max-width:860px){
+  .hero-copy h1{font-size:2.1rem;}
+  .about-grid{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+  header{padding:1rem 5%;}
+  .logo{font-size:1.5rem;}
+  .tab-button{font-size:.72rem;}
+  .hero{min-height:440px;}
+  .hero-copy h1{font-size:1.7rem;}
+  .shop-banner-copy{max-width:80%;padding:0 20px;}
+}
+</style>
 </head>
 <body>
 
-  <!-- Toast Notification -->
-  <div class="toast" id="toastBox">Item added to bag!</div>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="ic-earring" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <circle cx="32" cy="12" r="4.5"/><path d="M32 17 C 32 27, 21 32, 21 44 C 21 53, 27 57, 32 57 C 37 57, 43 53, 43 44 C 43 32, 32 27, 32 17 Z"/>
+    </symbol>
+    <symbol id="ic-ring" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="32" cy="40" r="15"/><path d="M24 25 L32 9 L40 25 Z"/><circle cx="32" cy="17" r="2.6"/>
+    </symbol>
+    <symbol id="ic-bracelet" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <ellipse cx="32" cy="32" rx="23" ry="13"/><circle cx="9" cy="32" r="2.6"/><circle cx="55" cy="32" r="2.6"/><circle cx="32" cy="19" r="2.2"/>
+    </symbol>
+    <symbol id="ic-necklace" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <path d="M9 11 C 9 38, 24 45, 32 45 C 40 45, 55 38, 55 11"/><circle cx="32" cy="47" r="6"/>
+    </symbol>
+    <symbol id="ic-anklet" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <ellipse cx="32" cy="24" rx="21" ry="11"/><line x1="32" y1="35" x2="32" y2="41"/><circle cx="32" cy="45" r="4"/>
+    </symbol>
+    <symbol id="ic-pendant" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="32" cy="11" r="3.6"/><path d="M27.5 15 L36.5 15 L41 33 C 41 46, 32 54, 32 54 C 32 54, 23 46, 23 33 Z"/>
+    </symbol>
+    <symbol id="ic-cufflink" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <circle cx="18" cy="32" r="10"/><circle cx="46" cy="32" r="10"/><line x1="28" y1="32" x2="36" y2="32"/>
+    </symbol>
+    <symbol id="ic-tieclip" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="10" y="27" width="44" height="10" rx="5"/><circle cx="32" cy="32" r="2"/>
+    </symbol>
+    <symbol id="ic-pin" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="32" cy="20" r="11"/><line x1="32" y1="31" x2="32" y2="52"/><line x1="26" y1="46" x2="38" y2="46"/>
+    </symbol>
+    <symbol id="ic-giftset" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="12" y="26" width="40" height="28" rx="2"/><line x1="32" y1="26" x2="32" y2="54"/><path d="M32 26 C 24 26, 22 14, 32 14 C 42 14, 40 26, 32 26 Z"/><line x1="12" y1="36" x2="52" y2="36"/>
+    </symbol>
+  </defs>
+</svg>
 
-  <!-- Social Proof Popup -->
-  <div class="social-proof" id="socialProof">
-    <img src="https://images.unsplash.com/photo-1599643478514-4a4e06b524cb?auto=format&fit=crop&w=100&q=80" id="spImg" alt="Jewelry">
-    <div>
-      <p style="margin: 0; font-size: 0.8rem; color: #777;" id="spLocation">Someone in Mumbai</p>
-      <p style="margin: 0; font-weight: 500;" id="spItem">Purchased a Pearl Necklace</p>
-    </div>
+<div class="toast" id="toastBox">Item added to bag!</div>
+
+<a href="https://wa.me/91XXXXXXXXXX?text=Hello!%20I%20would%20like%20to%20speak%20with%20a%20Marzi%20stylist." target="_blank" class="whatsapp-btn" aria-label="Chat on WhatsApp">
+  <!-- TODO: replace 91XXXXXXXXXX above with your real WhatsApp number -->
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.571-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+</a>
+
+<header>
+  <div class="logo">Marzi</div>
+  <nav class="nav-tabs" id="tabNav">
+    <button class="tab-button active" data-panel="home">Home</button>
+    <button class="tab-button" data-panel="core">Core</button>
+    <button class="tab-button" data-panel="baddie">Baddie</button>
+    <button class="tab-button" data-panel="corporate">Corporate</button>
+    <button class="tab-button" data-panel="about">About</button>
+    <button class="tab-button" data-panel="orders">Orders</button>
+  </nav>
+  <div class="nav-extra">
+    <select class="currency-select" id="currencySelect">
+      <option value="INR">₹ INR</option>
+      <option value="USD">$ USD</option>
+      <option value="GBP">£ GBP</option>
+      <option value="EUR">€ EUR</option>
+    </select>
+    <button class="mode-btn" id="darkModeBtn" aria-label="Toggle dark mode"><span id="modeIcon"></span></button>
+    <button class="cart-toggle" id="bagOpenBtn">Bag <span class="cart-badge" id="cartCount">0</span></button>
   </div>
+</header>
 
-  <!-- WhatsApp Button -->
-  <a href="https://wa.me/919876543210?text=Hello!%20I%20would%20like%20to%20speak%20with%20a%20Marzi%20stylist." target="_blank" class="whatsapp-btn" aria-label="Chat on WhatsApp">
-    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.571-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-  </a>
-
-  <!-- Header -->
-  <header class="no-print">
-    <div class="logo">Marzi</div>
-    <nav class="nav-tabs">
-      <button class="tab-button active" onclick="showPanel('homePanel', event)">Home</button>
-      <button class="tab-button" onclick="showPanel('shopPanel', event)">Core</button>
-      <button class="tab-button" onclick="showPanel('baddiePanel', event)">Baddie</button>
-      <button class="tab-button" onclick="showPanel('corpPanel', event)">Corporate</button>
-      <button class="tab-button" onclick="showPanel('aboutPanel', event)">About</button>
-    </nav>
-    <button class="cart-toggle" onclick="toggleCart(true)">
-      Bag <span class="cart-badge" id="cartCount">0</span>
-    </button>
-  </header>
-
-  <!-- Main Content -->
-  <main class="no-print">
-    <!-- Home -->
-    <section id="homePanel" class="tab-panel" style="display: block;">
-      <div class="hero">
-        <h1>Elegance in Every Detail</h1>
-        <p>Discover our handcrafted collections, blending traditional artistry with modern silhouettes.</p>
-        <button class="btn-solid" onclick="showPanel('shopPanel', {currentTarget: document.querySelectorAll('.tab-button')[1]})">Explore The Core</button>
-      </div>
-      <div class="features">
-        <div class="feature-item">
-          <h3>Ethically Sourced</h3>
-          <p>Conflict-free diamonds and recycled 18k gold.</p>
-        </div>
-        <div class="feature-item">
-          <h3>Handcrafted</h3>
-          <p>Forged by master artisans in our dedicated studio.</p>
-        </div>
-        <div class="feature-item">
-          <h3>Modern Heirlooms</h3>
-          <p>Pieces designed to be inherited, not just worn.</p>
+<main>
+  <!-- HOME -->
+  <section class="panel active" id="panel-home">
+    <div class="hero">
+      <div class="hero-media"><img src="{{IMG_HERO}}" alt="Marzi gold jewelry catching the light"></div>
+      <div class="light-sweep"></div>
+      <div class="hero-scrim"></div>
+      <div class="hero-copy">
+        <div class="eyebrow">Made in India, worn everywhere</div>
+        <h1>Because your hustle deserves a sparkle.</h1>
+        <p class="lede">Jewelry designed for the woman who turns ambition into action — from the boardroom to the breakthrough. Anti-tarnish, waterproof, made to keep pace with you.</p>
+        <div class="hero-cta">
+          <button class="btn-primary" onclick="showPanel('core')">Shop the Edit</button>
+          <button class="btn-ghost" onclick="showPanel('about')">Our Story</button>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Core Shop -->
-    <section id="shopPanel" class="tab-panel">
+    <div class="trust-strip">
+      <div class="trust-wrap">
+        <span>Secure UPI Checkout</span><span>Pan-India Delivery</span><span>Corporate Gifting</span><span>48-Hour Exchange</span>
+      </div>
+    </div>
+
+    <div class="features">
+      <div class="feature-item"><h3>Anti-tarnish</h3><p>316L steel, real gold plating — stays true through sweat and humidity.</p></div>
+      <div class="feature-item"><h3>Waterproof</h3><p>Shower, swim, sweat — the finish doesn't move.</p></div>
+      <div class="feature-item"><h3>Hypoallergenic</h3><p>Gentle on sensitive skin, made for daily wear.</p></div>
+    </div>
+
+    <div class="home-shop-teaser">
+      <div class="display">Three edits. One promise.</div>
+      <p>Core for every day, Baddie for when you want to be seen, Corporate for the gifts that open doors.</p>
+      <button class="btn-primary" onclick="showPanel('core')">Browse the Shop</button>
+    </div>
+  </section>
+
+  <!-- CORE -->
+  <section class="panel" id="panel-core">
+    <div class="shop-wrap">
+      <div class="shop-banner">
+        <img src="{{IMG_HERO}}" alt="Marzi gold jewelry edit">
+        <div class="shop-banner-copy"><div class="eyebrow">The Gold Edit</div><h3>Bold, sculptural, boardroom-ready.</h3></div>
+      </div>
       <div class="section-header">
         <h2>The Core Collection</h2>
-        <p>Timeless, minimalist pieces designed for everyday elegance.</p>
-        
-        <!-- Search & Filter Toolbar -->
-        <div class="toolbar">
-          <input type="text" id="searchInput" placeholder="Search jewelry (e.g., Pearl)..." onkeyup="filterProducts()">
-          <select id="sortSelect" onchange="filterProducts()">
-            <option value="default">Sort by: Default</option>
-            <option value="lowHigh">Price: Low to High</option>
-            <option value="highLow">Price: High to Low</option>
-          </select>
-        </div>
+        <p>Timeless, minimalist pieces for everyday elegance.</p>
       </div>
-      <div class="shop-grid" id="shopGrid"></div>
-    </section>
+      <div class="toolbar">
+        <input type="text" id="search-core" placeholder="Search (e.g. hoop, ring)…">
+        <select id="sort-core">
+          <option value="default">Sort: Default</option>
+          <option value="lowHigh">Price: Low to High</option>
+          <option value="highLow">Price: High to Low</option>
+        </select>
+      </div>
+      <div class="chips" id="chips-core"></div>
+      <div class="results-count" id="count-core"></div>
+      <div class="shop-grid" id="grid-core"></div>
+    </div>
+  </section>
 
-    <!-- Baddie Shop -->
-    <section id="baddiePanel" class="tab-panel">
+  <!-- BADDIE -->
+  <section class="panel" id="panel-baddie">
+    <div class="shop-wrap">
       <div class="section-header">
         <h2>Baddie Collection</h2>
-        <p>Unapologetic. Bold. Iconic. Chunky gold, iced-out links, and statement pieces.</p>
+        <p>Unapologetic. Bold. Iconic. Chunky gold, statement links, and pieces made to be seen.</p>
       </div>
-      <div class="shop-grid" id="baddieGrid"></div>
-    </section>
+      <div class="toolbar">
+        <input type="text" id="search-baddie" placeholder="Search (e.g. chain, cuff)…">
+        <select id="sort-baddie">
+          <option value="default">Sort: Default</option>
+          <option value="lowHigh">Price: Low to High</option>
+          <option value="highLow">Price: High to Low</option>
+        </select>
+      </div>
+      <div class="chips" id="chips-baddie"></div>
+      <div class="results-count" id="count-baddie"></div>
+      <div class="shop-grid" id="grid-baddie"></div>
+    </div>
+  </section>
 
-    <!-- Corporate Shop -->
-    <section id="corpPanel" class="tab-panel">
+  <!-- CORPORATE -->
+  <section class="panel" id="panel-corporate">
+    <div class="shop-wrap">
       <div class="section-header">
         <h2>Corporate Gifting</h2>
-        <p>Bespoke, sophisticated pieces perfect for milestones and executive gifts.</p>
+        <p>Bespoke, sophisticated pieces for milestones, client gifts, and executive teams.</p>
       </div>
-      <div class="shop-grid" id="corpGrid"></div>
-    </section>
-
-    <!-- About / Brand Story -->
-    <section id="aboutPanel" class="tab-panel">
-      <div class="about-content" style="max-width: 800px; margin: 0 auto; text-align: center; padding: 3rem 0;">
-        <h2 style="font-size: 3rem; margin-bottom: 2rem;">The Legend of Marzi</h2>
-        <p style="font-size: 1.2rem; margin-bottom: 1.5rem; text-align: justify; text-align-last: center;">It began with a forgotten velvet box in a dusty antique shop in Milan. Inside lay a single, imperfect gold ring—heavy, weathered, and etched with the initials <strong>"M.Z."</strong> It wasn't just a piece of metal; it was a relic of a love story.</p>
-        <div style="font-family: var(--font-heading); font-size: 1.8rem; font-style: italic; color: var(--accent-gold); margin: 3rem 0; padding: 2rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
-          "Jewelry shouldn't just decorate you. It should define you, outlive you, and tell your story when you no longer can."
-        </div>
-        <p style="font-size: 1.2rem; text-align: justify; text-align-last: center;">She created <em>Marzi</em> to bring back the era of the modern heirloom. Every piece we forge in our studio is designed to be an artifact.</p>
+      <div class="toolbar">
+        <input type="text" id="search-corporate" placeholder="Search (e.g. cufflinks, pin)…">
+        <select id="sort-corporate">
+          <option value="default">Sort: Default</option>
+          <option value="lowHigh">Price: Low to High</option>
+          <option value="highLow">Price: High to Low</option>
+        </select>
       </div>
-    </section>
-  </main>
-
-  <!-- Premium Footer -->
-  <footer class="no-print">
-    <div class="footer-grid">
-      <div class="footer-col">
-        <h4>Marzi</h4>
-        <p style="font-size: 0.95rem; color: #ccc; line-height: 1.8;">Forging modern heirlooms.<br>Ethically sourced, masterfully crafted.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Customer Care</h4>
-        <ul>
-          <li>Shipping & Returns</li>
-          <li>Jewelry Care Guide</li>
-          <li>Ring Size Chart</li>
-          <li>Lifetime Warranty</li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>About Us</h4>
-        <ul>
-          <li>Our Story</li>
-          <li>Sustainability</li>
-          <li>Corporate Gifting</li>
-          <li>Contact Us</li>
-        </ul>
-      </div>
-      <div class="footer-col footer-newsletter">
-        <h4>Join the Collector's Club</h4>
-        <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 1rem;">Unlock 10% off your first order (Code: MARZI10).</p>
-        <input type="email" placeholder="Enter your email address">
-        <button type="button" onclick="alert('Subscribed to Marzi newsletter!')">Subscribe</button>
-      </div>
+      <div class="chips" id="chips-corporate"></div>
+      <div class="results-count" id="count-corporate"></div>
+      <div class="shop-grid" id="grid-corporate"></div>
     </div>
-    <div class="footer-bottom">
-      &copy; 2024 Marzi Jewelry. All rights reserved. Built for elegance.
-    </div>
-  </footer>
+  </section>
 
-  <!-- Overlays & Drawers -->
-  <div class="overlay" id="mainOverlay" onclick="closeAll()"></div>
-  
-  <aside class="drawer" id="cartDrawer">
-    <div class="drawer-header">
-      <h2>Your Bag</h2>
-      <button class="close-btn" onclick="toggleCart(false)">&times;</button>
-    </div>
-    <div class="drawer-content" id="cartItems">
-      <p style="margin-top: 2rem; text-align: center; color: #777;">Your bag is empty.</p>
-    </div>
-    <div class="drawer-footer" id="cartFooter" style="display: none;">
-      
-      <!-- Promo Code Section -->
-      <div class="promo-box">
-        <input type="text" id="promoCodeInput" placeholder="Promo Code (Try MARZI10)">
-        <button onclick="applyPromo()">Apply</button>
+  <!-- ABOUT -->
+  <section class="panel" id="panel-about">
+    <div class="about-content">
+      <h2>The Legend of Marzi</h2>
+      <p>It began with a forgotten velvet box in a dusty antique shop — a single, imperfect gold ring, heavy and weathered, etched with two initials. It wasn't just a piece of metal; it was a relic of someone's story.</p>
+      <div class="pull-quote">"Jewelry shouldn't just decorate you. It should keep pace with you."</div>
+      <p>That's the promise Marzi is actually built on: pieces crafted for women who turn ambition into action, from the boardroom to the breakthrough. Every piece is 316L stainless steel with real gold plating underneath — not the brass-and-hope kind that turns your skin green by the second wear. Tested against water, sweat, and time, because jewelry you have to baby isn't jewelry you'll actually reach for on a busy morning.</p>
+      <p>We're based in India, shipping pan-India, and we keep the collection tight on purpose — three curated edits, not an endless scroll — so everything you see here is something we'd genuinely put on ourselves.</p>
+
+      <div class="about-grid">
+        <div class="about-card"><div class="num">316L</div><h4>Surgical steel base</h4><p>The same grade used in body-safe jewelry — built to outlast fashion pieces by years.</p></div>
+        <div class="about-card"><div class="num">48h</div><h4>Exchange window</h4><p>Simple and fair, backed by the unboxing video every order ships with.</p></div>
+        <div class="about-card"><div class="num">1:1</div><h4>Personally checked</h4><p>No faceless fulfillment center — every order is checked and packed by hand.</p></div>
       </div>
-      <div class="discount-applied" id="discountMsg">10% Discount Applied!</div>
+      <p class="signed">Wear your hustle — and let it sparkle. — Marzi</p>
+    </div>
+  </section>
 
-      <div class="cart-total-row">
-        <span>Subtotal</span>
-        <span id="cartTotalDisplay">₹0</span>
+  <!-- ORDERS (admin) -->
+  <section class="panel" id="panel-orders">
+    <div class="orders-wrap">
+      <div class="eyebrow">Owner Only</div>
+      <h2 class="display" style="font-size:2rem;margin-bottom:.4rem;">Orders</h2>
+      <p class="orders-sub">Every order placed — name, phone, address, items, engraving, gift wrap and total — so you can confirm payment, ship, and export to Excel for billing.</p>
+
+      <div id="ordersGate" class="gate">
+        <p>Enter your passcode to view orders. (Light gate only, not real security — change ADMIN_PASSCODE near the top of the script.)</p>
+        <input type="password" id="passcodeInput" placeholder="Passcode">
+        <div class="gate-error" id="gateError">Incorrect passcode — try again.</div>
+        <button class="step-btn" style="margin:0;" id="gateSubmit">Unlock</button>
       </div>
-      <button class="btn-solid" onclick="openCheckout()">Proceed to Checkout</button>
-    </div>
-  </aside>
 
-  <!-- Quick View Modal -->
-  <div class="modal" id="quickViewModal">
-    <div class="drawer-header" style="padding: 0 0 1rem 0; margin-bottom: 1rem; border-bottom: none;">
-      <h2 style="visibility: hidden;">Details</h2>
-      <button class="close-btn" onclick="closeAll()">&times;</button>
-    </div>
-    <div class="qv-content">
-      <div class="qv-image"><img id="qvImg" src="" alt="Product"></div>
-      <div class="qv-details">
-        <h3 id="qvTitle">Product Name</h3>
-        <p id="qvPrice">₹0</p>
-        <div class="form-group">
-          <label>Select Variant / Size</label>
-          <select id="qvSize">
-            <option>Standard Size</option>
-            <option>Size 6</option>
-            <option>Size 7</option>
-            <option>Size 8</option>
-            <option>Custom Fitting</option>
-          </select>
-        </div>
-        <!-- Hidden inputs to store raw data -->
-        <input type="hidden" id="qvRawPrice">
-        <button class="btn-solid" onclick="confirmAddToBag()">Confirm Add To Bag</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Checkout Modal -->
-  <div class="modal" id="checkoutModal">
-    <div class="drawer-header" style="padding: 0 0 1rem 0; margin-bottom: 1rem;">
-      <h2>Checkout</h2>
-      <button class="close-btn" onclick="closeAll()">&times;</button>
-    </div>
-    <form id="checkoutForm" onsubmit="processPayment(event)">
-      <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" id="custName" required placeholder="Jane Doe">
-      </div>
-      <div class="form-group">
-        <label>Shipping Address</label>
-        <textarea id="custAddress" rows="2" required placeholder="123 Jewelry Lane, City"></textarea>
-      </div>
-      
-      <!-- UPI Payment Section -->
-      <div class="qr-box">
-        <p style="font-weight: 600; font-size: 1.1rem; margin-bottom: 0.2rem;">Pay <span id="checkoutTotal" style="color: var(--accent-gold);"></span> via UPI</p>
-        <p style="font-size: 0.9rem; color: #555;">UPI ID: <strong>ektabhalerao29@ybl</strong></p>
-        <button type="button" class="upi-btn" id="upiAppBtn">Open UPI App to Pay</button>
-        <p style="font-size: 0.8rem; color: #999; margin: 1rem 0 0.5rem;">Or scan QR code if on desktop:</p>
-        <div style="width: 100px; height: 100px; background: #eee; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: #999;">[ QR ]</div>
-      </div>
-      <button type="submit" class="btn-solid">Confirm Payment & Get Invoice</button>
-    </form>
-  </div>
-
-  <!-- Invoice Modal -->
-  <div class="modal" id="invoiceModal" style="max-width: 600px;">
-    <div class="no-print" style="text-align: right; margin-bottom: 1rem;">
-      <button class="close-btn" onclick="closeAll()">&times;</button>
-    </div>
-    <div class="invoice-header">
-      <h1 style="font-size: 2rem; margin-bottom: 0.5rem; text-transform: uppercase;">Marzi</h1>
-      <p style="color: var(--accent-gold); letter-spacing: 2px;">TAX INVOICE</p>
-    </div>
-    <div class="invoice-details">
-      <div>
-        <strong>Billed To:</strong><br><span id="invName"></span><br><span id="invAddress"></span>
-      </div>
-      <div style="text-align: right;">
-        <strong>Order ID:</strong> <span id="invOrderNo"></span><br>
-        <strong>Date:</strong> <span id="invDate"></span><br>
-        <strong>Status:</strong> <span style="color: green;">PAID</span>
-      </div>
-    </div>
-    <table class="invoice-table">
-      <thead><tr><th>Item Description</th><th style="text-align: right;">Total</th></tr></thead>
-      <tbody id="invItems"></tbody>
-    </table>
-    <div style="text-align: right; font-size: 1.2rem; font-weight: bold;">
-      Total Paid: <span id="invTotal" style="color: var(--accent-gold);"></span>
-    </div>
-    <div class="no-print" style="margin-top: 2rem; text-align: center;">
-      <button class="btn-solid" onclick="window.print()">Print / Save PDF</button>
-    </div>
-  </div>
-
-  <!-- --- JavaScript Logic --- -->
-  <script>
-    // --- 1. Dynamic Product Generators with Wishlist integration ---
-    function generateCoreItems() {
-      const shopGrid = document.getElementById('shopGrid');
-      const imageUrls = [
-        "https://images.unsplash.com/photo-1599643478514-4a4e06b524cb?auto=format&fit=crop&w=500&q=80",
-        "https://images.unsplash.com/photo-1605100804763-247f67b2548e?auto=format&fit=crop&w=500&q=80",
-        "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=500&q=80",
-        "https://images.unsplash.com/photo-1587422316681-36b0cb5ef736?auto=format&fit=crop&w=500&q=80",
-        "https://images.unsplash.com/photo-1515562141207-7a8efd3dcfa1?auto=format&fit=crop&w=500&q=80"
-      ];
-      const adjectives = ['Lumina', 'Aura', 'Solstice', 'Vesper', 'Celeste', 'Nova', 'Crescent', 'Eterna', 'Radiant'];
-      const types = ['Pearl Necklace', 'Gold Hoops', 'Diamond Ring', 'Chain Bracelet', 'Pendant', 'Drop Earrings'];
-
-      let htmlContent = '';
-      for (let i = 1; i <= 100; i++) {
-        const randomImg = imageUrls[Math.floor(Math.random() * imageUrls.length)];
-        const randomName = adjectives[Math.floor(Math.random() * adjectives.length)] + ' ' + types[Math.floor(Math.random() * types.length)];
-        const price = Math.floor(Math.random() * 800) * 100 + 4500;
-        htmlContent += createProductCard(randomImg, randomName, price);
-      }
-      shopGrid.innerHTML = htmlContent;
-    }
-
-    function generateBaddieItems() {
-      const grid = document.getElementById('baddieGrid');
-      const baddieImages = [
-        "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=500&q=80",
-        "https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?auto=format&fit=crop&w=500&q=80",
-        "https://images.unsplash.com/photo-1602715456209-e8eb462fc535?auto=format&fit=crop&w=500&q=80",
-        "https://images.unsplash.com/photo-1620656798579-197fa11c3491?auto=format&fit=crop&w=500&q=80"
-      ];
-      const names = ['Oversized Boss Hoops', 'Miami Cuban Choker', 'Iced Out Initial Pendant', 'Stacked Eternity Rings', 'Heavy Gold Chain', 'Diamond Grill Ring'];
-
-      let htmlContent = '';
-      for (let i = 1; i <= 15; i++) {
-        const randomImg = baddieImages[Math.floor(Math.random() * baddieImages.length)];
-        const randomName = names[Math.floor(Math.random() * names.length)];
-        const price = Math.floor(Math.random() * 500) * 100 + 12000;
-        htmlContent += createProductCard(randomImg, randomName, price);
-      }
-      grid.innerHTML = htmlContent;
-    }
-
-    function generateCorporateItems() {
-      const grid = document.getElementById('corpGrid');
-      const corpImages = [
-        "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?auto=format&fit=crop&w=500&q=80",
-        "https://images.unsplash.com/photo-1599643477877-530e55b1eb1a?auto=format&fit=crop&w=500&q=80",
-        "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=500&q=80"
-      ];
-      const names = ['Executive Cufflinks', 'Signature Tie Clip', 'Minimalist Tennis Bracelet', 'CEO Watch Set', 'Platinum Lapel Pin', 'Onyx Signet Ring'];
-
-      let htmlContent = '';
-      for (let i = 1; i <= 15; i++) {
-        const randomImg = corpImages[Math.floor(Math.random() * corpImages.length)];
-        const randomName = names[Math.floor(Math.random() * names.length)];
-        const price = Math.floor(Math.random() * 300) * 100 + 8000;
-        htmlContent += createProductCard(randomImg, randomName, price);
-      }
-      grid.innerHTML = htmlContent;
-    }
-
-    function createProductCard(imgSrc, title, price) {
-      const formattedPrice = '₹' + price.toLocaleString('en-IN');
-      return `
-        <div class="product-card" data-price="${price}" data-title="${title.toLowerCase()}">
-          <div class="wishlist-btn" title="Add to Wishlist">♥</div>
-          <div class="product-image">
-            <img src="${imgSrc}" alt="${title}" loading="lazy">
+      <div id="ordersContent" style="display:none;">
+        <div class="orders-toolbar">
+          <div class="count" id="ordersCount">0 orders</div>
+          <div class="orders-actions">
+            <button class="btn-small refresh" id="refreshOrders">Refresh</button>
+            <button class="btn-small export" id="exportOrders">Export to Excel</button>
           </div>
-          <h3 class="product-title">${title}</h3>
-          <p class="product-price">${formattedPrice}</p>
-          <button class="add-to-bag">Quick Add</button>
         </div>
-      `;
-    }
+        <div class="orders-table-wrap">
+          <table class="orders-table">
+            <thead><tr><th>Order ID</th><th>Date</th><th>Customer</th><th>Phone</th><th>Address</th><th>Items</th><th>Extras</th><th>Total</th><th>Status</th></tr></thead>
+            <tbody id="ordersTbody"></tbody>
+          </table>
+          <div class="orders-empty" id="ordersEmpty" style="display:none;">No orders yet — once a customer checks out, it'll show up here.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
 
-    generateCoreItems();
-    generateBaddieItems();
-    generateCorporateItems();
+<!-- RECENTLY VIEWED (persistent across panels) -->
+<div class="recently-viewed" id="recentlyViewedWrap" style="display:none;">
+  <div class="rv-wrap">
+    <div class="eyebrow" style="margin-bottom:0;">Recently Viewed</div>
+    <div class="rv-strip" id="recentlyViewedStrip"></div>
+  </div>
+</div>
 
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Marzi</h4>
+      <p>Because your hustle deserves a sparkle.<br>Anti-tarnish, waterproof, made in India.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Customer Care</h4>
+      <ul><li>Shipping &amp; Returns</li><li>48-Hour Exchange</li><li>Ring Size Guide</li><li>Contact via WhatsApp</li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <ul><li>Our Story</li><li>Corporate Gifting</li><li>Track an Order</li></ul>
+    </div>
+    <div class="footer-col footer-newsletter">
+      <h4>Join the List</h4>
+      <p style="margin-bottom:.8rem;">Unlock 10% off your first order (Code: MARZI10).</p>
+      <input type="email" id="newsletterEmail" placeholder="Enter your email address">
+      <button type="button" id="newsletterBtn">Subscribe</button>
+    </div>
+  </div>
+  <div class="footer-bottom">&copy; 2026 Marzi Jewelry. Made in India.</div>
+</footer>
 
-    // --- 2. Search & Sort Logic ---
-    function filterProducts() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      const sortVal = document.getElementById('sortSelect').value;
-      const grid = document.getElementById('shopGrid');
-      const cards = Array.from(grid.getElementsByClassName('product-card'));
+<div class="overlay" id="overlay"></div>
 
-      cards.forEach(card => {
-        // Search Filter
-        const title = card.getAttribute('data-title');
-        if (title.includes(query)) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
+<aside class="drawer" id="cartDrawer">
+  <div class="drawer-header">
+    <div><div class="drawer-step-label" id="drawerStepLabel">Your Bag</div><h2 id="drawerTitle">Your Bag</h2></div>
+    <button class="close-btn" id="drawerClose">&times;</button>
+  </div>
+  <div class="drawer-content" id="drawerItems"></div>
+  <div class="drawer-footer" id="drawerFoot"></div>
+</aside>
 
-      // Sort Filter (rearranges DOM order based on flex/grid order)
-      if (sortVal !== 'default') {
-        cards.sort((a, b) => {
-          const priceA = parseInt(a.getAttribute('data-price'));
-          const priceB = parseInt(b.getAttribute('data-price'));
-          return sortVal === 'lowHigh' ? priceA - priceB : priceB - priceA;
-        });
-        cards.forEach((card, index) => {
-          card.style.order = index;
-        });
-      }
-    }
+<div class="modal" id="quickViewModal">
+  <div class="modal-head no-print"><button class="close-btn" onclick="closeAllModals()">&times;</button></div>
+  <div class="qv-content">
+    <div class="qv-media" id="qvImg"></div>
+    <div class="qv-details">
+      <div class="qv-cat" id="qvCat">Category</div>
+      <h3 id="qvTitle">Product Name</h3>
+      <div class="qv-price" id="qvPrice">₹0</div>
+      <div class="qv-bnpl" id="qvBnpl"></div>
+      <div class="qv-field">
+        <label for="qvVariant">Size / Variant</label>
+        <select id="qvVariant"></select>
+      </div>
+      <div class="qv-field">
+        <label for="qvEngraving">Add an Engraving (max 10 characters)</label>
+        <input type="text" id="qvEngraving" maxlength="10" placeholder="e.g. E.B. or a date">
+        <div class="qv-charcount" id="qvEngravingCount">0/10</div>
+      </div>
+      <button class="step-btn" style="margin-top:6px;" onclick="confirmAddToBag()">Confirm Add to Bag</button>
+    </div>
+  </div>
+</div>
 
+<div class="modal" id="invoiceModal">
+  <div class="modal-head no-print"><button class="close-btn" onclick="closeAllModals()">&times;</button></div>
+  <div class="invoice-brand">
+    <h1>Marzi</h1>
+    <p>TAX INVOICE</p>
+  </div>
+  <div class="invoice-meta">
+    <div><strong>Billed To:</strong><br><span id="invName"></span><br><span id="invAddress"></span></div>
+    <div style="text-align:right;"><strong>Order ID:</strong> <span id="invOrderNo"></span><br><strong>Date:</strong> <span id="invDate"></span><br><strong>Status:</strong> <span id="invStatus"></span></div>
+  </div>
+  <table class="invoice-table">
+    <thead><tr><th>Item</th><th style="text-align:right;">Total</th></tr></thead>
+    <tbody id="invItems"></tbody>
+  </table>
+  <div class="invoice-total">Total: <span id="invTotal"></span></div>
+  <div class="no-print" style="margin-top:1.6rem;text-align:center;">
+    <button class="step-btn" style="width:auto;padding:14px 30px;display:inline-block;" onclick="window.print()">Print / Save PDF</button>
+  </div>
+</div>
 
-    // --- 3. Event Delegation for Wishlist & Quick View ---
-    document.querySelector('main').addEventListener('click', (e) => {
-      // Handle Wishlist Toggle
-      if (e.target.classList.contains('wishlist-btn')) {
-        e.target.classList.toggle('liked');
-        if (e.target.classList.contains('liked')) {
-          showToast("Added to Wishlist ♥");
-        } else {
-          showToast("Removed from Wishlist");
-        }
-        return; // Stop here
-      }
+<script>
+const ADMIN_PASSCODE = "marzi2026"; // change this to your own passcode
+const UPI_ID = "ektabhalerao29@ybl";
+const PAYEE_NAME = "Marzi Jewelry";
+const GIFT_WRAP_FEE = 500;
 
-      // Handle Quick View Modal
-      if (e.target.classList.contains('add-to-bag')) {
-        const card = e.target.closest('.product-card');
-        const title = card.querySelector('.product-title').textContent;
-        const priceText = card.querySelector('.product-price').textContent;
-        const priceNum = card.getAttribute('data-price');
-        const imgSrc = card.querySelector('img').src;
+// Approximate FX rates for DISPLAY / browsing only (mid-July 2026).
+// Checkout, the cart total, and the UPI payment are always charged in real INR — update these numbers periodically.
+const FX = { INR: 1, USD: 1/96.5, GBP: 1/129.3, EUR: 1/109.7 };
+const CUR_SYMBOL = { INR:'₹', USD:'$', GBP:'£', EUR:'€' };
+let activeCurrency = 'INR';
 
-        // Populate Modal
-        document.getElementById('qvTitle').textContent = title;
-        document.getElementById('qvPrice').textContent = priceText;
-        document.getElementById('qvRawPrice').value = priceNum;
-        document.getElementById('qvImg').src = imgSrc;
-        
-        // Open Modal
-        document.getElementById('mainOverlay').style.display = 'block';
-        document.getElementById('quickViewModal').style.display = 'block';
-      }
-    });
+const ICON = {Earrings:"ic-earring", Rings:"ic-ring", Bracelets:"ic-bracelet", Necklaces:"ic-necklace", Anklets:"ic-anklet", Pendants:"ic-pendant", Accessories:"ic-pin", GiftSets:"ic-giftset"};
 
-    // --- 4. Cart & Promo Logic ---
-    let cart = [];
-    let cartTotalAmount = 0;
-    let discountApplied = false;
+const PRODUCTS = [
+  {id:1, name:"Sana Hoop Earrings", cat:"Earrings", coll:"core", price:279},
+  {id:2, name:"Meher Drop Earrings", cat:"Earrings", coll:"core", price:329},
+  {id:3, name:"Zara Stud Earrings", cat:"Earrings", coll:"core", price:199},
+  {id:4, name:"Anika Textured Studs", cat:"Earrings", coll:"core", price:399, img:"{{IMG_STUDS}}"},
+  {id:5, name:"Iris Threader Earrings", cat:"Earrings", coll:"core", price:249},
+  {id:6, name:"Noor Studded Ring", cat:"Rings", coll:"core", price:229},
+  {id:7, name:"Kiara Leaf Wrap Ring", cat:"Rings", coll:"core", price:249, img:"{{IMG_RING}}"},
+  {id:8, name:"Anaya Adjustable Ring", cat:"Rings", coll:"core", price:199},
+  {id:9, name:"Meher Chain Bracelet", cat:"Bracelets", coll:"core", price:299},
+  {id:10, name:"Tara Cuff Bracelet", cat:"Bracelets", coll:"core", price:349},
+  {id:11, name:"Ira Pendant Necklace", cat:"Necklaces", coll:"core", price:459, img:"{{IMG_PENDANT}}"},
+  {id:12, name:"Zoya Choker", cat:"Necklaces", coll:"core", price:499},
+  {id:13, name:"Miami Link Chain Necklace", cat:"Necklaces", coll:"baddie", price:899},
+  {id:14, name:"Iced Initial Pendant", cat:"Pendants", coll:"baddie", price:599},
+  {id:15, name:"Oversized Boss Hoops", cat:"Earrings", coll:"baddie", price:449},
+  {id:16, name:"Chunky Cuban Bracelet", cat:"Bracelets", coll:"baddie", price:699},
+  {id:17, name:"Stacked Statement Rings (Set of 3)", cat:"Rings", coll:"baddie", price:549},
+  {id:18, name:"Bold Door-Knocker Hoops", cat:"Earrings", coll:"baddie", price:479},
+  {id:19, name:"Sculptural Cuff", cat:"Bracelets", coll:"baddie", price:649},
+  {id:20, name:"Chain-Link Anklet", cat:"Anklets", coll:"baddie", price:399},
+  {id:21, name:"Executive Cufflinks (Pair)", cat:"Accessories", coll:"corporate", price:799, icon:"ic-cufflink"},
+  {id:22, name:"Signature Tie Clip", cat:"Accessories", coll:"corporate", price:549, icon:"ic-tieclip"},
+  {id:23, name:"Minimalist Tennis Bracelet", cat:"Bracelets", coll:"corporate", price:899},
+  {id:24, name:"Platinum-Finish Lapel Pin", cat:"Accessories", coll:"corporate", price:449, icon:"ic-pin"},
+  {id:25, name:"Onyx Signet Ring", cat:"Rings", coll:"corporate", price:649},
+  {id:26, name:"Classic Pearl Studs", cat:"Earrings", coll:"corporate", price:399},
+  {id:27, name:"Boardroom Gift Set", cat:"GiftSets", coll:"corporate", price:1199, icon:"ic-giftset"},
+  {id:28, name:"Engraved Nameplate Pendant", cat:"Pendants", coll:"corporate", price:549},
+];
 
-    function confirmAddToBag() {
-      const title = document.getElementById('qvTitle').textContent;
-      const priceText = document.getElementById('qvPrice').textContent;
-      const priceNum = parseInt(document.getElementById('qvRawPrice').value);
-      const variant = document.getElementById('qvSize').value;
-      
-      const fullTitle = `${title} (${variant})`;
-      cart.push({ title: fullTitle, price: priceNum, priceText });
-      
-      updateCart();
-      closeAll();
-      showToast("Item added to your bag");
-    }
+function getVariants(p){
+  if(p.cat==="Rings") return ["Size 6","Size 7","Size 8","Size 9","Adjustable"];
+  return ["Standard"];
+}
+function formatDisplay(inrAmount){
+  const rate = FX[activeCurrency];
+  const val = inrAmount * rate;
+  const formatted = activeCurrency === 'INR' ? Math.round(val).toLocaleString('en-IN') : val.toFixed(2);
+  return CUR_SYMBOL[activeCurrency] + formatted;
+}
+function formatINR(amount){ return '₹' + Math.round(amount).toLocaleString('en-IN'); }
 
-    function applyPromo() {
-      const code = document.getElementById('promoCodeInput').value.trim().toUpperCase();
-      if (code === 'MARZI10') {
-        discountApplied = true;
-        document.getElementById('discountMsg').style.display = 'block';
-        updateCart(); // Recalculate
-        showToast("Promo Code Applied!");
-      } else {
-        alert("Invalid Promo Code");
-      }
-    }
+/* ---------- state ---------- */
+let cart = {};
+let checkoutStep = "cart";
+let customerDetails = {name:"", phone:"", address:""};
+let lastOrder = null;
+let giftWrap = false;
+let promoCode = '';
+let promoDiscountPct = 0;
+let wishlist = new Set();
+let recentlyViewed = [];
+let qvProduct = null;
+const shopState = {
+  core: {search:'', cat:'All', sort:'default'},
+  baddie: {search:'', cat:'All', sort:'default'},
+  corporate: {search:'', cat:'All', sort:'default'},
+};
 
-    function updateCart() {
-      const container = document.getElementById('cartItems');
-      const footer = document.getElementById('cartFooter');
-      document.getElementById('cartCount').textContent = cart.length;
+/* ---------- tabs ---------- */
+document.getElementById('tabNav').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button[data-panel]');
+  if(!btn) return;
+  showPanel(btn.dataset.panel);
+});
+function showPanel(name){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  document.querySelectorAll('.tab-button').forEach(b=>b.classList.toggle('active', b.dataset.panel===name));
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(name==='orders' && ordersUnlocked) loadOrders();
+}
 
-      if (cart.length === 0) {
-        container.innerHTML = '<p style="margin-top: 2rem; text-align: center; color: #777;">Your bag is empty.</p>';
-        footer.style.display = 'none';
-        discountApplied = false; // Reset discount if cart is empty
-        document.getElementById('discountMsg').style.display = 'none';
-        document.getElementById('promoCodeInput').value = '';
-        return;
-      }
+/* ---------- dark mode ---------- */
+const MOON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></svg>';
+const SUN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>';
+document.getElementById('modeIcon').innerHTML = MOON_SVG;
+document.getElementById('darkModeBtn').addEventListener('click', ()=>{
+  const dark = document.body.classList.toggle('dark-mode');
+  document.getElementById('modeIcon').innerHTML = dark ? SUN_SVG : MOON_SVG;
+});
 
-      footer.style.display = 'block';
-      container.innerHTML = '';
-      let rawTotal = 0;
+/* ---------- currency ---------- */
+document.getElementById('currencySelect').addEventListener('change', (e)=>{
+  activeCurrency = e.target.value;
+  renderAllGrids();
+  renderRecentlyViewed();
+});
 
-      cart.forEach((item, index) => {
-        rawTotal += item.price;
-        container.innerHTML += `
-          <div class="cart-item">
-            <div>
-              <h4 style="color: var(--text-main); font-size: 1.1rem;">${item.title}</h4>
-              <button onclick="removeItem(${index})" style="font-size: 0.8rem; color: red; margin-top: 5px;">Remove</button>
+/* ---------- toast ---------- */
+function showToast(msg){
+  const t = document.getElementById('toastBox');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+/* ---------- wishlist (persisted, private per browser) ---------- */
+async function loadWishlist(){
+  try{
+    const rec = await window.storage.get('wishlist', false);
+    if(rec && rec.value) wishlist = new Set(JSON.parse(rec.value));
+  }catch(e){ /* nothing saved yet */ }
+  renderAllGrids();
+}
+async function saveWishlist(){
+  try{ await window.storage.set('wishlist', JSON.stringify([...wishlist]), false); }
+  catch(e){ console.error('wishlist save failed', e); }
+}
+function toggleWishlist(id){
+  if(wishlist.has(id)) wishlist.delete(id); else wishlist.add(id);
+  saveWishlist();
+  renderAllGrids();
+  showToast(wishlist.has(id) ? 'Added to Wishlist ♥' : 'Removed from Wishlist');
+}
+
+/* ---------- recently viewed ---------- */
+function trackView(id){
+  recentlyViewed = recentlyViewed.filter(x=>x!==id);
+  recentlyViewed.unshift(id);
+  if(recentlyViewed.length>5) recentlyViewed = recentlyViewed.slice(0,5);
+  renderRecentlyViewed();
+}
+function renderRecentlyViewed(){
+  const wrap = document.getElementById('recentlyViewedWrap');
+  if(recentlyViewed.length===0){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+  const strip = document.getElementById('recentlyViewedStrip');
+  strip.innerHTML = recentlyViewed.map(id=>{
+    const p = PRODUCTS.find(x=>x.id===id);
+    if(!p) return '';
+    return `<div class="rv-card" data-id="${p.id}">
+      <div class="rv-art">${p.img?`<img src="${p.img}" alt="${p.name}"/>`:`<svg><use href="#${p.icon||ICON[p.cat]}"/></svg>`}</div>
+      <div class="rv-name">${p.name}</div>
+      <div class="rv-price">${formatDisplay(p.price)}</div>
+    </div>`;
+  }).join('');
+  strip.querySelectorAll('.rv-card').forEach(el=>{
+    el.addEventListener('click', ()=>openQuickView(Number(el.dataset.id)));
+  });
+}
+
+/* ---------- shop grids ---------- */
+function renderAllGrids(){ ['core','baddie','corporate'].forEach(renderShopTab); }
+function renderShopTab(coll){
+  const state = shopState[coll];
+  const list = PRODUCTS.filter(p=>p.coll===coll);
+  const cats = [...new Set(list.map(p=>p.cat))];
+  const chipRow = document.getElementById('chips-'+coll);
+  chipRow.innerHTML = ['All',...cats].map(c=>`<button class="chip ${state.cat===c?'active':''}" data-cat="${c}">${c}</button>`).join('');
+  chipRow.querySelectorAll('.chip').forEach(ch=>{
+    ch.addEventListener('click', ()=>{ state.cat = ch.dataset.cat; renderShopTab(coll); });
+  });
+
+  let filtered = list.filter(p=>{
+    const matchCat = state.cat==='All' || p.cat===state.cat;
+    const matchSearch = !state.search || p.name.toLowerCase().includes(state.search.toLowerCase());
+    return matchCat && matchSearch;
+  });
+  if(state.sort==='lowHigh') filtered = filtered.slice().sort((a,b)=>a.price-b.price);
+  if(state.sort==='highLow') filtered = filtered.slice().sort((a,b)=>b.price-a.price);
+
+  document.getElementById('count-'+coll).textContent = `${filtered.length} piece${filtered.length!==1?'s':''}`;
+  const gridEl = document.getElementById('grid-'+coll);
+  if(filtered.length===0){
+    gridEl.innerHTML = `<div class="empty-state">No pieces match — try a different search or category.</div>`;
+    return;
+  }
+  gridEl.innerHTML = filtered.map(renderCard).join('');
+  wireCardButtons(gridEl);
+}
+function renderCard(p){
+  const liked = wishlist.has(p.id);
+  return `
+  <div class="card">
+    <div class="wishlist-btn ${liked?'liked':''}" data-id="${p.id}" title="Add to Wishlist">♥</div>
+    <div class="card-art" data-id="${p.id}">${p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy"/>`:`<svg><use href="#${p.icon||ICON[p.cat]}"/></svg>`}</div>
+    <div class="card-cat">${p.cat}</div>
+    <div class="card-name">${p.name}</div>
+    <div class="card-price">${formatDisplay(p.price)}</div>
+    <button class="card-add" data-id="${p.id}">Quick View &amp; Add</button>
+  </div>`;
+}
+function wireCardButtons(scopeEl){
+  scopeEl.querySelectorAll('.wishlist-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>toggleWishlist(Number(btn.dataset.id)));
+  });
+  scopeEl.querySelectorAll('.card-art, .card-add').forEach(el=>{
+    el.addEventListener('click', ()=>openQuickView(Number(el.dataset.id)));
+  });
+}
+['core','baddie','corporate'].forEach(coll=>{
+  document.getElementById('search-'+coll).addEventListener('input', e=>{ shopState[coll].search = e.target.value; renderShopTab(coll); });
+  document.getElementById('sort-'+coll).addEventListener('change', e=>{ shopState[coll].sort = e.target.value; renderShopTab(coll); });
+});
+
+/* ---------- quick view ---------- */
+document.getElementById('qvEngraving').addEventListener('input', (e)=>{
+  let v = e.target.value;
+  if(v.length>10){ v = v.slice(0,10); e.target.value = v; }
+  document.getElementById('qvEngravingCount').textContent = `${v.length}/10`;
+});
+function openQuickView(id){
+  qvProduct = PRODUCTS.find(p=>p.id===id);
+  if(!qvProduct) return;
+  trackView(id);
+  document.getElementById('qvImg').innerHTML = qvProduct.img ? `<img src="${qvProduct.img}" alt="${qvProduct.name}"/>` : `<svg><use href="#${qvProduct.icon||ICON[qvProduct.cat]}"/></svg>`;
+  document.getElementById('qvCat').textContent = qvProduct.cat;
+  document.getElementById('qvTitle').textContent = qvProduct.name;
+  document.getElementById('qvPrice').textContent = formatDisplay(qvProduct.price);
+  const bnpl = Math.round(qvProduct.price/3);
+  document.getElementById('qvBnpl').textContent = `Or split into 3 payments of ${formatINR(bnpl)}`;
+  document.getElementById('qvVariant').innerHTML = getVariants(qvProduct).map(v=>`<option>${v}</option>`).join('');
+  document.getElementById('qvEngraving').value = '';
+  document.getElementById('qvEngravingCount').textContent = '0/10';
+  openModal('quickViewModal');
+}
+function confirmAddToBag(){
+  const variant = document.getElementById('qvVariant').value;
+  const engraving = document.getElementById('qvEngraving').value.trim();
+  addToCart(qvProduct.id, variant, engraving);
+  closeAllModals();
+  showToast('Added to your bag');
+}
+
+/* ---------- cart ---------- */
+function addToCart(id, variant, engraving){
+  const p = PRODUCTS.find(x=>x.id===id);
+  const key = `${id}::${variant}::${engraving}`;
+  if(cart[key]) cart[key].qty += 1;
+  else cart[key] = {key, id, name:p.name, cat:p.cat, price:p.price, qty:1, variant, engraving};
+  updateBagCount();
+  if(checkoutStep==='summary'||checkoutStep==='pay') checkoutStep='cart';
+  renderDrawer();
+}
+function changeQty(key, delta){
+  if(!cart[key]) return;
+  cart[key].qty += delta;
+  if(cart[key].qty<=0) delete cart[key];
+  updateBagCount(); renderDrawer();
+}
+function removeItem(key){ delete cart[key]; updateBagCount(); renderDrawer(); }
+function cartItemsArray(){ return Object.values(cart); }
+function cartSubtotal(){ return cartItemsArray().reduce((s,i)=>s+i.price*i.qty,0); }
+function cartTotal(){
+  const subtotal = cartSubtotal();
+  const discount = Math.round(subtotal*promoDiscountPct/100);
+  const wrapFee = giftWrap ? GIFT_WRAP_FEE : 0;
+  return subtotal - discount + wrapFee;
+}
+function updateBagCount(){
+  document.getElementById('cartCount').textContent = cartItemsArray().reduce((a,i)=>a+i.qty,0);
+}
+function applyPromo(code){
+  if(code.trim().toUpperCase()==='MARZI10'){ promoCode='MARZI10'; promoDiscountPct=10; return true; }
+  return false;
+}
+
+/* ---------- drawer open/close ---------- */
+function openDrawer(){ document.getElementById('overlay').classList.add('open'); document.getElementById('cartDrawer').classList.add('open'); renderDrawer(); }
+function closeDrawer(){ document.getElementById('cartDrawer').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
+document.getElementById('bagOpenBtn').addEventListener('click', openDrawer);
+document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+function goToStep(step){ checkoutStep = step; renderDrawer(); }
+
+/* ---------- modals ---------- */
+function openModal(id){ document.getElementById('overlay').classList.add('open'); document.getElementById(id).classList.add('open'); }
+function closeAllModals(){ document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open')); document.getElementById('overlay').classList.remove('open'); }
+document.getElementById('overlay').addEventListener('click', ()=>{ closeDrawer(); closeAllModals(); });
+
+/* ---------- drawer step machine ---------- */
+function renderDrawer(){
+  const items = document.getElementById('drawerItems');
+  const foot = document.getElementById('drawerFoot');
+  const label = document.getElementById('drawerStepLabel');
+  const title = document.getElementById('drawerTitle');
+
+  if(checkoutStep === 'cart'){
+    label.textContent = 'Step 1 of 3'; title.textContent = 'Your Bag';
+    const list = cartItemsArray();
+    if(list.length===0){
+      items.innerHTML = `<p class="drawer-empty">Your bag is empty.</p>`;
+    } else {
+      items.innerHTML = `<div class="upi-hint">Bag &amp; checkout shown in ₹ INR — UPI only supports INR.</div>` + list.map(i=>{
+        const p = PRODUCTS.find(x=>x.id===i.id);
+        return `
+        <div class="cart-item">
+          ${p.img?`<img src="${p.img}" alt="${i.name}"/>`:`<svg><use href="#${p.icon||ICON[p.cat]}"/></svg>`}
+          <div style="flex:1">
+            <div class="di-name">${i.name}</div>
+            ${i.variant && i.variant!=='Standard' ? `<div class="di-meta">Size: ${i.variant}</div>` : ''}
+            ${i.engraving ? `<div class="di-meta">Engraved: "${i.engraving}"</div>` : ''}
+            <div class="di-price">${formatINR(i.price)} × ${i.qty}</div>
+            <div class="qty-ctrl">
+              <button data-act="dec" data-key="${i.key}">−</button><span>${i.qty}</span><button data-act="inc" data-key="${i.key}">+</button>
             </div>
-            <div style="color: var(--accent-gold); font-weight: 500;">${item.priceText}</div>
           </div>
-        `;
+          <button class="di-remove" data-act="remove" data-key="${i.key}">Remove</button>
+        </div>`;
+      }).join('');
+      items.querySelectorAll('button[data-act]').forEach(btn=>{
+        const key = btn.dataset.key;
+        btn.addEventListener('click', ()=>{
+          if(btn.dataset.act==='inc') changeQty(key,1);
+          if(btn.dataset.act==='dec') changeQty(key,-1);
+          if(btn.dataset.act==='remove') removeItem(key);
+        });
       });
-
-      // Apply 10% discount if active
-      if (discountApplied) {
-        cartTotalAmount = Math.floor(rawTotal * 0.9);
-      } else {
-        cartTotalAmount = rawTotal;
-      }
-
-      const formattedTotal = '₹' + cartTotalAmount.toLocaleString('en-IN');
-      document.getElementById('cartTotalDisplay').textContent = formattedTotal;
-      document.getElementById('checkoutTotal').textContent = formattedTotal;
-
-      const upiBtn = document.getElementById('upiAppBtn');
-      const upiID = "ektabhalerao29@ybl";
-      const storeName = encodeURIComponent("Marzi Jewelry");
-      const upiLink = `upi://pay?pa=${upiID}&pn=${storeName}&am=${cartTotalAmount}.00&cu=INR`;
-      
-      upiBtn.onclick = () => { window.location.href = upiLink; };
     }
+    foot.innerHTML = `
+      <div class="giftwrap-row">
+        <label class="switch"><input type="checkbox" id="giftWrapToggle" ${giftWrap?'checked':''}><span class="slider-toggle"></span></label>
+        <span>Add Velvet Gift Box &amp; Ribbon (+${formatINR(GIFT_WRAP_FEE)})</span>
+      </div>
+      <div class="promo-row"><input type="text" id="promoInput" placeholder="Promo code (try MARZI10)" value="${promoCode}"><button id="promoApplyBtn">Apply</button></div>
+      ${promoDiscountPct>0 ? `<div class="promo-applied">✓ ${promoCode} applied — ${promoDiscountPct}% off</div>` : ''}
+      <div class="cart-total-row"><span>Total</span><span class="amt">${formatINR(cartTotal())}</span></div>
+      <button class="step-btn" id="toDetailsBtn" ${list.length===0?'disabled':''}>Continue to Details</button>
+    `;
+    document.getElementById('giftWrapToggle').addEventListener('change', e=>{ giftWrap = e.target.checked; renderDrawer(); });
+    document.getElementById('promoApplyBtn').addEventListener('click', ()=>{
+      const val = document.getElementById('promoInput').value;
+      if(applyPromo(val)) showToast('Promo code applied!'); else showToast('Invalid promo code');
+      renderDrawer();
+    });
+    const toDetails = document.getElementById('toDetailsBtn');
+    if(toDetails) toDetails.addEventListener('click', ()=>goToStep('details'));
+    return;
+  }
 
-    function removeItem(index) {
-      cart.splice(index, 1);
-      updateCart();
+  if(checkoutStep === 'details'){
+    label.textContent = 'Step 2 of 3'; title.textContent = 'Delivery Details';
+    items.innerHTML = `
+      <div class="form-field"><label for="custName">Full Name</label><input type="text" id="custName" value="${customerDetails.name}" placeholder="e.g. Priya Sharma"></div>
+      <div class="form-field"><label for="custPhone">Phone Number</label><input type="tel" id="custPhone" value="${customerDetails.phone}" placeholder="10-digit mobile number"></div>
+      <div class="form-field"><label for="custAddress">Delivery Address</label><textarea id="custAddress" placeholder="Flat / street / city / state / pincode">${customerDetails.address}</textarea></div>
+      <div class="field-error" id="detailsError">Please fill in your name, a valid phone number, and full address.</div>
+    `;
+    foot.innerHTML = `<button class="step-btn secondary" id="backToCart">Back to Bag</button><button class="step-btn" id="toSummary">Review Order</button>`;
+    document.getElementById('backToCart').addEventListener('click', ()=>goToStep('cart'));
+    document.getElementById('toSummary').addEventListener('click', ()=>{
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const address = document.getElementById('custAddress').value.trim();
+      const phoneOk = /^[0-9+\-\s]{7,15}$/.test(phone);
+      if(!name || !phoneOk || !address){ document.getElementById('detailsError').style.display='block'; return; }
+      customerDetails = {name, phone, address};
+      goToStep('summary');
+    });
+    return;
+  }
+
+  if(checkoutStep === 'summary'){
+    label.textContent = 'Step 3 of 3'; title.textContent = 'Review Order';
+    const list = cartItemsArray();
+    const subtotal = cartSubtotal();
+    const discount = Math.round(subtotal*promoDiscountPct/100);
+    items.innerHTML = `
+      <div class="summary-block">
+        <h4>Items</h4>
+        ${list.map(i=>`<div class="summary-line"><span>${i.name}${i.variant&&i.variant!=='Standard'?` (${i.variant})`:''}${i.engraving?` — "${i.engraving}"`:''} × ${i.qty}</span><span>${formatINR(i.price*i.qty)}</span></div>`).join('')}
+        ${promoDiscountPct>0?`<div class="summary-line" style="color:#0b8a4a;"><span>${promoCode} discount</span><span>−${formatINR(discount)}</span></div>`:''}
+        ${giftWrap?`<div class="summary-line"><span>Velvet Gift Box &amp; Ribbon</span><span>${formatINR(GIFT_WRAP_FEE)}</span></div>`:''}
+      </div>
+      <div class="summary-block"><h4>Deliver To</h4><p><strong>${customerDetails.name}</strong><br>${customerDetails.phone}<br>${customerDetails.address}</p></div>
+    `;
+    foot.innerHTML = `
+      <div class="cart-total-row"><span>Total</span><span class="amt">${formatINR(cartTotal())}</span></div>
+      <button class="step-btn secondary" id="backToDetails">Edit Details</button>
+      <button class="step-btn" id="confirmPay">Confirm &amp; Pay via UPI</button>
+    `;
+    document.getElementById('backToDetails').addEventListener('click', ()=>goToStep('details'));
+    document.getElementById('confirmPay').addEventListener('click', confirmAndPay);
+    return;
+  }
+
+  if(checkoutStep === 'pay'){
+    label.textContent = 'Order Placed'; title.textContent = 'Complete Payment';
+    const o = lastOrder;
+    items.innerHTML = `
+      <div class="order-confirm"><div class="oc-id">${o.id}</div><p>Keep this Order ID for reference.</p></div>
+      <div class="summary-block">
+        <h4>Items</h4>
+        ${o.items.map(i=>`<div class="summary-line"><span>${i.name}${i.variant&&i.variant!=='Standard'?` (${i.variant})`:''}${i.engraving?` — "${i.engraving}"`:''} × ${i.qty}</span><span>${formatINR(i.price*i.qty)}</span></div>`).join('')}
+        ${o.discount>0?`<div class="summary-line"><span>${o.promoCode} discount</span><span>−${formatINR(o.discount)}</span></div>`:''}
+        ${o.giftWrap?`<div class="summary-line"><span>Gift Box &amp; Ribbon</span><span>${formatINR(o.giftWrapFee)}</span></div>`:''}
+      </div>
+      ${o.saveFailed ? `<div class="field-error" style="display:block;">Couldn't auto-save this order — please screenshot this and share it with your payment.</div>` : ''}
+    `;
+    foot.innerHTML = `
+      <div class="cart-total-row"><span>Total</span><span class="amt">${formatINR(o.total)}</span></div>
+      <div class="qr-box"><div id="qrcode"></div><div style="font-size:11.5px;color:var(--ink);">Scan with any UPI app to pay</div></div>
+      <a class="step-btn" id="payLink" href="#" target="_blank" rel="noopener" style="text-decoration:none;">Open in UPI App</a>
+      <p class="upi-note">On mobile this opens GPay / PhonePe / Paytm directly. Prefer manual? Send to <strong>${UPI_ID}</strong> and share the screenshot with your Order ID.</p>
+      <button class="step-btn secondary" id="viewInvoiceBtn" style="margin-top:12px;">View / Print Invoice</button>
+      <button class="step-btn secondary" id="newOrder">Start a New Order</button>
+    `;
+    const note = `Marzi Order ${o.id}`.slice(0,90);
+    const upiLink = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(PAYEE_NAME)}&am=${o.total}&cu=INR&tn=${encodeURIComponent(note)}`;
+    document.getElementById('qrcode').innerHTML = '';
+    new QRCode(document.getElementById('qrcode'), { text: upiLink, width:150, height:150, colorDark:"#2A2825", colorLight:"#ffffff" });
+    document.getElementById('payLink').href = upiLink;
+    document.getElementById('viewInvoiceBtn').addEventListener('click', openInvoice);
+    document.getElementById('newOrder').addEventListener('click', ()=>{
+      cart = {}; customerDetails = {name:"",phone:"",address:""}; giftWrap=false; promoCode=''; promoDiscountPct=0; lastOrder = null;
+      updateBagCount(); checkoutStep = 'cart'; renderDrawer();
+    });
+    return;
+  }
+}
+
+async function confirmAndPay(){
+  const btn = document.getElementById('confirmPay');
+  if(btn){ btn.textContent = 'Placing order…'; btn.disabled = true; }
+  const subtotal = cartSubtotal();
+  const discount = Math.round(subtotal*promoDiscountPct/100);
+  const order = {
+    id: 'MZ' + Date.now().toString(36).toUpperCase(),
+    date: new Date().toISOString(),
+    name: customerDetails.name, phone: customerDetails.phone, address: customerDetails.address,
+    items: cartItemsArray(),
+    subtotal, promoCode: promoCode || null, discount,
+    giftWrap, giftWrapFee: giftWrap ? GIFT_WRAP_FEE : 0,
+    total: cartTotal(),
+    status: 'Pending'
+  };
+  let saveFailed = false;
+  try{
+    const res = await window.storage.set('order:'+order.id, JSON.stringify(order), true);
+    if(!res) saveFailed = true;
+  }catch(e){ console.error('Order save failed:', e); saveFailed = true; }
+  order.saveFailed = saveFailed;
+  lastOrder = order;
+  goToStep('pay');
+}
+
+/* ---------- invoice ---------- */
+function openInvoice(){
+  const o = lastOrder;
+  if(!o) return;
+  document.getElementById('invOrderNo').textContent = o.id;
+  document.getElementById('invDate').textContent = new Date(o.date).toLocaleDateString('en-IN');
+  document.getElementById('invName').textContent = o.name;
+  document.getElementById('invAddress').textContent = o.address;
+  const statusEl = document.getElementById('invStatus');
+  statusEl.textContent = o.status === 'Paid' ? 'PAID' : 'PENDING PAYMENT CONFIRMATION';
+  statusEl.style.color = o.status === 'Paid' ? '#0b8a4a' : 'var(--gold-deep)';
+  let rows = o.items.map(i=>`<tr><td>${i.name}${i.variant&&i.variant!=='Standard'?` (${i.variant})`:''}${i.engraving?` — Engraved "${i.engraving}"`:''} × ${i.qty}</td><td style="text-align:right;">${formatINR(i.price*i.qty)}</td></tr>`).join('');
+  if(o.discount>0) rows += `<tr><td style="color:#0b8a4a;">${o.promoCode} discount</td><td style="text-align:right;color:#0b8a4a;">−${formatINR(o.discount)}</td></tr>`;
+  if(o.giftWrap) rows += `<tr><td>Velvet Gift Box &amp; Ribbon</td><td style="text-align:right;">${formatINR(o.giftWrapFee)}</td></tr>`;
+  document.getElementById('invItems').innerHTML = rows;
+  document.getElementById('invTotal').textContent = formatINR(o.total);
+  openModal('invoiceModal');
+}
+
+/* ---------- newsletter (cosmetic, no backend) ---------- */
+document.getElementById('newsletterBtn').addEventListener('click', ()=>{
+  const val = document.getElementById('newsletterEmail').value.trim();
+  if(!val){ showToast('Enter an email first'); return; }
+  showToast('Subscribed! Code: MARZI10');
+  document.getElementById('newsletterEmail').value = '';
+});
+
+/* ---------- ORDERS (admin) ---------- */
+let ordersUnlocked = false;
+let ordersCache = [];
+document.getElementById('gateSubmit').addEventListener('click', unlockOrders);
+document.getElementById('passcodeInput').addEventListener('keydown', e=>{ if(e.key==='Enter') unlockOrders(); });
+function unlockOrders(){
+  const val = document.getElementById('passcodeInput').value;
+  if(val === ADMIN_PASSCODE){
+    ordersUnlocked = true;
+    document.getElementById('ordersGate').style.display = 'none';
+    document.getElementById('ordersContent').style.display = 'block';
+    loadOrders();
+  } else {
+    document.getElementById('gateError').style.display = 'block';
+  }
+}
+document.getElementById('refreshOrders').addEventListener('click', loadOrders);
+document.getElementById('exportOrders').addEventListener('click', exportOrdersToExcel);
+
+async function loadOrders(){
+  const tbody = document.getElementById('ordersTbody');
+  const emptyEl = document.getElementById('ordersEmpty');
+  try{
+    const res = await window.storage.list('order:', true);
+    const keys = (res && res.keys) || [];
+    const orders = [];
+    for(const k of keys){
+      const keyStr = typeof k === 'string' ? k : k.key;
+      try{
+        const rec = await window.storage.get(keyStr, true);
+        if(rec && rec.value) orders.push(JSON.parse(rec.value));
+      }catch(e){ console.error('Failed to load', keyStr, e); }
     }
-
-
-    // --- 5. UI Helpers (Toast, Nav, Modals, Social Proof) ---
-    function showToast(msg) {
-      const toast = document.getElementById('toastBox');
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => { toast.classList.remove('show'); }, 3000);
-    }
-
-    function showPanel(panelId, event) {
-      document.querySelectorAll('.tab-panel').forEach(p => p.style.display = 'none');
-      document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-      document.getElementById(panelId).style.display = 'block';
-      if (event && event.currentTarget) event.currentTarget.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function toggleCart(show) {
-      document.getElementById('cartDrawer').classList.toggle('open', show);
-      document.getElementById('mainOverlay').style.display = show ? 'block' : 'none';
-    }
-
-    function closeAll() {
-      toggleCart(false);
-      document.getElementById('checkoutModal').style.display = 'none';
-      document.getElementById('invoiceModal').style.display = 'none';
-      document.getElementById('quickViewModal').style.display = 'none';
-      document.getElementById('mainOverlay').style.display = 'none';
-    }
-
-    function openCheckout() {
-      toggleCart(false);
-      document.getElementById('mainOverlay').style.display = 'block';
-      document.getElementById('checkoutModal').style.display = 'block';
-    }
-
-    // Live Sales Popup Simulation
-    function triggerSocialProof() {
-      const cities = ['Mumbai', 'Delhi', 'Bangalore', 'Dubai', 'London', 'Pune'];
-      const items = ['a Lumina Pearl Necklace', 'Executive Cufflinks', 'Diamond Hoops', 'a Corporate Gift Set', 'a Custom Ring'];
-      const images = [
-        "https://images.unsplash.com/photo-1599643478514-4a4e06b524cb?auto=format&fit=crop&w=100&q=80",
-        "https://images.unsplash.com/photo-1605100804763-247f67b2548e?auto=format&fit=crop&w=100&q=80",
-        "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=100&q=80"
-      ];
-      
-      document.getElementById('spLocation').textContent = `Someone in ${cities[Math.floor(Math.random() * cities.length)]}`;
-      document.getElementById('spItem').textContent = `Purchased ${items[Math.floor(Math.random() * items.length)]}`;
-      document.getElementById('spImg').src = images[Math.floor(Math.random() * images.length)];
-      
-      const sp = document.getElementById('socialProof');
-      sp.classList.add('show');
-      setTimeout(() => { sp.classList.remove('show'); }, 5000);
-    }
-    
-    // Trigger every 25 seconds
-    setInterval(triggerSocialProof, 25000);
-
-
-    // --- 6. Payment & Invoice ---
-    function processPayment(e) {
-      e.preventDefault(); 
-      const name = document.getElementById('custName').value;
-      const address = document.getElementById('custAddress').value;
-      
-      let itemsHtml = '';
-      cart.forEach(item => {
-        itemsHtml += `<tr><td>${item.title}</td><td style="text-align: right;">${item.priceText}</td></tr>`;
+    orders.sort((a,b)=> new Date(b.date) - new Date(a.date));
+    ordersCache = orders;
+    document.getElementById('ordersCount').textContent = `${orders.length} order${orders.length!==1?'s':''}`;
+    if(orders.length === 0){
+      tbody.innerHTML = ''; emptyEl.style.display = 'block';
+    } else {
+      emptyEl.style.display = 'none';
+      tbody.innerHTML = orders.map(o=>{
+        const extras = [];
+        if(o.promoCode) extras.push(`${o.promoCode} (−${formatINR(o.discount)})`);
+        if(o.giftWrap) extras.push('Gift wrap');
+        return `
+        <tr>
+          <td>${o.id}</td>
+          <td>${new Date(o.date).toLocaleString('en-IN')}</td>
+          <td>${o.name}</td>
+          <td>${o.phone}</td>
+          <td>${o.address}</td>
+          <td>${o.items.map(i=>`${i.name}${i.variant&&i.variant!=='Standard'?` (${i.variant})`:''}${i.engraving?` "${i.engraving}"`:''} ×${i.qty}`).join(', ')}</td>
+          <td>${extras.join(', ') || '—'}</td>
+          <td>${formatINR(o.total)}</td>
+          <td><select data-id="${o.id}">
+            <option ${o.status==='Pending'?'selected':''}>Pending</option>
+            <option ${o.status==='Paid'?'selected':''}>Paid</option>
+            <option ${o.status==='Shipped'?'selected':''}>Shipped</option>
+          </select></td>
+        </tr>`;
+      }).join('');
+      tbody.querySelectorAll('select[data-id]').forEach(sel=>{
+        sel.addEventListener('change', ()=>updateOrderStatus(sel.dataset.id, sel.value));
       });
-      if(discountApplied) {
-        itemsHtml += `<tr><td style="color: green;">MARZI10 Discount</td><td style="text-align: right; color: green;">-10%</td></tr>`;
-      }
-      
-      const formattedTotal = '₹' + cartTotalAmount.toLocaleString('en-IN');
-
-      document.getElementById('invName').textContent = name;
-      document.getElementById('invAddress').textContent = address;
-      document.getElementById('invOrderNo').textContent = 'MZ-' + Math.floor(100000 + Math.random() * 900000);
-      document.getElementById('invDate').textContent = new Date().toLocaleDateString('en-IN');
-      document.getElementById('invItems').innerHTML = itemsHtml;
-      document.getElementById('invTotal').textContent = formattedTotal;
-
-      document.getElementById('checkoutModal').style.display = 'none';
-      document.getElementById('invoiceModal').style.display = 'block';
-
-      cart = [];
-      updateCart(); // Clears cart and promo
-      document.getElementById('checkoutForm').reset();
     }
-  </script>
+  }catch(e){
+    console.error('Failed to load orders', e);
+    tbody.innerHTML = '';
+    emptyEl.textContent = "Couldn't load orders right now — try Refresh.";
+    emptyEl.style.display = 'block';
+  }
+}
+async function updateOrderStatus(orderId, status){
+  const o = ordersCache.find(x=>x.id===orderId);
+  if(!o) return;
+  o.status = status;
+  try{ await window.storage.set('order:'+orderId, JSON.stringify(o), true); }
+  catch(e){ console.error('Failed to update status', e); }
+}
+function exportOrdersToExcel(){
+  if(ordersCache.length===0) return;
+  const rows = ordersCache.map(o=>({
+    'Order ID': o.id,
+    'Date': new Date(o.date).toLocaleString('en-IN'),
+    'Customer Name': o.name,
+    'Phone': o.phone,
+    'Address': o.address,
+    'Items': o.items.map(i=>`${i.name}${i.variant&&i.variant!=='Standard'?` (${i.variant})`:''}${i.engraving?` [Engraved: ${i.engraving}]`:''} x${i.qty} @ Rs ${i.price}`).join('; '),
+    'Promo Code': o.promoCode || '',
+    'Discount (Rs)': o.discount || 0,
+    'Gift Wrap': o.giftWrap ? `Yes (Rs ${o.giftWrapFee})` : 'No',
+    'Total (Rs)': o.total,
+    'Status': o.status
+  }));
+  const ws = XLSX.utils.json_to_sheet(rows);
+  ws['!cols'] = [{wch:14},{wch:20},{wch:20},{wch:14},{wch:34},{wch:46},{wch:12},{wch:12},{wch:14},{wch:10},{wch:10}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Orders');
+  XLSX.writeFile(wb, 'Marzi-Orders.xlsx');
+}
+
+/* ---------- init ---------- */
+renderAllGrids();
+updateBagCount();
+loadWishlist();
+</script>
 </body>
 </html>
